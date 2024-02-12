@@ -117,6 +117,14 @@ namespace GXPEngine.Core
         }
 
         /// <summary>
+        /// Subtract the value of a to both the x and y axis of vector2 b
+        /// </summary>
+        public static Vector2 operator -(Vector2 a)
+        {
+            return new Vector2(-a.x, -a.y);
+        }
+
+        /// <summary>
         /// Subtract the x and y value of b from a
         /// </summary>
         public static Vector2 operator -(Vector2 a, Vector2 b)
@@ -154,6 +162,25 @@ namespace GXPEngine.Core
         public static Vector2 Random(float x = 0, float y = 0, float strength = 1)
         {
             return new Vector2(x + Utils.Random(-strength, strength), y + Utils.Random(-strength, strength)).Normalized;
+        }
+
+        /// <summary>
+        /// Get a random vector just outside of the screen borders
+        /// </summary>
+        public static Vector2 RandomSpawnpoint()
+        {
+            int RandInt = Utils.Random(1, 5);
+            Vector2 output = new Vector2();
+
+            if (RandInt == 1)
+                output = new Vector2(Utils.Random(-100, 1700), -100);
+            else if (RandInt == 2)
+                output = new Vector2(Utils.Random(-100, 1700), 1000);
+            else if (RandInt == 3)
+                output = new Vector2(-100, Utils.Random(-100, 1000));
+            else if (RandInt == 4)
+                output = new Vector2(1700, Utils.Random(-100, 1000));
+            return output + Global.level.CameraPosition;
         }
 
         /// <summary>
@@ -203,17 +230,6 @@ namespace GXPEngine.Core
         {
             time = Mathf.Clamp01(time);
             return this + (Target - this) * time;
-        }
-
-        /// <summary>
-        /// Inverse the x and y axis to -x and -y axis
-        /// </summary>
-        public Vector2 Inversed
-        {
-            get
-            {
-                return new Vector2(-x, -y);
-            }
         }
 
     }
