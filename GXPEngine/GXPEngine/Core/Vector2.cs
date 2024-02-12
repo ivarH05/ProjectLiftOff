@@ -165,25 +165,6 @@ namespace GXPEngine.Core
         }
 
         /// <summary>
-        /// Get a random vector just outside of the screen borders
-        /// </summary>
-        public static Vector2 RandomSpawnpoint()
-        {
-            int RandInt = Utils.Random(1, 5);
-            Vector2 output = new Vector2();
-
-            if (RandInt == 1)
-                output = new Vector2(Utils.Random(-100, 1700), -100);
-            else if (RandInt == 2)
-                output = new Vector2(Utils.Random(-100, 1700), 1000);
-            else if (RandInt == 3)
-                output = new Vector2(-100, Utils.Random(-100, 1000));
-            else if (RandInt == 4)
-                output = new Vector2(1700, Utils.Random(-100, 1000));
-            return output + Global.level.CameraPosition;
-        }
-
-        /// <summary>
         /// lerp the first vector2 to the target vector2
         /// </summary>
         /// <param name="Target">target Vector2</param>
