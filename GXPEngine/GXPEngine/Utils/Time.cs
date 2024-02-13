@@ -32,7 +32,7 @@ namespace GXPEngine
 		}
 		
 		/// <summary>
-		/// Returns the time in milliseconds that has passed since the previous frame
+		/// Returns the time in seconds that has passed since the previous frame
 		/// </summary>
 		/// <value>
 		/// The delta time.

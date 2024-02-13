@@ -213,6 +213,17 @@ namespace GXPEngine.Core
             return this + (Target - this) * time;
         }
 
+        /// <summary>
+        /// Reflect the vector2 among a certain normal
+        /// </summary>
+        /// <param name="Normal">the normal of the "mirror"</param>
+        /// <returns></returns>
+        public Vector2 Reflect(Vector2 Normal)
+        {
+            Vector2 In = Normalized;
+            Vector2 Out = In - 2 * In * Normal * Normal;
+            return Out * Magnitude;
+        }
     }
 }
 
