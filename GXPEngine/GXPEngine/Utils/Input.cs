@@ -7,14 +7,43 @@ namespace GXPEngine
 	/// The Input class contains functions for reading keys and mouse
 	/// </summary>
 	public class Input
-	{
-		/// <summary>
-		/// Returns 'true' if given key is down, else returns 'false'
-		/// </summary>
-		/// <param name='key'>
-		/// Key number, use Key.KEYNAME or integer value.
-		/// </param>
-		public static bool GetKey(int key) {
+    {
+        public static Vector2 WASDVector()
+        {
+            Vector2 output = new Vector2();
+            if (GetKey(Key.W))
+                output.y -= 1;
+            if (GetKey(Key.A))
+                output.x -= 1;
+            if (GetKey(Key.S))
+                output.y += 1;
+            if (GetKey(Key.D))
+                output.x += 1;
+
+            return output.Normalized;
+        }
+        public static Vector2 ArrowVector()
+        {
+            Vector2 output = new Vector2();
+            if (GetKey(Key.UP))
+                output.y -= 1;
+            if (GetKey(Key.LEFT))
+                output.x -= 1;
+            if (GetKey(Key.DOWN))
+                output.y += 1;
+            if (GetKey(Key.RIGHT))
+                output.x += 1;
+
+            return output.Normalized;
+        }
+
+        /// <summary>
+        /// Returns 'true' if given key is down, else returns 'false'
+        /// </summary>
+        /// <param name='key'>
+        /// Key number, use Key.KEYNAME or integer value.
+        /// </param>
+        public static bool GetKey(int key) {
 			return GLContext.GetKey(key);
 		}
 		

@@ -8,6 +8,7 @@ namespace GXPEngine
 	/// </summary>
 	public class Time
 	{
+		public static float TimeStep { get; } = 0.02f;
 		private static int previousTime;
 
 		static Time() {
@@ -37,13 +38,22 @@ namespace GXPEngine
 		/// The delta time.
 		/// </value>
 		private static int previousFrameTime;
-		public static int deltaTime {
-			get { 
-				return previousFrameTime; 
-			}
-		}
+        public static float deltaTime
+        {
+            get
+            {
+                return previousFrameTime / 1000.0f;
+            }
+        }
+        public static int deltaMillis
+        {
+            get
+            {
+                return previousFrameTime;
+            }
+        }
 
-		internal static void newFrame() {
+        internal static void newFrame() {
 			previousFrameTime = time - previousTime;
 			previousTime = time;
 		}
