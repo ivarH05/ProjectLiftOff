@@ -11,8 +11,6 @@ namespace CoolScaryGame
 {
     internal class Movable : InvisibleObject
     {
-        internal float mass = 1;
-
         internal Vector2 Velocity;
         internal float Friction = 0.1f;
 
@@ -22,7 +20,9 @@ namespace CoolScaryGame
             position = Position;
         }
 
-
+        /// <summary>
+        /// move the object without collision, best used for particles.
+        /// </summary>
         public virtual void PhysicsUpdate()
         {
             timer += Time.deltaTime;
@@ -34,6 +34,11 @@ namespace CoolScaryGame
                 AddFriction(Friction);
             }
         }
+
+        /// <summary>
+        /// add force to the velocity
+        /// </summary>
+        /// <param name="Force"></param>
         public void AddForce(Vector2 Force)
         {
             Velocity += Force;
@@ -43,9 +48,12 @@ namespace CoolScaryGame
         {
             Velocity = Velocity.Lerp(new Vector2(), amount);
         }
+<<<<<<< HEAD:GXPEngine/CoolScaryGame/Movable.cs
         public float Mass
         {
             get { return mass; }
         }
+=======
+>>>>>>> origin/Main:GXPEngine/Movable.cs
     }
 }

@@ -21,10 +21,14 @@ namespace CoolScaryGame
 
         void Update()
         {
+            //move using the arrow keys
             AddForce(Input.ArrowVector() * Time.deltaMillis * speed);
 
+            //update all physics
             PhysicsUpdate();
-            CamManager.LerpToPoint(1, position + Velocity * 0.2f, Time.deltaTime * 5);
+
+            //move the camera towards the player
+            CamManager.LerpToPoint(1, position + ActualVelocity * 0.5f, Time.deltaTime * 5);
         }
     }
 }

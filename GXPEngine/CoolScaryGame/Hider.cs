@@ -22,10 +22,14 @@ namespace CoolScaryGame
 
         void Update()
         {
+            //move using wasd
             AddForce(Input.WASDVector() * Time.deltaMillis * speed);
 
+            //update all physics
             PhysicsUpdate();
-            CamManager.LerpToPoint(0, position + Velocity * 0.2f, Time.deltaTime * 5);
+
+            //move the camera towards the player
+            CamManager.LerpToPoint(0, position + ActualVelocity * 0.5f, Time.deltaTime * 5);
         }
     }
 }

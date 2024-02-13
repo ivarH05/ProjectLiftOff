@@ -85,10 +85,18 @@
     <Compile Include="GXPEngine\FMOD\FMODSoundSystem.cs" />
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
+<<<<<<< HEAD
     <Compile Include="CoolScaryGame\RigidBody.cs" />
     <Compile Include="CoolScaryGame\Scene.cs" />
     <Compile Include="CoolScaryGame\Movable.cs" />
     <Compile Include="CoolScaryGame\Seeker.cs" />
+=======
+    <Compile Include="ReferencePoint.cs" />
+    <Compile Include="RigidBody.cs" />
+    <Compile Include="Scene.cs" />
+    <Compile Include="Movable.cs" />
+    <Compile Include="Seeker.cs" />
+>>>>>>> origin/Main
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
