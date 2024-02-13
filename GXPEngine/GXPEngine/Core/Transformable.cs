@@ -72,20 +72,35 @@ namespace GXPEngine
 			get { return _matrix[13]; }
 			set { _matrix[13] = value; }
 		}
-		
-		//------------------------------------------------------------------------------------------------------------------------
-		//														SetXY
-		//------------------------------------------------------------------------------------------------------------------------
-		/// <summary>
-		/// Sets the X and Y position.
-		/// </summary>
-		/// <param name='x'>
-		/// The x coordinate.
-		/// </param>
-		/// <param name='y'>
-		/// The y coordinate.
-		/// </param>
-		public void SetXY(float x, float y) {
+
+        //------------------------------------------------------------------------------------------------------------------------
+        //														Position
+        //------------------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Gets or sets the position.
+        /// </summary>
+        /// <value>
+        /// The position.
+        /// </value>
+        public Vector2 position
+        {
+            get { return new Vector2(x, y); }
+            set { x = value.x; y = value.y; }
+        }
+
+        //------------------------------------------------------------------------------------------------------------------------
+        //														SetXY
+        //------------------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Sets the X and Y position.
+        /// </summary>
+        /// <param name='x'>
+        /// The x coordinate.
+        /// </param>
+        /// <param name='y'>
+        /// The y coordinate.
+        /// </param>
+        public void SetXY(float x, float y) {
 			_matrix[12] = x;
 			_matrix[13] = y;
 		}
