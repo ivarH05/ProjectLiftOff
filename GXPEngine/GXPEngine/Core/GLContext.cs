@@ -82,7 +82,7 @@ namespace GXPEngine.Core {
 		//------------------------------------------------------------------------------------------------------------------------
 		//														setupWindow()
 		//------------------------------------------------------------------------------------------------------------------------
-		public void CreateWindow(int width, int height, bool fullScreen, bool vSync, int realWidth, int realHeight, bool enableDepthBuffer) {
+		public void CreateWindow(int width, int height, bool fullScreen, bool vSync, int realWidth, int realHeight, bool enableDepthBuffer, string gameName) {
 			// This stores the "logical" width, used by all the game logic:
 			WindowSize.instance.width = width;
 			WindowSize.instance.height = height;
@@ -95,7 +95,7 @@ namespace GXPEngine.Core {
 			
 			GL.glfwOpenWindowHint(GL.GLFW_FSAA_SAMPLES, 8);
 			GL.glfwOpenWindow(realWidth, realHeight, 8, 8, 8, 8, 24, 0, (fullScreen?GL.GLFW_FULLSCREEN:GL.GLFW_WINDOWED));
-			GL.glfwSetWindowTitle("Game");
+			GL.glfwSetWindowTitle(gameName);
 			GL.glfwSwapInterval(vSync);
 			
 			GL.glfwSetKeyCallback(
