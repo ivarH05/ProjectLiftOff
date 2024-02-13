@@ -41,6 +41,8 @@ namespace GXPEngine.Core {
 		private static double _realToLogicWidthRatio;
 		private static double _realToLogicHeightRatio;
 
+		private static bool _depthBufferEnabled = false;
+
 		//------------------------------------------------------------------------------------------------------------------------
 		//														RenderWindow()
 		//------------------------------------------------------------------------------------------------------------------------
@@ -80,13 +82,14 @@ namespace GXPEngine.Core {
 		//------------------------------------------------------------------------------------------------------------------------
 		//														setupWindow()
 		//------------------------------------------------------------------------------------------------------------------------
-		public void CreateWindow(int width, int height, bool fullScreen, bool vSync, int realWidth, int realHeight) {
+		public void CreateWindow(int width, int height, bool fullScreen, bool vSync, int realWidth, int realHeight, bool enableDepthBuffer) {
 			// This stores the "logical" width, used by all the game logic:
 			WindowSize.instance.width = width;
 			WindowSize.instance.height = height;
 			_realToLogicWidthRatio = (double)realWidth / width;
 			_realToLogicHeightRatio = (double)realHeight / height;
 			_vsyncEnabled = vSync;
+			_depthBufferEnabled = enableDepthBuffer;
 			
 			GL.glfwInit();
 			
@@ -119,7 +122,11 @@ namespace GXPEngine.Core {
 				GL.BlendFunc( GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA );
 				GL.Hint (GL.PERSPECTIVE_CORRECTION, GL.FASTEST);
 				//GL.Enable (GL.POLYGON_SMOOTH);
-				GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+				if (_depthBufferEnabled)
+					GL.Enable(0xb71);
+
+                GL.ClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
 				// Load the basic projection settings:
 				GL.MatrixMode(GL.PROJECTION);
@@ -238,8 +245,11 @@ namespace GXPEngine.Core {
 		//------------------------------------------------------------------------------------------------------------------------
 		private void Display () {
 			GL.Clear(GL.COLOR_BUFFER_BIT);
-			
-			GL.MatrixMode(GL.MODELVIEW);
+
+			if(_depthBufferEnabled)
+				GL.Clear(0x4000 | 0x100);
+
+            GL.MatrixMode(GL.MODELVIEW);
 			GL.LoadIdentity();
 			
 			_owner.Render(this);
