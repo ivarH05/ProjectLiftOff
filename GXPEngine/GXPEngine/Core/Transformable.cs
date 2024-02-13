@@ -103,10 +103,6 @@ namespace GXPEngine
             get { return new Vector2(x, y); }
             set { x = value.x; y = value.y; }
         }
-		{
-			get { return new Vector2(x, y); }
-			set { x = value.x; y = value.y; }
-		}
 
 
         //------------------------------------------------------------------------------------------------------------------------

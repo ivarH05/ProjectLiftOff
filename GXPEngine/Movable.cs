@@ -10,8 +10,6 @@ namespace GXPEngine
 {
     internal class Movable : Sprite
     {
-        internal float mass = 1;
-
         internal Vector2 Velocity;
         internal float Friction = 0.1f;
 
@@ -21,7 +19,9 @@ namespace GXPEngine
             position = Position;
         }
 
-
+        /// <summary>
+        /// move the object without collision, best used for particles.
+        /// </summary>
         public virtual void PhysicsUpdate()
         {
             timer += Time.deltaTime;
@@ -33,6 +33,11 @@ namespace GXPEngine
                 AddFriction(Friction);
             }
         }
+
+        /// <summary>
+        /// add force to the velocity
+        /// </summary>
+        /// <param name="Force"></param>
         public void AddForce(Vector2 Force)
         {
             Velocity += Force;
@@ -41,10 +46,6 @@ namespace GXPEngine
         internal void AddFriction(float amount)
         {
             Velocity = Velocity.Lerp(new Vector2(), amount);
-        }
-        public float GetMass()
-        {
-            return mass;
         }
     }
 }

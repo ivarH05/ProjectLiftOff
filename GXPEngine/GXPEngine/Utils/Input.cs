@@ -8,6 +8,10 @@ namespace GXPEngine
 	/// </summary>
 	public class Input
     {
+		/// <summary>
+		/// calculates the WASD movement vector
+		/// </summary>
+		/// <returns></returns>
         public static Vector2 WASDVector()
         {
             Vector2 output = new Vector2();
@@ -22,6 +26,10 @@ namespace GXPEngine
 
             return output.Normalized;
         }
+		/// <summary>
+		/// calculates the arrow key movement
+		/// </summary>
+		/// <returns></returns>
         public static Vector2 ArrowVector()
         {
             Vector2 output = new Vector2();
