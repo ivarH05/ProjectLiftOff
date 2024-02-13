@@ -20,7 +20,7 @@ namespace GXPEngine
             if (GetKey(Key.D))
                 output.x += 1;
 
-            return output;
+            return output.Normalized;
         }
         public static Vector2 ArrowVector()
         {
@@ -34,7 +34,7 @@ namespace GXPEngine
             if (GetKey(Key.RIGHT))
                 output.x += 1;
 
-            return output;
+            return output.Normalized;
         }
 
         /// <summary>

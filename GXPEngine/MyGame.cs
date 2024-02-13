@@ -10,6 +10,7 @@ public class MainGame : Game
 		SceneManager.SetMainGame(this);
 		SceneManager.LoadScene();
 		RenderMain = false;
+		targetFps = 50;
 	}
 
 	// For every game object, Update is called every frame, by the engine:
