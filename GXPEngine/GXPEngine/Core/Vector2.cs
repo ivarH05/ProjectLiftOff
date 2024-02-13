@@ -16,33 +16,33 @@ namespace GXPEngine.Core
         /// <summary>
         /// another way of writing (0, -1)
         /// </summary>
-        public static Vector2 Forward()
+        public static Vector2 Forward
         {
-            return new Vector2(0f, -1f);
+            get { return new Vector2(0f, -1f); }
         }
 
         /// <summary>
         /// another way of writing (0, 1)
         /// </summary>
-        public static Vector2 Backward()
+        public static Vector2 Backward
         {
-            return new Vector2(0f, 1f);
+            get { return new Vector2(0f, 1f); }
         }
 
         /// <summary>
         /// another way of writing (-1, 0)
         /// </summary>
-        public static Vector2 Left()
+        public static Vector2 Left
         {
-            return new Vector2(-1f, 0f);
+            get { return new Vector2(-1f, 0f); }
         }
 
         /// <summary>
         /// another way of writing (1, 0)
         /// </summary>
-        public static Vector2 Right()
+        public static Vector2 Right
         {
-            return new Vector2(1f, 0f);
+            get { return new Vector2(1f, 0f); }
         }
 
         /// <summary>
