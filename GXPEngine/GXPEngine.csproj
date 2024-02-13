@@ -84,7 +84,6 @@
     <Compile Include="GXPEngine\FMOD\FMODSoundSystem.cs" />
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
-    <Compile Include="ReferencePoint.cs" />
     <Compile Include="RigidBody.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Movable.cs" />

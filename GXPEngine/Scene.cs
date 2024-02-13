@@ -14,11 +14,12 @@ namespace GXPEngine
 
         public Scene()
         {
-            viewLeft = new Camera(0, 0, 960, 1080, false);
-            viewRight = new Camera(960, 0, 960, 1080, false);
+            viewLeft = new Camera(0, 0, 960, 1080, 0, false);
+            viewRight = new Camera(960, 0, 960, 1080, 1, false);
             AddChild(viewLeft);
             AddChild(viewRight);
-            AddChild(new ReferencePoint());
+
+            AddChild(new Sprite("Checkers.png", false, false));
             AddChild(new Hider(new Vector2(-100, 0)));
             AddChild(new Seeker(new Vector2(100, 0)));
         }

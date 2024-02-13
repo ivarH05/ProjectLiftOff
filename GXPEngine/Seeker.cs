@@ -10,7 +10,10 @@ namespace GXPEngine
     internal class Seeker : RigidBody
     {
         float speed = 5;
-        public Seeker(Vector2 Position) : base("square.png", Position, true) { }
+        public Seeker(Vector2 Position) : base("square.png", Position, true)
+        {
+            RenderLayer = 1;
+        }
 
         void Update()
         {
