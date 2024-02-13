@@ -49,5 +49,10 @@ namespace GXPEngine
         {
             cameras[index].SetXY(x, y);
         }
+
+        public static void LerpToPoint(int index, Vector2 pos, float time)
+        {
+            cameras[index].position = cameras[index].position.Lerp(pos, time);
+        }
     }
 }
