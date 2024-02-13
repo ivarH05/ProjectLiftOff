@@ -1,4 +1,5 @@
 ﻿using GXPEngine.Core;
+using GXPEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,12 +7,12 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GXPEngine
+namespace CoolScaryGame
 {
     internal class RigidBody : Movable
     {
         float bounciness = 0.1f;
-        public RigidBody(string spritePath, Vector2 Position = new Vector2(), bool addCollider = false) : base(spritePath, Position, addCollider)
+        public RigidBody(int width, int height, Vector2 Position = new Vector2(), bool addCollider = false) : base(width, height, Position, true)
         {
 
         }

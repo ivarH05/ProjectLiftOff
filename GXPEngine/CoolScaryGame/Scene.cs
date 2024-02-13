@@ -4,8 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GXPEngine.Core;
+using GXPEngine;
 
-namespace GXPEngine
+namespace CoolScaryGame
 {
     public class Scene : GameObject
     {
@@ -24,7 +25,6 @@ namespace GXPEngine
 
         void Update()
         {
-            Console.WriteLine(viewLeft.position);
         }
 
         public Camera[] GetCameras()

@@ -1,11 +1,12 @@
 ﻿using GXPEngine.Core;
+using GXPEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GXPEngine
+namespace CoolScaryGame
 {
     public static class SceneManager
     {

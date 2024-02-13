@@ -1,16 +1,23 @@
 ﻿using GXPEngine.Core;
+using GXPEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GXPEngine
+namespace CoolScaryGame
 {
     internal class Seeker : RigidBody
     {
         float speed = 5;
-        public Seeker(Vector2 Position) : base("square.png", Position, true) { }
+        Sprite renderer;
+        public Seeker(Vector2 Position) : base(50,50, Position, true) {
+            renderer = new Sprite("square.png", false, false);
+            AddChild(renderer);
+            renderer.width = (int)(width / scaleX);
+            renderer.height = (int)(height / scaleY);
+        }
 
         void Update()
         {

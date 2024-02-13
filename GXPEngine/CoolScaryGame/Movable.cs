@@ -1,4 +1,5 @@
 ﻿using GXPEngine.Core;
+using GXPEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,9 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GXPEngine
+namespace CoolScaryGame
 {
-    internal class Movable : Sprite
+    internal class Movable : InvisibleObject
     {
         internal float mass = 1;
 
@@ -16,7 +17,7 @@ namespace GXPEngine
         internal float Friction = 0.1f;
 
         internal float timer = 0;
-        public Movable(string spritePath, Vector2 Position = new Vector2(), bool addCollider = false) : base(spritePath, addCollider)
+        public Movable(int width, int height, Vector2 Position = new Vector2(), bool addCollider = false) : base(width, height, addCollider, 0b10, 0b11)
         {
             position = Position;
         }
@@ -42,9 +43,9 @@ namespace GXPEngine
         {
             Velocity = Velocity.Lerp(new Vector2(), amount);
         }
-        public float GetMass()
+        public float Mass
         {
-            return mass;
+            get { return mass; }
         }
     }
 }

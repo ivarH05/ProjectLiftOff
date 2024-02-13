@@ -41,11 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameManager.cs" />
+    <Compile Include="CoolScaryGame\GameManager.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
-    <Compile Include="Hider.cs" />
+    <Compile Include="CoolScaryGame\Hider.cs" />
+    <Compile Include="CoolScaryGame\InvisibleObject.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Core\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
@@ -84,10 +85,10 @@
     <Compile Include="GXPEngine\FMOD\FMODSoundSystem.cs" />
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
-    <Compile Include="RigidBody.cs" />
-    <Compile Include="Scene.cs" />
-    <Compile Include="Movable.cs" />
-    <Compile Include="Seeker.cs" />
+    <Compile Include="CoolScaryGame\RigidBody.cs" />
+    <Compile Include="CoolScaryGame\Scene.cs" />
+    <Compile Include="CoolScaryGame\Movable.cs" />
+    <Compile Include="CoolScaryGame\Seeker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
