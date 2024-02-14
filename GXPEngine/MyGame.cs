@@ -1,5 +1,6 @@
 using System;                                   // System contains a lot of default C# libraries 
 using GXPEngine;                                // GXPEngine contains the engine
+using CoolScaryGame;
 using System.Drawing;                           // System.Drawing contains drawing tools such as Color definitions
 using GXPEngine.Core;
 

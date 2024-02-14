@@ -2,7 +2,7 @@
 using GXPEngine;
 using System;
 
-namespace ScaryCoolGame
+namespace CoolScaryGame
 {
     public static class SceneManager
     {

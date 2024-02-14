@@ -1,7 +1,8 @@
 ﻿using GXPEngine.Core;
 using GXPEngine;
+using System;
 
-namespace ScaryCoolGame
+namespace CoolScaryGame
 {
     public class Scene : GameObject
     {
