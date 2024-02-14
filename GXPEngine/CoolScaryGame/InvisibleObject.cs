@@ -23,7 +23,7 @@ namespace CoolScaryGame
 {
     public class InvisibleObject : Sprite
     {
-        bool debugVisible;
+        protected bool debugVisible;
         static bool debugVisibleAll = false;
         public InvisibleObject(TiledObject obj, bool addCollider = false, uint collisionLayers = 0) : base("UI/debug_invisibleObject.png", true, addCollider, collisionLayers, 0)
         {
