@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoolScaryGame\GameManager.cs" />
+    <Compile Include="CoolScaryGame\Particles\Particle.cs" />
+    <Compile Include="CoolScaryGame\Particles\ParticleData.cs" />
+    <Compile Include="CoolScaryGame\Particles\ParticleEmitter.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
