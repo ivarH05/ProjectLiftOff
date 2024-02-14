@@ -11,7 +11,7 @@ namespace CoolScaryGame
         internal bool canPush = true;
 
         float bounciness = 0.1f;
-        public RigidBody(string spritePath, Vector2 Position = new Vector2(), bool addCollider = false) : base(spritePath, Position, addCollider)
+        public RigidBody(int width, int height, Vector2 Position = new Vector2(), bool addCollider = false) : base(width, height, Position, true)
         {
 
         }

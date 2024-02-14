@@ -1,15 +1,25 @@
 ﻿using GXPEngine.Core;
 using GXPEngine;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace CoolScaryGame
 {
     internal class Hider : RigidBody
     {
         float speed = 5;
-        public Hider(Vector2 position) : base("triangle.png", position, true)
+        Sprite renderer;
+
+        public Hider(Vector2 position) : base(50,50, position, true)
         {
             RenderLayer = 0;
+            renderer = new Sprite("triangle.png", false, false);
+            AddChild(renderer);
+            renderer.width = (int)(width/scaleX);
+            renderer.height = (int)(height/scaleY);
         }
 
         void Update()

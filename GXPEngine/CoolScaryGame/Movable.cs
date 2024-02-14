@@ -4,13 +4,13 @@ using System;
 
 namespace CoolScaryGame
 {
-    internal class Movable : Sprite
+    internal class Movable : InvisibleObject
     {
         internal Vector2 Velocity;
         internal float Friction = 0.1f;
 
         internal float timer = 0;
-        public Movable(string spritePath, Vector2 Position = new Vector2(), bool addCollider = false) : base(spritePath, addCollider)
+        public Movable(int width, int height, Vector2 Position = new Vector2(), bool addCollider = false) : base(width, height, addCollider, 0b10, 0b11)
         {
             position = Position;
         }
