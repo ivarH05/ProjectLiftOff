@@ -41,7 +41,7 @@ namespace CoolScaryGame
             depth = -99;
             debugVisible = overrideVisible;
         }
-        public override void Render(GLContext glContext)
+        public override void Render(GLContext glContext, int s)
         {
             if (visible)
             {
