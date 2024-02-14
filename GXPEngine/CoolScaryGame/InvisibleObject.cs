@@ -25,6 +25,7 @@ namespace CoolScaryGame
     {
         protected bool debugVisible;
         static bool debugVisibleAll = false;
+        public Pivot proxy;
         public InvisibleObject(TiledObject obj, bool addCollider = false, uint collisionLayers = 0) : base("UI/debug_invisibleObject.png", true, addCollider, collisionLayers, 0)
         {
             width = (int)obj.GetFloatProperty("width", 0);
@@ -32,6 +33,11 @@ namespace CoolScaryGame
 
             depth = -99;
             debugVisible = false;
+
+            proxy = new Pivot();
+            AddChild(proxy);
+            proxy.scaleX = 1 / scaleX;
+            proxy.scaleY = 1 / scaleY;
         }
         public InvisibleObject(int width, int height, bool addCollider = false, uint collisionLayers = 0, uint coupleWithLayers = 0, bool overrideVisible = false) : base("UI/debug_invisibleObject.png", true, addCollider, collisionLayers, coupleWithLayers)
         {
@@ -40,18 +46,24 @@ namespace CoolScaryGame
 
             depth = -99;
             debugVisible = overrideVisible;
+
+            proxy = new Pivot();
+            AddChild(proxy);
+            proxy.scaleX = 1 / scaleX;
+            proxy.scaleY = 1 / scaleY;
         }
-        public override void Render(GLContext glContext, int s)
+        public override void Render(GLContext glContext, int RenderInt)
         {
-            if (visible)
+            if (visible && (RenderLayer == -1 || RenderLayer == RenderInt))
             {
                 glContext.PushMatrix(matrix);
 
                 if(debugVisible || debugVisibleAll) 
                     RenderSelf(glContext);
+                //there shouldnt be any children of the invisibleobject. leaving this in tho
                 foreach (GameObject child in GetChildren(false))
                 {
-                    child.Render(glContext);
+                    child.Render(glContext, RenderInt);
                 }
 
                 glContext.PopMatrix();

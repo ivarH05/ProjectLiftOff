@@ -35,15 +35,21 @@ namespace CoolScaryGame
 
         public static Vector2 GetPosition(int index)
         {
+            if (index < 0 || index >= cameras.Length)
+                return new Vector2(0, 0);
             return cameras[index].position;
         }
 
         public static void SetPosition(int index, Vector2 pos)
         {
+            if (index < 0 || index >= cameras.Length)
+                return;
             cameras[index].position = pos;
         }
         public static void SetPosition(int index, float x, float y)
         {
+            if (index < 0 || index >= cameras.Length)
+                return;
             cameras[index].SetXY(x, y);
         }
 

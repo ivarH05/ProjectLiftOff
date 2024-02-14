@@ -16,7 +16,7 @@ namespace CoolScaryGame
         public override void Render(GLContext glContext, int s)
         {
             if(OnScreen())
-                base.Render(glContext);
+                base.Render(glContext, s);
         }
     }
 }

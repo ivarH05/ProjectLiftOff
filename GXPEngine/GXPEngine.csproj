@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="CoolScaryGame\GameManager.cs" />
     <Compile Include="CoolScaryGame\SpriteContainer.cs" />
+    <Compile Include="CoolScaryGame\WallSprite.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
