@@ -10,7 +10,10 @@ namespace GXPEngine
     internal class Hider : RigidBody
     {
         float speed = 5;
-        public Hider(Vector2 position) : base("triangle.png", position, true) { }
+        public Hider(Vector2 position) : base("triangle.png", position, true)
+        {
+            RenderLayer = 0;
+        }
 
         void Update()
         {

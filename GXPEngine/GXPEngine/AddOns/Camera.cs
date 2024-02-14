@@ -7,6 +7,7 @@ namespace GXPEngine {
 	/// (Don't forget to add this as child somewhere in the hierarchy.)
 	/// </summary>
 	public class Camera : GameObject {
+		public int _renderLayer;
 		public Window RenderTarget {
 			get {
 				return _renderTarget;
@@ -24,9 +25,10 @@ namespace GXPEngine {
 		/// <param name="windowY">Top y coordinate of the render window.</param>
 		/// <param name="windowWidth">Width of the render window.</param>
 		/// <param name="windowHeight">Height of the render window.</param>
-		public Camera(int windowX, int windowY, int windowWidth, int windowHeight, bool clearBackground=true) {
+		public Camera(int windowX, int windowY, int windowWidth, int windowHeight, int renderLayer, bool clearBackground=true) {
 			_renderTarget = new Window (windowX, windowY, windowWidth, windowHeight, this, clearBackground);
 			game.OnAfterRender += _renderTarget.RenderWindow;
+            _renderLayer = renderLayer;
 		}
 
 		/// <summary>

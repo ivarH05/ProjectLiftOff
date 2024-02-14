@@ -130,7 +130,7 @@ namespace GXPEngine {
 				SetRenderRange();
 				main.SetViewport (_windowX, _windowY, _width, _height, false);
 				if (_clear) GL.Clear(GL.COLOR_BUFFER_BIT);
-				current.Render (glContext);
+				current.Render (glContext, ((Camera)camera)._renderLayer);
 				main.SetViewport ((int)oldRange.left, (int)oldRange.top, (int)oldRange.width, (int)oldRange.height);
 			}
 			

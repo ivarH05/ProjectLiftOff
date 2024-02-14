@@ -17,6 +17,7 @@ namespace GXPEngine
 
         public bool visible = true;
         private bool destroyed = false;
+        internal int RenderLayer = -1;
 
         //------------------------------------------------------------------------------------------------------------------------
         //														GameObject()
@@ -122,6 +123,22 @@ namespace GXPEngine
                 foreach (GameObject child in GetChildren(false))
                 {
                     child.Render(glContext);
+                }
+
+                glContext.PopMatrix();
+            }
+        }
+
+        public virtual void Render(GLContext glContext, int RenderInt)
+        {
+            if (visible && (RenderLayer == -1 ||  RenderLayer == RenderInt))
+            {
+                glContext.PushMatrix(matrix);
+
+                RenderSelf(glContext);
+                foreach (GameObject child in GetChildren(false))
+                {
+                    child.Render(glContext, RenderInt);
                 }
 
                 glContext.PopMatrix();
