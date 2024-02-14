@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GXPEngine.Core;
+﻿using GXPEngine.Core;
+using GXPEngine;
 
-namespace GXPEngine
+namespace ScaryCoolGame
 {
     public class Scene : GameObject
     {
