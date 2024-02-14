@@ -11,7 +11,6 @@ namespace CoolScaryGame
     internal class Seeker : RigidBody
     {
         float speed = 5;
-        Sprite renderer;
 
         public Seeker(Vector2 Position) : base(50,50, Position, true) {
             RenderLayer = 1;

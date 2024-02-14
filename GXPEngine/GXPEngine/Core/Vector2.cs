@@ -159,9 +159,18 @@ namespace GXPEngine.Core
         /// <param name="y">y offset</param>
         /// <param name="strength">strength of randomisation</param>
         /// <returns></returns>
-        public static Vector2 Random(float x = 0, float y = 0, float strength = 1)
+        public static Vector2 RandomVector(float x = 0, float y = 0, float strength = 1)
         {
             return new Vector2(x + Utils.Random(-strength, strength), y + Utils.Random(-strength, strength)).Normalized;
+        }
+
+        public static Vector2 RandomVector(Vector2 vec, float strength = 1)
+        {
+            return new Vector2(vec.x + Utils.Random(-strength, strength), vec.y + Utils.Random(-strength, strength)).Normalized;
+        }
+        public static Vector2 RandomVector(float strength = 1)
+        {
+            return new Vector2(Utils.Random(-strength, strength), Utils.Random(-strength, strength)).Normalized;
         }
 
         /// <summary>

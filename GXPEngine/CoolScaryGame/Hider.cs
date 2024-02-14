@@ -11,7 +11,6 @@ namespace CoolScaryGame
     internal class Hider : RigidBody
     {
         float speed = 5;
-        Sprite renderer;
 
         public Hider(Vector2 position) : base(50,50, position, true)
         {

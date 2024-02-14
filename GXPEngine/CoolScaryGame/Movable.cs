@@ -8,6 +8,7 @@ namespace CoolScaryGame
     {
         internal Vector2 Velocity;
         internal float Friction = 0.1f;
+        internal Sprite renderer;
 
         internal float timer = 0;
         public Movable(int width, int height, Vector2 Position = new Vector2(), bool addCollider = false) : base(width, height, addCollider, 0b10, 0b11)
@@ -24,8 +25,7 @@ namespace CoolScaryGame
             if (timer > Time.TimeStep)
             {
                 timer -= Time.deltaTime;
-                MoveUntilCollision(Velocity.x * Time.TimeStep, Velocity.y * Time.TimeStep);
-                position += Velocity * 0.00001f;
+                position += Velocity * Time.TimeStep;
                 AddFriction(Friction);
             }
         }
