@@ -252,7 +252,7 @@ namespace GXPEngine.Core {
             GL.MatrixMode(GL.MODELVIEW);
 			GL.LoadIdentity();
 			
-			_owner.Render(this);
+			_owner.Render(this, -1);
 
 			GL.glfwSwapBuffers();
 			if (GetKey(Key.ESCAPE)) this.Close();

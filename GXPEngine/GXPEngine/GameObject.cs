@@ -113,21 +113,6 @@ namespace GXPEngine
         /// <param name='glContext'>
         /// Gl context, will be supplied by internal caller.
         /// </param>
-        public virtual void Render(GLContext glContext)
-        {
-            if (visible)
-            {
-                glContext.PushMatrix(matrix);
-
-                RenderSelf(glContext);
-                foreach (GameObject child in GetChildren(false))
-                {
-                    child.Render(glContext);
-                }
-
-                glContext.PopMatrix();
-            }
-        }
 
         public virtual void Render(GLContext glContext, int RenderInt)
         {
