@@ -48,12 +48,5 @@ namespace CoolScaryGame
         {
             Velocity = Velocity.Lerp(new Vector2(), amount);
         }
-<<<<<<< HEAD:GXPEngine/CoolScaryGame/Movable.cs
-        public float Mass
-        {
-            get { return mass; }
-        }
-=======
->>>>>>> origin/Main:GXPEngine/Movable.cs
     }
 }
