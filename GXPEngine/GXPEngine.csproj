@@ -45,6 +45,7 @@
     <Compile Include="CoolScaryGame\Particles\Particle.cs" />
     <Compile Include="CoolScaryGame\Particles\ParticleData.cs" />
     <Compile Include="CoolScaryGame\Particles\ParticleEmitter.cs" />
+    <Compile Include="CoolScaryGame\Player.cs" />
     <Compile Include="CoolScaryGame\SpriteContainer.cs" />
     <Compile Include="CoolScaryGame\WallSprite.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />

@@ -8,17 +8,13 @@ using System.Threading.Tasks;
 
 namespace CoolScaryGame
 {
-    internal class Hider : RigidBody
+    internal class Hider : Player
     {
         float speed = 5;
 
-        public Hider(Vector2 position) : base(50,50, position, true)
+        public Hider(Vector2 Position) : base(Position, "triangle.png")
         {
             RenderLayer = 0;
-            renderer = new Sprite("triangle.png", false, false);
-            AddChild(renderer);
-            renderer.width = (int)(width/scaleX);
-            renderer.height = (int)(height/scaleY);
         }
 
         void Update()
