@@ -10,7 +10,7 @@ namespace CoolScaryGame
         internal float Friction = 0.1f;
 
         internal float timer = 0;
-        public Movable(int width, int height, Vector2 Position = new Vector2(), bool addCollider = false) : base(width, height, addCollider, 0b10, 0b11)
+        public Movable(int width, int height, Vector2 Position = new Vector2(), bool addCollider = false, uint collisionLayers = 0xFFFFFFFF, uint coupleWithLayers = 0xFFFFFFFF) : base(width, height, addCollider, collisionLayers, coupleWithLayers)
         {
             position = Position;
         }
