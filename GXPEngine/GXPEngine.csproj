@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoolScaryGame\Level\FloorCollider.cs" />
+    <Compile Include="CoolScaryGame\Level\Room.cs" />
     <Compile Include="CoolScaryGame\Managers\GameManager.cs" />
     <Compile Include="CoolScaryGame\Managers\UIManager.cs" />
     <Compile Include="CoolScaryGame\Utility\ColorSprite.cs" />
