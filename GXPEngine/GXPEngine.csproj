@@ -42,7 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoolScaryGame\Managers\GameManager.cs" />
+    <Compile Include="CoolScaryGame\Managers\UIManager.cs" />
+    <Compile Include="CoolScaryGame\Utility\ColorSprite.cs" />
     <Compile Include="CoolScaryGame\Utility\FOVAnimationSprite.cs" />
+    <Compile Include="CoolScaryGame\Utility\HealthBar.cs" />
     <Compile Include="CoolScaryGame\Utility\SpriteContainer.cs" />
     <Compile Include="CoolScaryGame\Utility\WallSprite.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
@@ -50,6 +53,7 @@
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
     <Compile Include="CoolScaryGame\PhysicsObjects\Hider.cs" />
     <Compile Include="CoolScaryGame\Utility\InvisibleObject.cs" />
+    <Compile Include="GXPEngine\Core\Vector2i.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Core\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />

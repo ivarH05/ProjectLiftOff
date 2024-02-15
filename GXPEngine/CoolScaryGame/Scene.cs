@@ -54,5 +54,10 @@ namespace CoolScaryGame
         {
             return new Camera[] { viewLeft, viewRight };
         }
+
+        public void AddUI()
+        {
+            UIManager.AddHiderHealthbar();
+        }
     }
 }

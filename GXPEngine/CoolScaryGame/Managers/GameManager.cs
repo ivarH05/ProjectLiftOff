@@ -21,6 +21,7 @@ namespace CoolScaryGame
             scene = new Scene();
             mainGame.AddChild(scene);
             CamManager.SetCameras(scene.GetCameras());
+            scene.AddUI();
         }
     }
 
@@ -31,6 +32,13 @@ namespace CoolScaryGame
         public static void SetCameras(Camera[] _cameras)
         {
             cameras = _cameras;
+        }
+
+        public static void AddUI(GameObject _UI, int index)
+        {
+            if (index < 0 || index >= cameras.Length)
+                return;
+            cameras[index].AddChild(_UI);
         }
 
         public static Vector2 GetPosition(int index)
@@ -55,6 +63,8 @@ namespace CoolScaryGame
 
         public static void LerpToPoint(int index, Vector2 pos, float time)
         {
+            if (index < 0 || index >= cameras.Length)
+                return;
             cameras[index].position = cameras[index].position.Lerp(pos, time);
         }
     }
