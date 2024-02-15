@@ -9,6 +9,9 @@ using GXPEngine.Core;
 
 namespace CoolScaryGame
 {
+    /// <summary>
+    /// Animation sprite, except it becomes gradually transparent over visibilityRadius.
+    /// </summary>
     public class FOVAnimationSprite : AnimationSprite
     {
         float invVisibilityRadius;
