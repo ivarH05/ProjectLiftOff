@@ -8,6 +8,7 @@ namespace CoolScaryGame
     {
         internal Vector2 Velocity;
         internal float Friction = 0.1f;
+        internal Sprite renderer;
 
         internal float timer = 0;
         public Movable(int width, int height, Vector2 Position = new Vector2(), bool addCollider = false, uint collisionLayers = 0xFFFFFFFF, uint coupleWithLayers = 0xFFFFFFFF) : base(width, height, addCollider, collisionLayers, coupleWithLayers)
@@ -16,7 +17,7 @@ namespace CoolScaryGame
         }
 
         /// <summary>
-        /// move the object without collision, best used for particles.
+        /// move the object without collision, though at a consistant rate
         /// </summary>
         public virtual void PhysicsUpdate()
         {
@@ -24,8 +25,7 @@ namespace CoolScaryGame
             if (timer > Time.TimeStep)
             {
                 timer -= Time.deltaTime;
-                MoveUntilCollision(Velocity.x * Time.TimeStep, Velocity.y * Time.TimeStep);
-                position += Velocity * 0.00001f;
+                position += Velocity * Time.TimeStep;
                 AddFriction(Friction);
             }
         }

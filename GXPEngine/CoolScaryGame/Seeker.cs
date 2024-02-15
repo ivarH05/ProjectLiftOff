@@ -8,17 +8,13 @@ using System.Threading.Tasks;
 
 namespace CoolScaryGame
 {
-    internal class Seeker : RigidBody
+    internal class Seeker : Player
     {
         float speed = 5;
-        Sprite renderer;
 
-        public Seeker(Vector2 Position) : base(50,50, Position, true) {
+        public Seeker(Vector2 Position) : base(Position, "square.png") 
+        {
             RenderLayer = 1;
-            renderer = new Sprite("square.png", false, false);
-            AddChild(renderer);
-            renderer.width = (int)(width / scaleX);
-            renderer.height = (int)(height / scaleY);
         }
 
         void Update()

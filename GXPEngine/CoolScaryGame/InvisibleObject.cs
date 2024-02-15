@@ -60,7 +60,7 @@ namespace CoolScaryGame
 
                 if(debugVisible || debugVisibleAll) 
                     RenderSelf(glContext);
-                //there shouldnt be any children of the invisibleobject. leaving this in tho
+                //there shouldnt be any children of the invisibleobject. leaving this in tho 
                 foreach (GameObject child in GetChildren(false))
                 {
                     child.Render(glContext, RenderInt);
