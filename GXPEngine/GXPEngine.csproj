@@ -41,14 +41,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CoolScaryGame\GameManager.cs" />
-    <Compile Include="CoolScaryGame\SpriteContainer.cs" />
-    <Compile Include="CoolScaryGame\WallSprite.cs" />
+    <Compile Include="CoolScaryGame\Managers\GameManager.cs" />
+    <Compile Include="CoolScaryGame\Utility\SpriteContainer.cs" />
+    <Compile Include="CoolScaryGame\Utility\WallSprite.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
-    <Compile Include="CoolScaryGame\Hider.cs" />
-    <Compile Include="CoolScaryGame\InvisibleObject.cs" />
+    <Compile Include="CoolScaryGame\PhysicsObjects\Hider.cs" />
+    <Compile Include="CoolScaryGame\Utility\InvisibleObject.cs" />
     <Compile Include="MyGame.cs" />
     <Compile Include="GXPEngine\Core\Canvas.cs" />
     <Compile Include="GXPEngine\Game.cs" />
@@ -87,12 +87,12 @@
     <Compile Include="GXPEngine\FMOD\FMODSoundSystem.cs" />
     <Compile Include="GXPEngine\SoLoud\Soloud.cs" />
     <Compile Include="GXPEngine\SoLoud\SoloudSoundSystem.cs" />
-    <Compile Include="CoolScaryGame\RigidBody.cs" />
+    <Compile Include="CoolScaryGame\PhysicsObjects\RigidBody.cs" />
     <Compile Include="CoolScaryGame\Scene.cs" />
-    <Compile Include="CoolScaryGame\Movable.cs" />
-    <Compile Include="CoolScaryGame\Seeker.cs" />
-    <Compile Include="CoolScaryGame\Player.cs" />
-    <Compile Include="Shovable.cs" />    
+    <Compile Include="CoolScaryGame\PhysicsObjects\Movable.cs" />
+    <Compile Include="CoolScaryGame\PhysicsObjects\Seeker.cs" />
+    <Compile Include="CoolScaryGame\PhysicsObjects\Player.cs" />
+    <Compile Include="Shovable.cs" />
     <Compile Include="CoolScaryGame\Particles\Particle.cs" />
     <Compile Include="CoolScaryGame\Particles\ParticleData.cs" />
     <Compile Include="CoolScaryGame\Particles\ParticleEmitter.cs" />
