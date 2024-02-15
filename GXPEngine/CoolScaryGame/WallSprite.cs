@@ -22,6 +22,7 @@ namespace CoolScaryGame
             Vector2 relPos = CamManager.GetPosition(RenderInt);
             relPos -= TransformPoint(0, 0);
             alpha = Mathf.Clamp(Mathf.Abs(relPos.y*strengthY),0,1);
+            alpha = Mathf.Max(alpha, Mathf.Clamp(Mathf.Abs(relPos.x * .01f), 0, 1));
             base.Render(glContext, RenderInt);
         }
     }
