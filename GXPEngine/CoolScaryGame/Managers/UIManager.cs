@@ -10,7 +10,7 @@ namespace CoolScaryGame
 {
     public static class UIManager
     {
-        private static List<GameObject> UI;
+        private static List<GameObject> UI = new List<GameObject>();
         private static HealthBar[] HiderHealthBars;
         public static void AddHiderHealthbar()
         {
