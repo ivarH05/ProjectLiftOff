@@ -10,17 +10,17 @@ namespace CoolScaryGame
 {
     internal class Player : RigidBody
     {
-        float speed = 5;
+        internal float speed = 5;
 
-        float animationSpeed = 5;
+        internal float animationSpeed = 5;
         float timer;
-        public Player(Vector2 Position, string SpritePath) : base(50, 50, Position, true)
+        public Player(Vector2 Position, string SpritePath) : base(64, 64, Position, true)
         {
             renderer = new AnimationSprite(SpritePath, 3, 3, -1, false, false);
-            AddChild(renderer);
-            renderer.width = (int)(width / scaleX);
-            renderer.height = (int)(height / scaleY) * 2;
-            renderer.y = -(int)(height / scaleY);
+            proxy.AddChild(renderer);
+            renderer.width = 64;
+            renderer.height = 128;
+            renderer.y = -96;
         }
 
         /// <summary>

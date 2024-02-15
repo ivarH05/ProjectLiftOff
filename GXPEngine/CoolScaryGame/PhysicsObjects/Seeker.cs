@@ -10,10 +10,16 @@ namespace CoolScaryGame
 {
     internal class Seeker : Player
     {
-        float speed = 5;
-
-        public Seeker(Vector2 Position) : base(Position, "SeekerSpriteMap.png") 
+        private static Seeker Singleton;
+        public Seeker(Vector2 Position) : base(Position, "SeekerSpriteMap.png")
         {
+            if (Singleton != null)
+            {
+                LateDestroy();
+                return;
+            }
+            Singleton = this;
+
             RenderLayer = 1;
         }
 
@@ -21,14 +27,20 @@ namespace CoolScaryGame
         {
             //move using the arrow keys
             AddForce(Input.ArrowVector() * Time.deltaMillis * speed);
+            //move the camera towards the player
+            CamManager.LerpToPoint(1, position + ActualVelocity * 0.5f, Time.deltaTime * 5);
 
             //update all physics
             PhysicsUpdate();
-
+            //switch animation frames if necessary
             AnimationUpdate();
+        }
 
-            //move the camera towards the player
-            CamManager.LerpToPoint(1, position + ActualVelocity * 0.5f, Time.deltaTime * 5);
+        public static Vector2 GetPosition()
+        {
+            if (Singleton == null)
+                return new Vector2();
+            return Singleton.position;
         }
     }
 }
