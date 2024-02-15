@@ -34,6 +34,8 @@ namespace CoolScaryGame.Particles
             position = Vector2.RandomVector(dat.SpawnRadius);
 
             Velocity = dat.ForceDirection + Vector2.RandomVector(dat.ForceRandomness) * Utils.Random(-dat.ForceRandomness, dat.ForceRandomness);
+
+            SetFrame(Utils.Random(0, frameCount));
         }
 
         void Update()

@@ -17,7 +17,7 @@ namespace CoolScaryGame
         }
 
         /// <summary>
-        /// move the object without collision, best used for particles.
+        /// move the object without collision, though at a consistant rate
         /// </summary>
         public virtual void PhysicsUpdate()
         {

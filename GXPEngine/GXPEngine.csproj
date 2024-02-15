@@ -94,6 +94,7 @@
     <Compile Include="CoolScaryGame\Scene.cs" />
     <Compile Include="CoolScaryGame\Movable.cs" />
     <Compile Include="CoolScaryGame\Seeker.cs" />
+    <Compile Include="Shovable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

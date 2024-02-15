@@ -25,14 +25,17 @@ namespace CoolScaryGame
             {
                 sprite = "circle.png",
                 SpawnPosition = new Vector2(100, 0),
-                burst = 100,
-                EmissionStep = 0.1f,
-                EmissionTime = 9999,
-                Scale = 0.25f, ScaleRandomness = 0.5f,
-                R = 1, G = 0, B = 0, A = 1
+                burst = 250,
+                LifeTime = 1,
+                EmissionStep = 0,
+                EmissionTime = 0,
+                Scale = 0.25f, ScaleRandomness = 0.5f, ScaleOverLifetime = 0.95f,
+                R = 1, G = 0, B = 0, A = 0.25f,
+                RenderLayer = 0
             };
 
             AddChild(new ParticleEmitter(dat));
+            AddChild(new Shovable());
         }
 
         void Update()
