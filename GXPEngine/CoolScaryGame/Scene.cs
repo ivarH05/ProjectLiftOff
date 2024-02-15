@@ -36,6 +36,14 @@ namespace CoolScaryGame
 
             AddChild(new ParticleEmitter(dat));
             AddChild(new Shovable());
+
+            SpriteContainer slop = new SpriteContainer(200, 200);
+            slop.proxy.AddChild(new Sprite("Checkers.png", false, false));
+            Sprite s = new WallSprite("Checkers.png", false, false);
+            slop.proxy.AddChild(s);
+            s.x += 180;
+            s.y += 50;
+            AddChild(slop);
         }
 
         void Update()

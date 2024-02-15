@@ -3,10 +3,11 @@ using GXPEngine;                                // GXPEngine contains the engine
 using CoolScaryGame;
 using System.Drawing;                           // System.Drawing contains drawing tools such as Color definitions
 using GXPEngine.Core;
+using GXPEngine.OpenGL;
 
 public class MainGame : Game 
 {
-	public MainGame() : base(1920, 1080, false)     // Create a window that's 800x600 and NOT fullscreen
+	public MainGame() : base(1920, 1080, false, true, 960, 540, enableDepthBuffer:true)     // Create a window that's 800x600 and NOT fullscreen
 	{
 		SceneManager.SetMainGame(this);
 		SceneManager.LoadScene();
@@ -21,6 +22,6 @@ public class MainGame : Game
 
 	static void Main()                          // Main() is the first method that's called when the program is run
 	{
-		new MainGame().Start();                   // Create a "MyGame" and start it
+		new MainGame().Start();                   // Create a "MyGame" and start i
 	}
 }
