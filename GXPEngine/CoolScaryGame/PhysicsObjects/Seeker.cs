@@ -14,7 +14,7 @@ namespace CoolScaryGame
 
         public Seeker(Vector2 Position) : base(Position, "square.png") 
         {
-            RenderLayer = 1;
+            //RenderLayer = 1;
         }
 
         void Update()

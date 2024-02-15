@@ -14,7 +14,7 @@ namespace CoolScaryGame
 
         public Hider(Vector2 Position) : base(Position, "triangle.png")
         {
-            RenderLayer = 0;
+            //RenderLayer = 0;
         }
 
         void Update()

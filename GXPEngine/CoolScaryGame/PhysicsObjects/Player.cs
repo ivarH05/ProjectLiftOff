@@ -14,7 +14,7 @@ namespace CoolScaryGame
 
         public Player(Vector2 Position, string SpritePath) : base(50, 50, Position, true)
         {
-            renderer = new AnimationSprite(SpritePath, 6, 2);
+            renderer = new FOVAnimationSprite(SpritePath, 6, 2);
             AddChild(renderer);
             renderer.width = (int)(width / scaleX);
             renderer.height = (int)(height / scaleY);
