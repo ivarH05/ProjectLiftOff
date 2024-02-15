@@ -42,10 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoolScaryGame\GameManager.cs" />
-    <Compile Include="CoolScaryGame\Particles\Particle.cs" />
-    <Compile Include="CoolScaryGame\Particles\ParticleData.cs" />
-    <Compile Include="CoolScaryGame\Particles\ParticleEmitter.cs" />
-    <Compile Include="CoolScaryGame\Player.cs" />
     <Compile Include="CoolScaryGame\SpriteContainer.cs" />
     <Compile Include="CoolScaryGame\WallSprite.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
@@ -95,7 +91,11 @@
     <Compile Include="CoolScaryGame\Scene.cs" />
     <Compile Include="CoolScaryGame\Movable.cs" />
     <Compile Include="CoolScaryGame\Seeker.cs" />
-    <Compile Include="Shovable.cs" />
+    <Compile Include="CoolScaryGame\Player.cs" />
+    <Compile Include="Shovable.cs" />    
+    <Compile Include="CoolScaryGame\Particles\Particle.cs" />
+    <Compile Include="CoolScaryGame\Particles\ParticleData.cs" />
+    <Compile Include="CoolScaryGame\Particles\ParticleEmitter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
