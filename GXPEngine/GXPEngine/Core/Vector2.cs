@@ -153,24 +153,16 @@ namespace GXPEngine.Core
         }
 
         /// <summary>
-        /// Generate a random vector2 with a magnitude of 1
+        /// Generate a random vector2 with a magnitude of Strength
         /// </summary>
-        /// <param name="x">x offset</param>
-        /// <param name="y">y offset</param>
-        /// <param name="strength">strength of randomisation</param>
+        /// <param name="strength">strength of the resulting vector</param>
         /// <returns></returns>
-        public static Vector2 RandomVector(float x = 0, float y = 0, float strength = 1)
-        {
-            return new Vector2(x + Utils.Random(-strength, strength), y + Utils.Random(-strength, strength)).Normalized;
-        }
-
-        public static Vector2 RandomVector(Vector2 vec, float strength = 1)
-        {
-            return new Vector2(vec.x + Utils.Random(-strength, strength), vec.y + Utils.Random(-strength, strength)).Normalized;
-        }
         public static Vector2 RandomVector(float strength = 1)
         {
-            return new Vector2(Utils.Random(-strength, strength), Utils.Random(-strength, strength)).Normalized;
+            float r = Utils.Random(-3.1415f, 3.1415f);
+            float x = Mathf.Cos(r);
+            float y = Mathf.Sin(r);
+            return new Vector2(x, y) * strength;
         }
 
         /// <summary>
@@ -195,17 +187,26 @@ namespace GXPEngine.Core
         }
 
         /// <summary>
-        /// The magnitude(length) of a vector
+        /// The magnitude(length) of a vector.
         /// </summary>
         public float Magnitude
         {
-            get { return Mathf.Sqrt(x * x + y * y); }
+            get { return Mathf.Sqrt(MagnitudeSquared); }
+        }
+
+
+        /// <summary>
+        /// The magnitude(length) of a vector squared.
+        /// </summary>
+        public float MagnitudeSquared
+        {
+            get { return  x * x + y * y; }
         }
 
         /// <summary>
         /// returns the vector2 with a magnitude of 1
         /// </summary>
-		public Vector2 Normalized
+        public Vector2 Normalized
         {
             get { return Magnitude == 0.0f ? new Vector2() : this / Magnitude; }
         }

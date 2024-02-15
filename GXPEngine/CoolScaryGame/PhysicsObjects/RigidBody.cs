@@ -21,10 +21,10 @@ namespace CoolScaryGame
         /// </summary>
         public override void PhysicsUpdate()
         {
-            timer += Time.deltaTime;
-            if (timer > Time.TimeStep)
+            _timer += Time.deltaTime;
+            if (_timer > Time.TimeStep)
             {
-                timer -= Time.deltaTime;
+                _timer -= Time.deltaTime;
                 Vector2 LastPos = position;
                 Collision c = MoveUntilCollision(Velocity.x * Time.TimeStep, Velocity.y * Time.TimeStep);
                 AddFriction(Friction);

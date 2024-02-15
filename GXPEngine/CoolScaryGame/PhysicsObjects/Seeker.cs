@@ -12,9 +12,9 @@ namespace CoolScaryGame
     {
         float speed = 5;
 
-        public Seeker(Vector2 Position) : base(Position, "square.png") 
+        public Seeker(Vector2 Position) : base(Position, "SeekerSpriteMap.png") 
         {
-            RenderLayer = 1;
+            //RenderLayer = 1;
         }
 
         void Update()
@@ -24,6 +24,8 @@ namespace CoolScaryGame
 
             //update all physics
             PhysicsUpdate();
+
+            AnimationUpdate();
 
             //move the camera towards the player
             CamManager.LerpToPoint(1, position + ActualVelocity * 0.5f, Time.deltaTime * 5);

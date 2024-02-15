@@ -10,7 +10,7 @@ namespace CoolScaryGame
         internal float Friction = 0.1f;
         internal Sprite renderer;
 
-        internal float timer = 0;
+        internal float _timer = 0;
         public Movable(int width, int height, Vector2 Position = new Vector2(), bool addCollider = false, uint collisionLayers = 0xFFFFFFFF, uint coupleWithLayers = 0xFFFFFFFF) : base(width, height, addCollider, collisionLayers, coupleWithLayers)
         {
             position = Position;
@@ -21,10 +21,10 @@ namespace CoolScaryGame
         /// </summary>
         public virtual void PhysicsUpdate()
         {
-            timer += Time.deltaTime;
-            if (timer > Time.TimeStep)
+            _timer += Time.deltaTime;
+            if (_timer > Time.TimeStep)
             {
-                timer -= Time.deltaTime;
+                _timer -= Time.deltaTime;
                 position += Velocity * Time.TimeStep;
                 AddFriction(Friction);
             }

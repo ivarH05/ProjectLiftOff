@@ -8,6 +8,10 @@ using GXPEngine.Core;
 
 namespace CoolScaryGame
 {
+
+    /// <summary>
+    /// A sprite that becomes transparent if the camera is on it.
+    /// </summary>
     public class WallSprite : Sprite
     {
         float strengthY;

@@ -8,9 +8,13 @@ using GXPEngine.Core;
 
 namespace CoolScaryGame
 {
+    /// <summary>
+    /// A container for sprites, that doesnt even bother calling Render for its children if it itself isnt visible.
+    /// Exclusively for optimisation.
+    /// </summary>
     public class SpriteContainer : InvisibleObject
     {
-        public SpriteContainer(int width, int height) : base(width, height, overrideVisible:true) {
+        public SpriteContainer(int width, int height) : base(width, height, overrideVisible:false) {
         }
 
         public override void Render(GLContext glContext, int s)
