@@ -20,7 +20,6 @@ namespace CoolScaryGame
             }
             Singleton = this;
 
-            RenderLayer = 1;
         }
 
         void Update()

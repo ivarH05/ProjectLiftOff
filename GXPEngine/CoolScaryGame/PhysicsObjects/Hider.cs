@@ -21,7 +21,6 @@ namespace CoolScaryGame
                 return;
             }
             Singleton = this;
-            RenderLayer = 0;
         }
 
         void Update()
