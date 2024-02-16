@@ -23,18 +23,22 @@ namespace CoolScaryGame
             build.autoInstance = true;
             build.LoadObjectGroups();
             foreach (GameObject obj in objects.GetChildren())
+            {
                 if (obj is SpriteContainer)
                 {
                     roomContainer = (SpriteContainer)obj;
                     roomContainer.Remove();
+                    roomContainer.SetOrigin(0, 0);
+                    roomContainer.AddProxy();
                     AddChild(roomContainer);
+                    roomContainer.proxy.AddChild(tiles);
+                    roomContainer.proxy.AddChild(objects);
                 }
-            //roomContainer.proxy.AddChild(tiles);
-            //roomContainer.proxy.AddChild(objects);
-            AddChild(tiles);
-            AddChild(objects);
-            //foreach (GameObject obj in objects.GetChildren())
-            //    obj.parent = roomContainer.proxy;
+            }
+            objects.depth = -1;
+            tiles.depth = -1;
+            scaleX = 4;
+            scaleY = 4;
         }
     }
 }
