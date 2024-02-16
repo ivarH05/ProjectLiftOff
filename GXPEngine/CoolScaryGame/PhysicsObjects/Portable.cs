@@ -23,6 +23,7 @@ namespace GXPEngine
         void Update()
         {
             PhysicsUpdate();
+            if (isDissabled) { depth -= 0.00125f; }
         }
     }
 }

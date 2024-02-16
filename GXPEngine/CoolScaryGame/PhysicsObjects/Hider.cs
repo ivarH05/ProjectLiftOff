@@ -38,27 +38,35 @@ namespace CoolScaryGame
 
             if (HoldingItem != null)
             {
-                HoldingItem.position = position + new Vector2(0, -96 - HoldingItem.renderer.height / 2);
+                HoldingItem.position = HoldingItem.position.Lerp(position + new Vector2(0, -76 - HoldingItem.renderer.height / 2), Time.deltaTime * 32);
                 if (Input.GetKeyDown(Key.E))
-                {
-                    HoldingItem.position = position + Velocity.Normalized * 64;
-                    HoldingItem.isDissabled = false;
-                    HoldingItem.isKinematic = false;
-                    HoldingItem = null;
-                }
+                    DropObject();
             }
             else if (Input.GetKeyDown(Key.E))
             {
                 Sprite s = new Sprite("Square.png", false, true, 0, 0b10);
                 s.position = position + Velocity.Normalized * 64;
 
-                Portable Box = (Portable)GetClosestOfType<Portable>(s.GetCollisions());
-                if (Box == null || Box.isDissabled)
-                    return;
-                Box.isDissabled = true;
-                Box.isKinematic = true;
-                HoldingItem = Box;
+                GrabObject((Portable)GetClosestOfType<Portable>(s.GetCollisions()));
             }
+        }
+
+        private void GrabObject(Portable obj)
+        {
+            if (obj == null || obj.isDissabled)
+                return;
+            obj.isDissabled = true;
+            obj.isKinematic = true;
+            HoldingItem = obj;
+        }
+
+        private void DropObject()
+        {
+            HoldingItem.position = position + Velocity.Normalized * HoldingItem.width;
+            HoldingItem.Velocity = Velocity;
+            HoldingItem.isDissabled = false;
+            HoldingItem.isKinematic = false;
+            HoldingItem = null;
         }
 
         GameObject GetClosestOfType<T>(GameObject[] objects)
