@@ -28,7 +28,7 @@ namespace CoolScaryGame
             //move using wasd
             AddForce(Input.WASDVector() * Time.deltaMillis * speed);
             //move the camera towards the player
-            CamManager.LerpToPoint(0, position + ActualVelocity * 0.5f, Time.deltaTime * 5);
+            CamManager.LerpToPoint(0, TransformPoint(0, 0) + ActualVelocity * 0.5f, Time.deltaTime * 5);
 
             //update all physics
             PhysicsUpdate();

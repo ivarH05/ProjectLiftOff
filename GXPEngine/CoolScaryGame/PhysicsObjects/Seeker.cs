@@ -27,7 +27,7 @@ namespace CoolScaryGame
             //move using the arrow keys
             AddForce(Input.ArrowVector() * Time.deltaMillis * speed);
             //move the camera towards the player
-            CamManager.LerpToPoint(1, position + ActualVelocity * 0.5f, Time.deltaTime * 5);
+            CamManager.LerpToPoint(1, TransformPoint(0, 0) + ActualVelocity * 0.5f, Time.deltaTime * 5);
 
             //update all physics
             PhysicsUpdate();
