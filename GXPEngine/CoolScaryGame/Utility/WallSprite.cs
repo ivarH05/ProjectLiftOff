@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GXPEngine;
 using GXPEngine.Core;
+using TiledMapParser;
 
 namespace CoolScaryGame
 {
@@ -12,11 +13,13 @@ namespace CoolScaryGame
     /// <summary>
     /// A sprite that becomes transparent if the camera is on it.
     /// </summary>
-    public class WallSprite : Sprite
+    public class WallSprite : AnimationSprite
     {
         float strengthY;
+        public WallSprite(string filename, int cols, int rows, TiledObject obj) : base(filename, cols, rows, -1, true, false)
+        { }
         public WallSprite(string filename, bool keepInCache = false, bool addCollider = true, uint CollisionLayers = 0xFFFFFFFF, uint CoupleWithLayers = 0xFFFFFFFF)
-        : base(filename, keepInCache, addCollider, CollisionLayers, CoupleWithLayers)
+        : base(filename, 1, 1, -1, keepInCache, addCollider, CollisionLayers, CoupleWithLayers)
         {
             strengthY = 1f / height;
         }
@@ -25,8 +28,9 @@ namespace CoolScaryGame
         {
             Vector2 relPos = CamManager.GetPosition(RenderInt);
             relPos -= TransformPoint(0, 0);
-            alpha = Mathf.Clamp(Mathf.Abs(relPos.y*strengthY),0,1);
-            alpha = Mathf.Max(alpha, Mathf.Clamp(Mathf.Abs(relPos.x * .01f), 0, 1));
+            alpha = Mathf.Abs(relPos.y*strengthY);
+            alpha = Mathf.Max(alpha, (Mathf.Abs(relPos.x * .01f)));
+            alpha = Mathf.Clamp01(alpha-.5f);
             base.Render(glContext, RenderInt);
         }
     }

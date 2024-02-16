@@ -14,7 +14,7 @@ namespace CoolScaryGame
 
         float animationSpeed = 5;
         float timer;
-        public Player(Vector2 Position, string SpritePath) : base(50, 50, Position, true)
+        public Player(Vector2 Position, string SpritePath) : base(50, 50, Position, true, 0b1111, 0b1111)
         {
             renderer = new FOVAnimationSprite(SpritePath, 3, 3, -1, 500, false, false);
             AddChild(renderer);
