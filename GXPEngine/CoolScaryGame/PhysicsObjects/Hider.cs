@@ -13,7 +13,8 @@ namespace CoolScaryGame
         private static Hider Singleton;
 
         public Portable HoldingItem = null;
-        public Hider(Vector2 Position) : base(Position, "HiderSpriteMap.png")
+        public Hider(Vector2 Position) :
+            base(Position, new AnimationData("HiderSpriteMap.png", 3, 3), new AnimationData("HiderSpriteMap.png", 3, 3))
         {
             if(Singleton != null)
             {
@@ -27,13 +28,7 @@ namespace CoolScaryGame
         {
             //move using wasd
             AddForce(Input.WASDVector() * Time.deltaMillis * speed);
-            //move the camera towards the player
-            CamManager.LerpToPoint(0, TransformPoint(0, 0) + ActualVelocity * 0.5f, Time.deltaTime * 5);
-
-            //update all physics
-            PhysicsUpdate();
-            //switch animation frames if necessary
-            AnimationUpdate();
+            PlayerUpdates(0);
 
             if (HoldingItem != null)
             {

@@ -4,12 +4,10 @@ using System;
 
 namespace CoolScaryGame
 {
-    internal class RigidBody : Movable
+    public class RigidBody : Movable
     {
         public bool isDissabled = false;
         public bool isKinematic = false;
-
-        internal Vector2 ActualVelocity;
 
         internal bool canPush = true;
         internal uint CollisionLayers = 1;
@@ -59,7 +57,6 @@ namespace CoolScaryGame
                     other.AddForce(c.normal * -250 * bounciness);
                 }
                 position -= Velocity * 0.0001f;
-                ActualVelocity = position - LastPos;
             }
         }
     }
