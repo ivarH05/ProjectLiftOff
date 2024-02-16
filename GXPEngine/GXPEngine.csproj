@@ -97,7 +97,7 @@
     <Compile Include="CoolScaryGame\PhysicsObjects\Movable.cs" />
     <Compile Include="CoolScaryGame\PhysicsObjects\Seeker.cs" />
     <Compile Include="CoolScaryGame\PhysicsObjects\Player.cs" />
-    <Compile Include="CoolScaryGame\PhysicsObjects\Shovable.cs" />
+    <Compile Include="CoolScaryGame\PhysicsObjects\Portable.cs" />
     <Compile Include="CoolScaryGame\Particles\Particle.cs" />
     <Compile Include="CoolScaryGame\Particles\ParticleData.cs" />
     <Compile Include="CoolScaryGame\Particles\ParticleEmitter.cs" />

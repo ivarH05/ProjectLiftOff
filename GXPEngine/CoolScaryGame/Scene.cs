@@ -35,7 +35,9 @@ namespace CoolScaryGame
             };
 
             AddChild(new ParticleEmitter(dat));
-            AddChild(new Shovable());
+            AddChild(new Portable(-100, 100));
+            AddChild(new Portable(0, 100));
+            AddChild(new Portable(100, 100));
 
             SpriteContainer slop = new SpriteContainer(200, 200);
             slop.proxy.AddChild(new Sprite("Checkers.png", false, false));

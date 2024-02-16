@@ -19,6 +19,8 @@ namespace CoolScaryGame
         : base(filename, keepInCache, addCollider, CollisionLayers, CoupleWithLayers)
         {
             strengthY = 1f / height;
+            depth = 0;
+            y = -100;
         }
 
         public override void Render(GLContext glContext, int RenderInt)
