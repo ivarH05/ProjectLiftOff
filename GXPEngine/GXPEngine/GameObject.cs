@@ -16,8 +16,11 @@ namespace GXPEngine
         private GameObject _parent = null;
 
         public bool visible = true;
+        public bool depthSort = false;
+        private bool inDepthSortList = false;
         private bool destroyed = false;
         internal int RenderLayer = -1;
+
 
         //------------------------------------------------------------------------------------------------------------------------
         //														GameObject()
@@ -120,7 +123,18 @@ namespace GXPEngine
             {
                 glContext.PushMatrix(matrix);
 
-                RenderSelf(glContext);
+                if(!depthSort || !glContext.depthBufferEnabled)
+                    RenderSelf(glContext);
+                else if(!inDepthSortList)
+                {
+                    //Console.WriteLine("added " + ToString() + " to depth sort list"); 
+                    //if og gxp devs are allowed to leave in commented writelines then i am too darnit
+                    inDepthSortList = true;
+                    game.depthSortObjects.Add(this);
+
+                    //nasty fix for renderlayer shenanigans
+                    CopyRenderLayers();
+                }
                 foreach (GameObject child in GetChildren(false))
                 {
                     child.Render(glContext, RenderInt);
@@ -131,6 +145,43 @@ namespace GXPEngine
         }
 
         //------------------------------------------------------------------------------------------------------------------------
+        //														RenderDepthSorted
+        //------------------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// This function is called by the renderer. Please dont override it,,,
+        /// dont override the main render function either if youre using depthsort,,,,
+        /// everything *will* break,,,,,,
+        /// </summary>
+        /// <param name='glContext'>
+        /// Gl context, will be supplied by internal caller.
+        /// </param>
+        public void RenderDepthSorted(GLContext glContext, int RenderInt)
+        {
+            if (visible && (RenderLayer == -1 || RenderLayer == RenderInt))
+            {
+                PushParentMatrix(glContext);
+                RenderSelf(glContext);
+                PopParentMatrix(glContext);
+            }
+        }
+
+        public void PushParentMatrix(GLContext gLContext)
+        {
+            //this shit is not cheap but it will have to do
+            if(parent != null)
+                parent.PushParentMatrix(gLContext);
+            gLContext.PushMatrix(matrix);
+        }
+
+        public void PopParentMatrix(GLContext gLContext)
+        {
+            //it will also completely break if for whatever reason RenderSelf() changes the tree
+            if(parent != null)
+                parent.PopParentMatrix(gLContext);
+            gLContext.PopMatrix();
+        }
+
+        //------------------------------------------------------------------------------------------------------------------------
         //														RenderSelf
         //------------------------------------------------------------------------------------------------------------------------
         protected virtual void RenderSelf(GLContext glContext)
@@ -138,6 +189,15 @@ namespace GXPEngine
             //if (visible == false) return;
             //glContext.PushMatrix(matrix);
             //glContext.PopMatrix();
+        }
+
+        protected void CopyRenderLayers()
+        {
+            foreach (GameObject obj in _children)
+            {
+                obj.RenderLayer = RenderLayer;
+                obj.CopyRenderLayers();
+            }
         }
 
 
@@ -722,6 +782,19 @@ namespace GXPEngine
                 return base.InverseTransformDirection(ret.x, ret.y);
             }
         }
+        
+        public float TrueDepth()
+        {
+            if (parent == null)
+                return depth;
+            else
+                return depth + parent.TrueDepth();
+        }
+
+        public int CompareDepth(GameObject other)
+        {
+            return other.TrueDepth().CompareTo(TrueDepth());
+        }
 
         /// <summary>
         /// Returns the first object of the given type, found within the descendants of this game object
@@ -748,6 +821,7 @@ namespace GXPEngine
             }
             return null;
         }
+
 
         /// <summary>
         /// Returns the first object of the given type, found within the descendants of this game object

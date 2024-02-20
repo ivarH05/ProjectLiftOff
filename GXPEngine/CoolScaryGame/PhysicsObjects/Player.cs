@@ -21,6 +21,8 @@ namespace CoolScaryGame
             renderer.width = (int)(width / scaleX);
             renderer.height = (int)(height / scaleY) * 2;
             renderer.y = -(int)(height / scaleY);
+
+            renderer.depthSort = true;
         }
 
         /// <summary>
@@ -28,6 +30,8 @@ namespace CoolScaryGame
         /// </summary>
         internal void AnimationUpdate()
         {
+            renderer.depth = renderer.TransformPoint(0, 0).y * -.0001f;
+
             AnimationSprite rend = (AnimationSprite)renderer;
             rend.Mirror(Velocity.x > 0, false);
 
