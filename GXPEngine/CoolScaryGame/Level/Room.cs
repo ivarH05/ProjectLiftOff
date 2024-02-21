@@ -35,8 +35,6 @@ namespace CoolScaryGame
                     roomContainer.proxy.AddChild(objects);
                 }
             }
-            objects.depth = -1;
-            tiles.depth = -1;
             scaleX = 4;
             scaleY = 4;
         }

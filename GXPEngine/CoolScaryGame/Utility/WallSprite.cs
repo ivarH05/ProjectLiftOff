@@ -22,10 +22,15 @@ namespace CoolScaryGame
         : base(filename, 1, 1, -1, keepInCache, addCollider, CollisionLayers, CoupleWithLayers)
         {
             strengthY = 1f / height;
+            depthSort = true;
         }
 
         public override void Render(GLContext glContext, int RenderInt)
         {
+            depthSort = true;
+
+            depth = TransformPoint(0, 0).y * -.0001f;
+
             Vector2 relPos = CamManager.GetPosition(RenderInt);
             relPos -= TransformPoint(0, 0);
             alpha = Mathf.Abs(relPos.y*strengthY);

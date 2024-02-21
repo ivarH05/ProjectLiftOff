@@ -35,9 +35,16 @@ namespace CoolScaryGame
             renderer.position -= offset;
             noHealth.position -= offset;
 
+            renderer.depthSort = true;
+
             minHP = minHealth;
             maxHP = maxHealth;
             Health = startHealth;
+
+            depth = -98;
+            yesHealth.depth = -.1f;
+            noHealth.depth = 1;
+            depthSort = true;
         }
         public float Health
         {
