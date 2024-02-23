@@ -10,8 +10,7 @@ public class MainGame : Game
 	public MainGame() : base(1920, 1080, false, true, 960, 540, enableDepthBuffer:true, gameName:"Cool scary game,,,")     // Create a window that's 800x600 and NOT fullscreen
 	{
 		SceneManager.SetMainGame(this);
-		SceneManager.LoadScene();
-		RenderMain = false;
+		SceneManager.MainMenu();
 		targetFps = 50;
 	}
 

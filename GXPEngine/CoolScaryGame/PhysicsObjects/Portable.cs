@@ -13,10 +13,8 @@ namespace GXPEngine
         {
             CollisionLayers = 0b11;
             renderer = new Sprite("square.png", false, false);
-            renderer.y = -renderer.height;
+            renderer.y = -renderer.height / 2;
             proxy.AddChild(renderer);
-            //renderer.width = (int)(width / scaleX);
-            //renderer.height = (int)(height / scaleY) * 2;
             SetXY(x, y);
         }
 

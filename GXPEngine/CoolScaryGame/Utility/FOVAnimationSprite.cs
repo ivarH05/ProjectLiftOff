@@ -16,17 +16,12 @@ namespace CoolScaryGame
     {
         float invVisibilityRadius;
         int currentRenderInt;
-        public FOVAnimationSprite(string filename, int cols, int rows, int frames = -1, float visibilityRadius = 500, bool keepInCache = false, bool addCollider = true, uint CollisionLayers = 0xFFFFFFFF, uint CoupleWithLayers = 0xFFFFFFFF)
+        public FOVAnimationSprite(string filename, int cols, int rows, int frames = -1, float visibilityRadius = 300, bool keepInCache = false, bool addCollider = true, uint CollisionLayers = 0xFFFFFFFF, uint CoupleWithLayers = 0xFFFFFFFF)
         : base(filename, cols, rows, frames, keepInCache, addCollider, CollisionLayers, CoupleWithLayers)
         {
             invVisibilityRadius = 1 / visibilityRadius;
         }
 
-        public FOVAnimationSprite(AnimationData dat, int frames = -1, float visibilityRadius = 300, bool keepInCache = false, bool addCollider = false, uint CollisionLayers = 0xFFFFFFFF, uint CoupleWithLayers = 0xFFFFFFFF)
-        : base(dat.path, dat.columns, dat.rows, frames, keepInCache, addCollider, CollisionLayers, CoupleWithLayers)
-        {
-            invVisibilityRadius = 1 / visibilityRadius;
-        }
 
         public override void Render(GLContext glContext, int RenderInt)
         {

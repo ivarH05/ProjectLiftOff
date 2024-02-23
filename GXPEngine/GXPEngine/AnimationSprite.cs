@@ -56,11 +56,6 @@ namespace GXPEngine
             name = filename;
             initializeAnimFrames(cols, rows, frames);
         }
-        public AnimationSprite(AnimationData dat, int frames = -1, bool keepInCache = false, bool addCollider = false, uint CollisionLayers = 0xFFFFFFFF, uint CoupleWithLayers = 0xFFFFFFFF) : base(dat.path, keepInCache, addCollider, CollisionLayers, CoupleWithLayers)
-        {
-            name = dat.path;
-            initializeAnimFrames(dat.columns, dat.rows, frames);
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GXPEngine.AnimSprite"/> class.
