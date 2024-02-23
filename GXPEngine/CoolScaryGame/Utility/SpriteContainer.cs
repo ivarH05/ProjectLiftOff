@@ -15,7 +15,7 @@ namespace CoolScaryGame
     /// </summary>
     public class SpriteContainer : InvisibleObject
     {
-        public SpriteContainer(TiledObject obj) : base(obj, false, 0) { }
+        public SpriteContainer(TiledObject obj) : base(obj, false, 0, overrideVisible:false) { }
         public SpriteContainer(int width, int height) : base(width, height, overrideVisible:false) {
         }
 

@@ -28,11 +28,19 @@ namespace CoolScaryGame
                 {
                     roomContainer = (SpriteContainer)obj;
                     roomContainer.Remove();
-                    roomContainer.SetOrigin(0, 0);
                     roomContainer.AddProxy();
+                    roomContainer.SetOrigin(0, 0);
                     AddChild(roomContainer);
                     roomContainer.proxy.AddChild(tiles);
                     roomContainer.proxy.AddChild(objects);
+                    tiles.x = -roomContainer.x + roomContainer.width * .5f;
+                    objects.x = -roomContainer.x + roomContainer.width * .5f;
+                    tiles.y = -roomContainer.y + roomContainer.height * .5f;
+                    objects.y = -roomContainer.y + roomContainer.height * .5f;
+                }
+                if (obj is InvisibleObject)
+                {
+                    ((InvisibleObject)obj).Setup();
                 }
             }
             scaleX = 4;

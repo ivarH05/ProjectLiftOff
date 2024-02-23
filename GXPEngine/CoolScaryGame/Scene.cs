@@ -47,6 +47,9 @@ namespace CoolScaryGame
             s.y += 50;
             AddChild(slop);
             //I LOVE UNDERLIME SLOPPER
+
+            Room room = new Room("Rooms/testroom.tmx");
+            AddChild(room);
         }
 
         void Update()

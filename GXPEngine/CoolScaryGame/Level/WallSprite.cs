@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +17,7 @@ namespace CoolScaryGame
     {
         float strengthY;
         AnimationSprite renderer;
+        bool rendererVertical = false;
         public WallSprite(TiledObject obj) : base(obj, true, 0b1, 0, true)
         { }
         public WallSprite(int width, int height, bool overrideVisible = false)
@@ -26,6 +27,15 @@ namespace CoolScaryGame
         }
         public override void Setup()
         {
+            AddProxy();
+            rendererVertical = width < height;
+            renderer = new AnimationSprite("Rooms/textures/roomtiles.png", 4, 2, 8, true, false, 0, 0);
+            proxy.AddChild(renderer);
+            renderer.SetFrame(Utils.Random(0,4));
+            if(!rendererVertical)
+                renderer.SetOrigin(renderer.width*.5f, renderer.height);
+            else renderer.SetOrigin(renderer.width * .5f, renderer.height - height * .5f);
+
             depthSort = true;
         }
         public override void Render(GLContext glContext, int RenderInt)
