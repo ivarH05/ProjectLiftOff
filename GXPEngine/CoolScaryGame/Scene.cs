@@ -45,8 +45,6 @@ namespace CoolScaryGame
             s.y += 50;
             AddChild(slop);
 
-            Room room = new Room("Rooms/testroom.tmx");
-            AddChild(room);
         }
 
         void Update()
