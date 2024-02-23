@@ -11,7 +11,7 @@ namespace CoolScaryGame
     public class Seeker : Player
     {
         public Seeker(Vector2 Position) :
-            base(Position, new AnimationData("Animations/SeekerIdleAnim.png", 5, 2), new AnimationData("Animations/SeekerMovementAnim.png", 4, 3))
+            base(Position, "Animations/SeekerAnimations.png", 4, 6, new AnimationData(12, 10), new AnimationData(0, 12))
         {
 
         }
@@ -21,6 +21,15 @@ namespace CoolScaryGame
             //move using the arrow keys
             AddForce(Input.ArrowVector() * Time.deltaMillis * speed);
             PlayerUpdates(1);
+        }
+
+        public void OnCollision(GameObject Other)
+        {
+            if (Other is Portable)
+            {
+                Stun(0.5f);
+                Other.LateDestroy();
+            }
         }
     }
 }

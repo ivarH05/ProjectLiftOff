@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoolScaryGame\Level\FloorCollider.cs" />
+    <Compile Include="CoolScaryGame\Level\MainMenu.cs" />
     <Compile Include="CoolScaryGame\Level\Room.cs" />
     <Compile Include="CoolScaryGame\Managers\GameManager.cs" />
     <Compile Include="CoolScaryGame\Managers\UIManager.cs" />

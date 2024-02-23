@@ -13,6 +13,14 @@ namespace CoolScaryGame
             mainGame = m;
         }
 
+        public static void DestroyScene()
+        {
+            if (scene == null)
+                return;
+            scene.LateDestroy();
+            scene = null;
+        }
+
         public static void LoadScene(bool destroyScene = true)
         {
             if (destroyScene && scene != null)
@@ -22,6 +30,13 @@ namespace CoolScaryGame
             mainGame.AddChild(scene);
             CamManager.SetCameras(scene.GetCameras());
             scene.AddUI();
+            mainGame.RenderMain = false;
+        }
+        public static void MainMenu()
+        {
+            DestroyScene();
+            mainGame.AddChild(new MainMenu());
+            mainGame.RenderMain = true;
         }
     }
 

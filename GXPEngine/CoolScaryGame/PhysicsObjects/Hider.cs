@@ -13,8 +13,9 @@ namespace CoolScaryGame
 
         public Portable HoldingItem = null;
         public Hider(Vector2 Position) :
-            base(Position, new AnimationData("Animations/HiderIdleAnim.png", 3, 3), new AnimationData("Animations/HiderMovementAnim.png", 5, 2))
+            base(Position, "Animations/HiderAnimations.png", 5, 4, new AnimationData(10, 9), new AnimationData(0, 10))
         {
+
         }
 
         void Update()
@@ -31,11 +32,9 @@ namespace CoolScaryGame
             }
             else if (Input.GetKeyDown(Key.E))
             {
-                Sprite s = new Sprite("Square.png", false, true, 0, 0b10);
-                s.position = position + Velocity.Normalized * 64;
-
-                GrabObject((Portable)GetClosestOfType<Portable>(s.GetCollisions()));
+                GrabObject((Portable)GetObjectInFront<Portable>());
             }
+            renderer.alpha = 0.75f;
         }
 
         private void GrabObject(Portable obj)
@@ -53,18 +52,15 @@ namespace CoolScaryGame
             HoldingItem.Velocity = Velocity;
             HoldingItem.isDissabled = false;
             HoldingItem.isKinematic = false;
-
-            GameObject[] objects = HoldingItem.GetCollisions();
-            foreach (GameObject obj in objects)
-            {
-                Console.WriteLine(obj);
-                if (obj is Seeker SeekerObject)
-                {
-                    SeekerObject.Stun(0.5f);
-                    Console.WriteLine("hit");
-                }
-            }
             HoldingItem = null;
+        }
+
+        public GameObject GetObjectInFront<T>()
+        {
+            Sprite s = new Sprite("Square.png", false, true, 0, 0b10);
+            s.position = position + Velocity.Normalized * 64;
+
+            return GetClosestOfType<T>(s.GetCollisions());
         }
 
         GameObject GetClosestOfType<T>(GameObject[] objects)

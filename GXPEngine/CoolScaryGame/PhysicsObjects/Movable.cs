@@ -13,6 +13,7 @@ namespace CoolScaryGame
         internal float _timer = 0;
         public Movable(int width, int height, Vector2 Position = new Vector2(), bool addCollider = false, uint collisionLayers = 0xFFFFFFFF, uint coupleWithLayers = 0xFFFFFFFF) : base(width, height, addCollider, collisionLayers, coupleWithLayers)
         {
+            debugVisible = true;
             position = Position;
         }
 
@@ -43,6 +44,11 @@ namespace CoolScaryGame
         internal void AddFriction(float amount)
         {
             Velocity = Velocity.Lerp(new Vector2(), amount);
+        }
+        public override void Render(GLContext glContext, int RenderInt)
+        {
+            renderer.SetDepthByY(RenderInt);
+            base.Render(glContext, RenderInt);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace CoolScaryGame
 {
     public class Player : RigidBody
     {
-        internal float speed = 5;
+        internal float speed = 4;
         public Vector2 ActualVelocity;
 
         internal float animationSpeed = 15;
@@ -24,24 +24,35 @@ namespace CoolScaryGame
 
         internal AnimationData idleAnim;
         internal AnimationData walkAnim;
-        public Player(Vector2 Position, AnimationData idleAnim, AnimationData walkAnim) : base(64, 64, Position, true)
+        public Player(Vector2 Position, string AnimationSprite, int rows, int columns, AnimationData idleAnim, AnimationData walkAnim) : base(48, 32, Position, true)
         {
             this.idleAnim = idleAnim;
             this.walkAnim = walkAnim;
-            renderer = new FOVAnimationSprite(idleAnim, -1, 300, true);
-            SetAnimation(idleAnim);
+
+            renderer = new FOVAnimationSprite(AnimationSprite, rows, columns, idleAnim.FrameCount, 300, false, false);
             renderer.depthSort = true;
+
+            proxy.AddChild(renderer);
+            renderer.width = 128;
+            renderer.height = 128;
+            renderer.y = -96;
+            renderer.x = -16 - width / 2;
+            SetAnimation(idleAnim);
         }
         internal void PlayerUpdates(int playerIndex)
         {
             Vector2 LastPos = TransformPoint(0, 0);
 
             //move the camera towards the player
-            CamManager.LerpToPoint(playerIndex, TransformPoint(0, 0) + ActualVelocity * 20, Time.deltaTime * 5);
+            CamManager.LerpToPoint(playerIndex, TransformPoint(0, 0) + ActualVelocity * 15, Time.deltaTime * 6);
 
             //update all physics
             if (stunTimer > 0)
+            {
                 stunTimer -= Time.deltaTime;
+                Velocity = new Vector2();
+                ActualVelocity = new Vector2();
+            }
             else
                 PhysicsUpdate();
 
@@ -54,7 +65,6 @@ namespace CoolScaryGame
         public void Stun(float time)
         {
             stunTimer = time;
-            Velocity = new Vector2();
         }
 
         /// <summary>
@@ -63,9 +73,11 @@ namespace CoolScaryGame
         internal void AnimationUpdate()
         {
             FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
+
             if(Velocity.Magnitude > 200)
                 rend.Mirror(Velocity.x < 0, false);
-            animationSpeed = Velocity.Magnitude / 100 + 5;
+
+            animationSpeed = ActualVelocity.Magnitude / 2 + 8;
 
             timer += Time.deltaTime;
             if(timer > 1/animationSpeed)
@@ -86,21 +98,8 @@ namespace CoolScaryGame
         }
         private void SetAnimation(AnimationData dat)
         {
-            if (renderer != null)
-                renderer.LateDestroy();
-
-            renderer = new FOVAnimationSprite(dat, -1, 300, true);
-            renderer.depthSort = true;
-            proxy.AddChild(renderer);
-            renderer.width = 128;
-            renderer.height = 128;
-            renderer.y = -96;
-            renderer.x = -32;
-        }
-        public override void Render(GLContext glContext, int RenderInt)
-        {
-            renderer.SetDepthByY(RenderInt);
-            base.Render(glContext, RenderInt);
+            FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
+            rend.SetCycle(dat.StartFrame, dat.FrameCount);
         }
     }
 }
