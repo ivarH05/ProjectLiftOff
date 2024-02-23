@@ -40,7 +40,11 @@ namespace CoolScaryGame
 
             //update all physics
             if (stunTimer > 0)
+            {
                 stunTimer -= Time.deltaTime;
+                Velocity = new Vector2();
+                ActualVelocity = new Vector2();
+            }
             else
                 PhysicsUpdate();
 
@@ -53,7 +57,6 @@ namespace CoolScaryGame
         public void Stun(float time)
         {
             stunTimer = time;
-            Velocity = new Vector2();
         }
 
         /// <summary>
