@@ -16,7 +16,13 @@ namespace CoolScaryGame
     {
         float invVisibilityRadius;
         public FOVAnimationSprite(string filename, int cols, int rows, int frames = -1, float visibilityRadius = 500, bool keepInCache = false, bool addCollider = true, uint CollisionLayers = 0xFFFFFFFF, uint CoupleWithLayers = 0xFFFFFFFF)
-        :base(filename, cols, rows, frames, keepInCache, addCollider, CollisionLayers, CoupleWithLayers)
+        : base(filename, cols, rows, frames, keepInCache, addCollider, CollisionLayers, CoupleWithLayers)
+        {
+            invVisibilityRadius = 1 / visibilityRadius;
+        }
+
+        public FOVAnimationSprite(AnimationData dat, int frames = -1, float visibilityRadius = 300, bool keepInCache = false, bool addCollider = false, uint CollisionLayers = 0xFFFFFFFF, uint CoupleWithLayers = 0xFFFFFFFF)
+        : base(dat.path, dat.columns, dat.rows, frames, keepInCache, addCollider, CollisionLayers, CoupleWithLayers)
         {
             invVisibilityRadius = 1 / visibilityRadius;
         }
@@ -27,7 +33,7 @@ namespace CoolScaryGame
             relPos -= TransformPoint(0, 0);
             relPos *= invVisibilityRadius;
             float trueAlpha = alpha;
-            alpha *= Mathf.Max(0,1f - relPos.MagnitudeSquared);
+            alpha *= Mathf.Clamp01((1f - relPos.MagnitudeSquared) * 3);
             base.Render(glContext, RenderInt);
             alpha = trueAlpha;
         }
