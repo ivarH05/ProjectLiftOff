@@ -30,8 +30,6 @@ namespace CoolScaryGame
         /// </summary>
         internal void AnimationUpdate()
         {
-            renderer.depth = renderer.TransformPoint(0, 0).y * -.0001f;
-
             AnimationSprite rend = (AnimationSprite)renderer;
             rend.Mirror(Velocity.x > 0, false);
 
@@ -51,6 +49,11 @@ namespace CoolScaryGame
                 //cycle through 3 frames, seems the easiest wayright now. might bite me back later.
                 rend.SetFrame(rend.currentFrame + (rend.currentFrame % 3 == 2 ? -2 : 1));
             }
+        }
+        public override void Render(GLContext glContext, int RenderInt)
+        {
+            renderer.SetDepthByY(RenderInt);
+            base.Render(glContext, RenderInt);
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using CoolScaryGame;
 using GXPEngine.Core;
 
 namespace GXPEngine
@@ -222,6 +223,20 @@ namespace GXPEngine
                 if (bounds[i].y < minY) minY = bounds[i].y;
             }
             return !((maxX < game.RenderRange.left) || (maxY < game.RenderRange.top) || (minX >= game.RenderRange.right) || (minY >= game.RenderRange.bottom));
+        }
+
+        //------------------------------------------------------------------------------------------------------------------------
+        //												SetDepthByY()
+        //------------------------------------------------------------------------------------------------------------------------
+        /// <summary>
+        /// Sets the depth to something acceptable given a camera.
+        /// </summary>
+        public void SetDepthByY(int renderInt)
+        {
+            depth = 50;
+            float off = TrueDepth();
+            float d = TransformPoint(0, _bounds.bottom).y - CamManager.GetPosition(renderInt).y;
+            depth = d * -.0001f - off;
         }
 
         //------------------------------------------------------------------------------------------------------------------------

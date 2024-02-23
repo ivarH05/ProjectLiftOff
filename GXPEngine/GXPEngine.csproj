@@ -49,7 +49,7 @@
     <Compile Include="CoolScaryGame\Utility\FOVAnimationSprite.cs" />
     <Compile Include="CoolScaryGame\Utility\HealthBar.cs" />
     <Compile Include="CoolScaryGame\Utility\SpriteContainer.cs" />
-    <Compile Include="CoolScaryGame\Utility\WallSprite.cs" />
+    <Compile Include="CoolScaryGame\Level\WallSprite.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />
     <Compile Include="GXPEngine\AddOns\SpriteBatch.cs" />
     <Compile Include="GXPEngine\AddOns\TiledLoader.cs" />
