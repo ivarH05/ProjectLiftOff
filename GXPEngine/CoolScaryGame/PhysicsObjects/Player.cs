@@ -52,7 +52,6 @@ namespace CoolScaryGame
 
         public void Stun(float time)
         {
-            //here, a comment just for you
             stunTimer = time;
             Velocity = new Vector2();
         }

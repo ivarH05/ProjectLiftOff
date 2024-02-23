@@ -31,10 +31,7 @@ namespace CoolScaryGame
             }
             else if (Input.GetKeyDown(Key.E))
             {
-                Sprite s = new Sprite("Square.png", false, true, 0, 0b10);
-                s.position = position + Velocity.Normalized * 64;
-
-                GrabObject((Portable)GetClosestOfType<Portable>(s.GetCollisions()));
+                GrabObject((Portable)GetObjectInFront<Portable>());
             }
         }
 
@@ -53,18 +50,15 @@ namespace CoolScaryGame
             HoldingItem.Velocity = Velocity;
             HoldingItem.isDissabled = false;
             HoldingItem.isKinematic = false;
-
-            GameObject[] objects = HoldingItem.GetCollisions();
-            foreach (GameObject obj in objects)
-            {
-                Console.WriteLine(obj);
-                if (obj is Seeker SeekerObject)
-                {
-                    SeekerObject.Stun(0.5f);
-                    Console.WriteLine("hit");
-                }
-            }
             HoldingItem = null;
+        }
+
+        public GameObject GetObjectInFront<T>()
+        {
+            Sprite s = new Sprite("Square.png", false, true, 0, 0b10);
+            s.position = position + Velocity.Normalized * 64;
+
+            return GetClosestOfType<T>(s.GetCollisions());
         }
 
         GameObject GetClosestOfType<T>(GameObject[] objects)

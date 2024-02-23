@@ -22,5 +22,14 @@ namespace CoolScaryGame
             AddForce(Input.ArrowVector() * Time.deltaMillis * speed);
             PlayerUpdates(1);
         }
+
+        public void OnCollision(GameObject Other)
+        {
+            if (Other is Portable)
+            {
+                Stun(0.5f);
+                Other.LateDestroy();
+            }
+        }
     }
 }
