@@ -14,13 +14,15 @@ namespace CoolScaryGame
 
         internal float animationSpeed = 5;
         float timer;
-        public Player(Vector2 Position, string SpritePath) : base(64, 64, Position, true)
+        public Player(Vector2 Position, string SpritePath) : base(50, 50, Position, true, 0b1111, 0b1111)
         {
-            renderer = new AnimationSprite(SpritePath, 3, 3, -1, false, false);
-            proxy.AddChild(renderer);
+            renderer = new FOVAnimationSprite(SpritePath, 3, 3, -1, 500, false, false);
+            AddChild(renderer);
             renderer.width = 64;
             renderer.height = 128;
             renderer.y = -96;
+
+            renderer.depthSort = true;
         }
 
         /// <summary>
@@ -28,6 +30,8 @@ namespace CoolScaryGame
         /// </summary>
         internal void AnimationUpdate()
         {
+            renderer.depth = renderer.TransformPoint(0, 0).y * -.0001f;
+
             AnimationSprite rend = (AnimationSprite)renderer;
             rend.Mirror(Velocity.x > 0, false);
 

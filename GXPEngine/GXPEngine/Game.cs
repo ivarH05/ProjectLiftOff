@@ -2,6 +2,7 @@ using System;
 using GXPEngine.Core;
 using GXPEngine.Managers;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GXPEngine
 {
@@ -33,6 +34,8 @@ namespace GXPEngine
 
 		public delegate void RenderDelegate (GLContext glContext);
 		public event RenderDelegate OnAfterRender;
+
+		public List<GameObject> depthSortObjects = new List<GameObject>();
 
 		/// <summary>
 		/// Sprites will be rendered if and only if they overlap with this rectangle. 
@@ -194,6 +197,22 @@ namespace GXPEngine
 		public override void Render(GLContext glContext, int s) {
 			if (RenderMain || !recurse) {
 				base.Render (glContext, s);
+
+				depthSortObjects.Sort(delegate (GameObject a, GameObject b)
+                {
+                    //i was gonna like. implement my own algorithm
+                    //ig not (not that im complaining)
+                    return (b.TrueDepth()) .CompareTo (a.TrueDepth()) ;
+				});
+				foreach (GameObject obj in depthSortObjects)
+                {
+					if(obj == null || !obj.InHierarchy())
+					{
+						depthSortObjects.Remove(obj);
+						break;
+					}
+                    obj.RenderDepthSorted(glContext, s);
+                }
 			}
 			if (OnAfterRender != null && recurse) {
 				recurse = false;

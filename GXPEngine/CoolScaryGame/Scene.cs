@@ -46,6 +46,7 @@ namespace CoolScaryGame
             s.x += 180;
             s.y += 50;
             AddChild(slop);
+
         }
 
         void Update()

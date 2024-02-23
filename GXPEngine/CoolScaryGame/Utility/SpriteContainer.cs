@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GXPEngine;
 using GXPEngine.Core;
+using TiledMapParser;
 
 namespace CoolScaryGame
 {
@@ -14,6 +15,7 @@ namespace CoolScaryGame
     /// </summary>
     public class SpriteContainer : InvisibleObject
     {
+        public SpriteContainer(TiledObject obj) : base(obj, false, 0) { }
         public SpriteContainer(int width, int height) : base(width, height, overrideVisible:false) {
         }
 

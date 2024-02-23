@@ -78,6 +78,11 @@ namespace GXPEngine.Core {
                 return _soundSystem;
             }
         }
+
+		public bool depthBufferEnabled
+		{
+			get { return _depthBufferEnabled; }
+		}
 		
 		//------------------------------------------------------------------------------------------------------------------------
 		//														setupWindow()

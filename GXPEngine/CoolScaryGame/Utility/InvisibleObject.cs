@@ -28,25 +28,30 @@ namespace CoolScaryGame
         public Pivot proxy;
         public InvisibleObject(TiledObject obj, bool addCollider = false, uint collisionLayers = 0) : base("UI/debug_invisibleObject.png", true, addCollider, collisionLayers, 0)
         {
+            obj.Initialize();
             width = (int)obj.GetFloatProperty("width", 0);
             height = (int)obj.GetFloatProperty("height", 0);
 
-            depth = -99;
+            depth = 0;
             debugVisible = false;
 
-            proxy = new Pivot();
-            AddChild(proxy);
-            proxy.scaleX = 1 / scaleX;
-            proxy.scaleY = 1 / scaleY;
         }
         public InvisibleObject(int width, int height, bool addCollider = false, uint collisionLayers = 0, uint coupleWithLayers = 0, bool overrideVisible = false) : base("UI/debug_invisibleObject.png", true, addCollider, collisionLayers, coupleWithLayers)
         {
             this.width = width;
             this.height = height;
 
-            depth = -99;
+            if(overrideVisible)
+                depth = -99;
             debugVisible = overrideVisible;
 
+            proxy = new Pivot();
+            AddChild(proxy);
+            proxy.scaleX = 1 / scaleX;
+            proxy.scaleY = 1 / scaleY;
+        }
+        public void AddProxy()
+        {
             proxy = new Pivot();
             AddChild(proxy);
             proxy.scaleX = 1 / scaleX;

@@ -1,4 +1,4 @@
-﻿using GXPEngine.Core;
+using GXPEngine.Core;
 using GXPEngine;
 using System;
 
@@ -17,7 +17,6 @@ namespace CoolScaryGame
 
 
         float bounciness = 0.1f;
-
         public RigidBody(int width, int height, Vector2 Position = new Vector2(), bool addCollider = false, uint collisionLayers = 0b1, uint coupleWithLayers = 0b1) : base(width, height, Position, true, collisionLayers, coupleWithLayers)
         {
 
