@@ -13,8 +13,9 @@ namespace CoolScaryGame
 
         public Portable HoldingItem = null;
         public Hider(Vector2 Position) :
-            base(Position, new AnimationData("Animations/HiderIdleAnim.png", 3, 3), new AnimationData("Animations/HiderMovementAnim.png", 5, 2))
+            base(Position, "Animations/HiderAnimations.png", 5, 4, new AnimationData(10, 9), new AnimationData(0, 10))
         {
+
         }
 
         void Update()
@@ -33,6 +34,7 @@ namespace CoolScaryGame
             {
                 GrabObject((Portable)GetObjectInFront<Portable>());
             }
+            renderer.alpha = 0.75f;
         }
 
         private void GrabObject(Portable obj)

@@ -8,15 +8,13 @@ namespace CoolScaryGame
 {
     public class AnimationData
     {
-        public string path;
-        public int columns;
-        public int rows;
+        public int StartFrame;
+        public int FrameCount;
 
-        public AnimationData(string path, int columns, int rows)
+        public AnimationData(int startFrame, int frameCount)
         {
-            this.path = path;
-            this.columns = columns;
-            this.rows = rows;
+            StartFrame = startFrame;
+            FrameCount = frameCount;
         }
     }
 }
