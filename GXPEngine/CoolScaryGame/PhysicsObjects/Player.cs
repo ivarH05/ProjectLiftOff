@@ -16,6 +16,9 @@ namespace CoolScaryGame
         public Vector2 ActualVelocity;
 
         internal float animationSpeed = 15;
+
+        float stunTimer;
+
         float timer;
         int State = 0;
 
@@ -30,16 +33,27 @@ namespace CoolScaryGame
         }
         internal void PlayerUpdates(int playerIndex)
         {
+            Vector2 LastPos = TransformPoint(0, 0);
+
             //move the camera towards the player
             CamManager.LerpToPoint(playerIndex, TransformPoint(0, 0) + ActualVelocity * 20, Time.deltaTime * 5);
 
-            Vector2 LastPos = TransformPoint(0, 0);
             //update all physics
-            PhysicsUpdate();
-            ActualVelocity = (TransformPoint(0, 0) - LastPos);
+            if (stunTimer > 0)
+                stunTimer -= Time.deltaTime;
+            else
+                PhysicsUpdate();
 
             //switch animation frames if necessary
             AnimationUpdate();
+
+            ActualVelocity = (TransformPoint(0, 0) - LastPos);
+        }
+
+        public void Stun(float time)
+        {
+            stunTimer = time;
+            Velocity = new Vector2();
         }
 
         /// <summary>
@@ -48,7 +62,8 @@ namespace CoolScaryGame
         internal void AnimationUpdate()
         {
             FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
-            rend.Mirror(Velocity.x < 0, false);
+            if(Velocity.Magnitude > 200)
+                rend.Mirror(Velocity.x < 0, false);
             animationSpeed = Velocity.Magnitude / 100 + 5;
 
             timer += Time.deltaTime;
@@ -65,7 +80,6 @@ namespace CoolScaryGame
                     State = 1;
                     SetAnimation(walkAnim);
                 }
-
                 rend.NextFrame();
             }
         }

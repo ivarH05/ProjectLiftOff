@@ -10,16 +10,9 @@ namespace CoolScaryGame
 {
     public class Seeker : Player
     {
-        private static Seeker Singleton;
         public Seeker(Vector2 Position) :
-            base(Position, new AnimationData("SeekerSpriteMap.png", 3, 3), new AnimationData("SeekerMovementMap.png", 3, 4))
+            base(Position, new AnimationData("Animations/SeekerIdleAnim.png", 5, 2), new AnimationData("Animations/SeekerMovementAnim.png", 4, 3))
         {
-            if (Singleton != null)
-            {
-                LateDestroy();
-                return;
-            }
-            Singleton = this;
 
         }
 
@@ -28,13 +21,6 @@ namespace CoolScaryGame
             //move using the arrow keys
             AddForce(Input.ArrowVector() * Time.deltaMillis * speed);
             PlayerUpdates(1);
-        }
-
-        public static Vector2 GetPosition()
-        {
-            if (Singleton == null)
-                return new Vector2();
-            return Singleton.position;
         }
     }
 }

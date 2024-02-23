@@ -9,14 +9,14 @@ namespace CoolScaryGame
     public class AnimationData
     {
         public string path;
-        public int rows;
         public int columns;
+        public int rows;
 
-        public AnimationData(string path, int rows, int columns)
+        public AnimationData(string path, int columns, int rows)
         {
             this.path = path;
-            this.rows = rows;
             this.columns = columns;
+            this.rows = rows;
         }
     }
 }

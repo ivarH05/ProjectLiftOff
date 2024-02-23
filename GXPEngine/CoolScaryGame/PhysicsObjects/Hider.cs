@@ -10,18 +10,11 @@ namespace CoolScaryGame
 {
     internal class Hider : Player
     {
-        private static Hider Singleton;
 
         public Portable HoldingItem = null;
         public Hider(Vector2 Position) :
-            base(Position, new AnimationData("HiderSpriteMap.png", 3, 3), new AnimationData("HiderSpriteMap.png", 3, 3))
+            base(Position, new AnimationData("Animations/HiderIdleAnim.png", 3, 3), new AnimationData("Animations/HiderMovementAnim.png", 5, 2))
         {
-            if(Singleton != null)
-            {
-                LateDestroy();
-                return;
-            }
-            Singleton = this;
         }
 
         void Update()
@@ -60,6 +53,17 @@ namespace CoolScaryGame
             HoldingItem.Velocity = Velocity;
             HoldingItem.isDissabled = false;
             HoldingItem.isKinematic = false;
+
+            GameObject[] objects = HoldingItem.GetCollisions();
+            foreach (GameObject obj in objects)
+            {
+                Console.WriteLine(obj);
+                if (obj is Seeker SeekerObject)
+                {
+                    SeekerObject.Stun(0.5f);
+                    Console.WriteLine("hit");
+                }
+            }
             HoldingItem = null;
         }
 
@@ -80,12 +84,6 @@ namespace CoolScaryGame
                 }
             }
             return closest;
-        }
-        public static Vector2 GetPosition()
-        {
-            if (Singleton == null)
-                return new Vector2();
-            return Singleton.position;
         }
     }
 }
