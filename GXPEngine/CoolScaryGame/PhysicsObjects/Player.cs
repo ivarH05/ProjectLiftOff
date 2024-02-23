@@ -30,6 +30,7 @@ namespace CoolScaryGame
             this.walkAnim = walkAnim;
             renderer = new FOVAnimationSprite(idleAnim, -1, 300, true);
             SetAnimation(idleAnim);
+            renderer.depthSort = true;
         }
         internal void PlayerUpdates(int playerIndex)
         {
@@ -89,6 +90,7 @@ namespace CoolScaryGame
                 renderer.LateDestroy();
 
             renderer = new FOVAnimationSprite(dat, -1, 300, true);
+            renderer.depthSort = true;
             proxy.AddChild(renderer);
             renderer.width = 128;
             renderer.height = 128;
