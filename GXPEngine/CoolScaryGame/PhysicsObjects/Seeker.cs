@@ -8,17 +8,11 @@ using System.Threading.Tasks;
 
 namespace CoolScaryGame
 {
-    internal class Seeker : Player
+    public class Seeker : Player
     {
-        private static Seeker Singleton;
-        public Seeker(Vector2 Position) : base(Position, "SeekerSpriteMap.png")
+        public Seeker(Vector2 Position) :
+            base(Position, new AnimationData("Animations/SeekerIdleAnim.png", 5, 2), new AnimationData("Animations/SeekerMovementAnim.png", 4, 3))
         {
-            if (Singleton != null)
-            {
-                LateDestroy();
-                return;
-            }
-            Singleton = this;
 
         }
 
@@ -26,20 +20,7 @@ namespace CoolScaryGame
         {
             //move using the arrow keys
             AddForce(Input.ArrowVector() * Time.deltaMillis * speed);
-            //move the camera towards the player
-            CamManager.LerpToPoint(1, TransformPoint(0, 0) + ActualVelocity * 0.5f, Time.deltaTime * 5);
-
-            //update all physics
-            PhysicsUpdate();
-            //switch animation frames if necessary
-            AnimationUpdate();
-        }
-
-        public static Vector2 GetPosition()
-        {
-            if (Singleton == null)
-                return new Vector2();
-            return Singleton.position;
+            PlayerUpdates(1);
         }
     }
 }

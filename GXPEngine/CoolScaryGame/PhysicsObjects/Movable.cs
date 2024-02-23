@@ -4,7 +4,7 @@ using System;
 
 namespace CoolScaryGame
 {
-    internal class Movable : InvisibleObject
+    public class Movable : InvisibleObject
     {
         internal Vector2 Velocity;
         internal float Friction = 0.1f;

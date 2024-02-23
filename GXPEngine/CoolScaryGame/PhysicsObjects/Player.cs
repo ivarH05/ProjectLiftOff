@@ -5,24 +5,55 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
 
 namespace CoolScaryGame
 {
-    internal class Player : RigidBody
+    public class Player : RigidBody
     {
         internal float speed = 5;
+        public Vector2 ActualVelocity;
 
-        internal float animationSpeed = 5;
+        internal float animationSpeed = 15;
+
+        float stunTimer;
+
         float timer;
-        public Player(Vector2 Position, string SpritePath) : base(50, 50, Position, true, 0b1111, 0b1111)
-        {
-            renderer = new FOVAnimationSprite(SpritePath, 3, 3, -1, 500, false, false);
-            AddChild(renderer);
-            renderer.width = 64;
-            renderer.height = 128;
-            renderer.y = -96;
+        int State = 0;
 
-            renderer.depthSort = true;
+        internal AnimationData idleAnim;
+        internal AnimationData walkAnim;
+        public Player(Vector2 Position, AnimationData idleAnim, AnimationData walkAnim) : base(64, 64, Position, true)
+        {
+            this.idleAnim = idleAnim;
+            this.walkAnim = walkAnim;
+            renderer = new FOVAnimationSprite(idleAnim, -1, 300, true);
+            SetAnimation(idleAnim);
+        }
+        internal void PlayerUpdates(int playerIndex)
+        {
+            Vector2 LastPos = TransformPoint(0, 0);
+
+            //move the camera towards the player
+            CamManager.LerpToPoint(playerIndex, TransformPoint(0, 0) + ActualVelocity * 20, Time.deltaTime * 5);
+
+            //update all physics
+            if (stunTimer > 0)
+                stunTimer -= Time.deltaTime;
+            else
+                PhysicsUpdate();
+
+            //switch animation frames if necessary
+            AnimationUpdate();
+
+            ActualVelocity = (TransformPoint(0, 0) - LastPos);
+        }
+
+        public void Stun(float time)
+        {
+            stunTimer = time;
+            Velocity = new Vector2();
         }
 
         /// <summary>
@@ -30,27 +61,41 @@ namespace CoolScaryGame
         /// </summary>
         internal void AnimationUpdate()
         {
-            renderer.depth = renderer.TransformPoint(0, 0).y * -.0001f;
+            //renderer.depth = renderer.TransformPoint(0, 0).y * -.0001f;
 
-            AnimationSprite rend = (AnimationSprite)renderer;
-            rend.Mirror(Velocity.x > 0, false);
+            FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
+            if(Velocity.Magnitude > 200)
+                rend.Mirror(Velocity.x < 0, false);
+            animationSpeed = Velocity.Magnitude / 100 + 5;
 
             timer += Time.deltaTime;
             if(timer > 1/animationSpeed)
             {
                 timer -= 1/animationSpeed;
-                int currentFrame = rend.currentFrame;
-
-                //idle frames
-                if (currentFrame >= 3 && Velocity.Magnitude < 100f)
-                    rend.SetFrame(0);
-                //walk frames
-                if ((currentFrame < 3 || currentFrame >= 6) && Velocity.Magnitude > 100f)
-                    rend.SetFrame(3);
-
-                //cycle through 3 frames, seems the easiest wayright now. might bite me back later.
-                rend.SetFrame(rend.currentFrame + (rend.currentFrame % 3 == 2 ? -2 : 1));
+                if (State != 0 && Velocity.Magnitude < 100)
+                {
+                    State = 0;
+                    SetAnimation(idleAnim);
+                }
+                if (State != 1 && Velocity.Magnitude > 100)
+                {
+                    State = 1;
+                    SetAnimation(walkAnim);
+                }
+                rend.NextFrame();
             }
+        }
+        private void SetAnimation(AnimationData dat)
+        {
+            if(renderer != null)
+                renderer.LateDestroy();
+
+            renderer = new FOVAnimationSprite(dat, -1, 300, true);
+            proxy.AddChild(renderer);
+            renderer.width = 128;
+            renderer.height = 128;
+            renderer.y = -96;
+            renderer.x = -32;
         }
     }
 }
