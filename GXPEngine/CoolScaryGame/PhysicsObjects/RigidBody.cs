@@ -4,14 +4,18 @@ using System;
 
 namespace CoolScaryGame
 {
-    internal class RigidBody : Movable
+    public class RigidBody : Movable
     {
-        internal Vector2 ActualVelocity;
+        public bool isDissabled = false;
+        public bool isKinematic = false;
 
         internal bool canPush = true;
+        internal uint CollisionLayers = 1;
+        internal uint CoupleWithLayers = 1;
+
 
         float bounciness = 0.1f;
-        public RigidBody(int width, int height, Vector2 Position = new Vector2(), bool addCollider = false, uint collisionLayers = 0b1111, uint coupleWithLayers = 0b1111) : base(width, height, Position, true, collisionLayers, coupleWithLayers)
+        public RigidBody(int width, int height, Vector2 Position = new Vector2(), bool addCollider = false, uint collisionLayers = 0b1, uint coupleWithLayers = 0b1) : base(width, height, Position, true, collisionLayers, coupleWithLayers)
         {
 
         }
@@ -21,8 +25,23 @@ namespace CoolScaryGame
         /// </summary>
         public override void PhysicsUpdate()
         {
+            depth = -y / 100000;
+            if (isDissabled)
+                collider.CollisionLayers = 0;
+            else
+                collider.CollisionLayers = CollisionLayers;
+
+            if (isKinematic) 
+            {
+                collider.CoupleWithLayers = 0;
+                return;
+            }
+            else
+                collider.CoupleWithLayers = CoupleWithLayers;
+
+
             _timer += Time.deltaTime;
-            if (_timer > Time.TimeStep)
+            while (_timer > Time.TimeStep)
             {
                 _timer -= Time.deltaTime;
                 Vector2 LastPos = position;
@@ -37,7 +56,6 @@ namespace CoolScaryGame
                     other.AddForce(c.normal * -250 * bounciness);
                 }
                 position -= Velocity * 0.0001f;
-                ActualVelocity = position - LastPos;
             }
         }
     }

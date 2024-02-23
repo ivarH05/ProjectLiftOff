@@ -4,7 +4,7 @@ using System;
 
 namespace CoolScaryGame
 {
-    internal class Movable : InvisibleObject
+    public class Movable : InvisibleObject
     {
         internal Vector2 Velocity;
         internal float Friction = 0.1f;
@@ -21,8 +21,9 @@ namespace CoolScaryGame
         /// </summary>
         public virtual void PhysicsUpdate()
         {
+            depth = -y / 100000;
             _timer += Time.deltaTime;
-            if (_timer > Time.TimeStep)
+            while (_timer > Time.TimeStep)
             {
                 _timer -= Time.deltaTime;
                 position += Velocity * Time.TimeStep;
