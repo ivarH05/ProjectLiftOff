@@ -41,7 +41,7 @@ namespace CoolScaryGame
 
             SpriteContainer slop = new SpriteContainer(200, 200);
             slop.proxy.AddChild(new Sprite("Checkers.png", false, false));
-            Sprite s = new WallSprite("Checkers.png", false, false);
+            Sprite s = new WallSprite(50,10,true);
             slop.proxy.AddChild(s);
             s.x += 180;
             s.y += 50;

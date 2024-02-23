@@ -61,8 +61,6 @@ namespace CoolScaryGame
         /// </summary>
         internal void AnimationUpdate()
         {
-            //renderer.depth = renderer.TransformPoint(0, 0).y * -.0001f;
-
             FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
             if(Velocity.Magnitude > 200)
                 rend.Mirror(Velocity.x < 0, false);
@@ -87,7 +85,7 @@ namespace CoolScaryGame
         }
         private void SetAnimation(AnimationData dat)
         {
-            if(renderer != null)
+            if (renderer != null)
                 renderer.LateDestroy();
 
             renderer = new FOVAnimationSprite(dat, -1, 300, true);
@@ -96,6 +94,11 @@ namespace CoolScaryGame
             renderer.height = 128;
             renderer.y = -96;
             renderer.x = -32;
+        }
+        public override void Render(GLContext glContext, int RenderInt)
+        {
+            renderer.SetDepthByY(RenderInt);
+            base.Render(glContext, RenderInt);
         }
     }
 }
