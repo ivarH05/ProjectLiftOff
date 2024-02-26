@@ -69,7 +69,7 @@ namespace CoolScaryGame
         {
             renderer.SetDepthByY(RenderInt);
 
-            if (!rendererVertical)
+            if (false) //!rendererVertical)
             {
                 Vector2 relPos = PlayerManager.GetPosition(RenderInt);
                 relPos -= TransformPoint(0, 0);
