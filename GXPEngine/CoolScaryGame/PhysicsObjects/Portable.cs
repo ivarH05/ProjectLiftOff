@@ -28,11 +28,11 @@ namespace GXPEngine
 
         protected override void OnDestroy()
         {
-            Console.WriteLine("added particles");
             ParticleData dat = new ParticleData()
             {
                 sprite = "TriangleParticle.png",
                 SpawnPosition = renderer.TransformPoint(renderer.width / 2, renderer.height / 2),
+                ForceDirection = Velocity,
                 burst = 30,
                 LifeTime = 1,
                 EmissionStep = 0,
@@ -40,9 +40,9 @@ namespace GXPEngine
                 Scale = 1f,
                 ScaleRandomness = 0.5f,
                 ScaleOverLifetime = 0.95f,
-                R = 1,
-                G = .7f,
-                B = .8f,
+                R = 0.4f,
+                G = .4f,
+                B = 1f,
             };
 
             SceneManager.AddParticles(dat);
