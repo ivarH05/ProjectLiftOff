@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GXPEngine
 {
-    internal class Portable : RigidBody
+    public class Portable : RigidBody
     {
         public Portable(float x, float y) : base(64 ,32, new Core.Vector2(0, -100))
         {

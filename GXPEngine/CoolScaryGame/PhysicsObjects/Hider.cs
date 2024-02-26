@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace CoolScaryGame
 {
-    internal class Hider : Player
+    public class Hider : Player
     {
 
         public Portable HoldingItem = null;
         public Hider(Vector2 Position) :
             base(Position, "Animations/HiderAnimations.png", 5, 4, new AnimationData(10, 9), new AnimationData(0, 10))
         {
-
+            PlayerManager.SetHider(this);
         }
 
         void Update()
