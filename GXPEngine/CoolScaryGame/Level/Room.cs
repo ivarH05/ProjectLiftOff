@@ -9,6 +9,9 @@ using TiledMapParser;
 
 namespace CoolScaryGame
 {
+    /// <summary>
+    /// A room, built using TiledLoader. 
+    /// </summary>
     public class Room : GameObject
     {
         Pivot tiles = new Pivot();

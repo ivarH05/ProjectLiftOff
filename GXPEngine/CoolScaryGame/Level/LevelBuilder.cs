@@ -9,6 +9,9 @@ using TiledMapParser;
 
 namespace CoolScaryGame
 {
+    /// <summary>
+    /// Builds a level using TiledLoader. 
+    /// </summary>
     public class LevelBuilder
     {
         public LevelBuilder(string LevelTMX, Pivot levelHolder, int roomWidth, int roomHeight)

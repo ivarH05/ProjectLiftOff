@@ -37,6 +37,7 @@ namespace CoolScaryGame
                 renderer.SetOrigin(renderer.width * .5f, renderer.height);
             else if (!rotated) { renderer.SetOrigin(renderer.width * .5f, renderer.height - height * .5f); renderer.width /= 2; }
             else { renderer.SetOrigin(renderer.width * .5f, renderer.height - width * .5f); renderer.width /= 2; };
+            //is it just me,,,, or is the rot consuming?? epic win!
             renderer.rotation = -roomRot;
 
             if (rendererVertical)
