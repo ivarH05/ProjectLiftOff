@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,13 +15,17 @@ namespace CoolScaryGame
     /// </summary>
     public class Room : GameObject
     {
+        private static Hashtable LoaderCache = new Hashtable();
         Pivot tiles = new Pivot();
         Pivot objects = new Pivot();
         SpriteContainer roomContainer;
         public Room(string TMX, float rotation)
         {
             this.rotation = rotation;
-            TiledLoader build = new TiledLoader(TMX, tiles, false);
+            TiledLoader build = getLoader(TMX);
+            build.rootObject = tiles;
+            build.addColliders = false;
+            build.autoInstance = false;
             build.LoadTileLayers();
             build.rootObject = objects;
             build.addColliders = true;
@@ -49,6 +54,16 @@ namespace CoolScaryGame
                     else ((InvisibleObject)obj).Setup();
                 }
             }
+        }
+        TiledLoader getLoader(string TMX)
+        {
+            TiledLoader res = LoaderCache[TMX] as TiledLoader;
+            if(res == null)
+            {
+                res = new TiledLoader(TMX, null, false);
+                LoaderCache[TMX] = res;
+            }
+            return res;
         }
     }
 }
