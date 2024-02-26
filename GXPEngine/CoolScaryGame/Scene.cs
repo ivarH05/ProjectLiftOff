@@ -32,6 +32,11 @@ namespace CoolScaryGame
             s.y += 50;
             AddChild(slop);
             //I LOVE UNDERLIME SLOPPER
+
+            Pivot levelContainer = new Pivot();
+            AddChild(levelContainer);
+            new LevelBuilder("Rooms/testMap.tmx", levelContainer, 160, 160);
+            levelContainer.SetScaleXY(4, 4);
         }
 
         void Update()

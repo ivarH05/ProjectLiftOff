@@ -35,7 +35,8 @@ namespace CoolScaryGame
 
             depth = 0;
             debugVisible = overrideVisible;
-
+            if (overrideVisible)
+                depthSort = true;
         }
         public InvisibleObject(int width, int height, bool addCollider = false, uint collisionLayers = 0, uint coupleWithLayers = 0, bool overrideVisible = false) : 
         base("UI/debug_invisibleObject.png", true, addCollider, collisionLayers, coupleWithLayers)
@@ -47,10 +48,7 @@ namespace CoolScaryGame
                 depth = -99;
             debugVisible = overrideVisible;
 
-            proxy = new Pivot();
-            AddChild(proxy);
-            proxy.scaleX = 1 / scaleX;
-            proxy.scaleY = 1 / scaleY;
+            AddProxy();
         }
         public void AddProxy()
         {

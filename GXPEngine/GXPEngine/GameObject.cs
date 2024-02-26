@@ -16,9 +16,13 @@ namespace GXPEngine
         private GameObject _parent = null;
 
         public bool visible = true;
+        
         public bool depthSort = false;
         private bool inDepthSortList = false;
+        private bool shouldBeRendering = false; //if depth sorting is true this will matter
+        
         private bool destroyed = false;
+
         internal int RenderLayer = -1;
 
 
@@ -122,8 +126,9 @@ namespace GXPEngine
             if (visible && (RenderLayer == -1 ||  RenderLayer == RenderInt))
             {
                 glContext.PushMatrix(matrix);
+                shouldBeRendering = true;
 
-                if(!depthSort || !glContext.depthBufferEnabled)
+                if (!depthSort || !glContext.depthBufferEnabled)
                     RenderSelf(glContext);
                 else if(!inDepthSortList)
                 {
@@ -157,11 +162,12 @@ namespace GXPEngine
         /// </param>
         public void RenderDepthSorted(GLContext glContext, int RenderInt)
         {
-            if (visible && (RenderLayer == -1 || RenderLayer == RenderInt))
+            if (visible && shouldBeRendering && (RenderLayer == -1 || RenderLayer == RenderInt))
             {
                 PushParentMatrix(glContext);
                 RenderSelf(glContext);
                 PopParentMatrix(glContext);
+                shouldBeRendering = false;
             }
         }
 
