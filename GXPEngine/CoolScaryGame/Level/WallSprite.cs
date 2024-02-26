@@ -18,23 +18,30 @@ namespace CoolScaryGame
         float strengthY;
         AnimationSprite renderer;
         bool rendererVertical = false;
-        public WallSprite(TiledObject obj) : base(obj, true, 0b1, 0, true)
+        public WallSprite(TiledObject obj) : base(obj, true, 0b1, 0, false)
         { }
         public WallSprite(int width, int height, bool overrideVisible = false)
         : base(width, height, true, 0b1, 0, overrideVisible)
         {
             depthSort = true;
         }
-        public override void Setup()
+        public void Setup(float roomRot)
         {
             AddProxy();
-            rendererVertical = width < height;
+            rendererVertical = (width < height);
+            bool rotated = (((int)roomRot % 180) != 0);
             renderer = new AnimationSprite("Rooms/textures/roomtiles.png", 4, 2, 8, true, false, 0, 0);
             proxy.AddChild(renderer);
             renderer.SetFrame(Utils.Random(0,4));
-            if(!rendererVertical)
-                renderer.SetOrigin(renderer.width*.5f, renderer.height);
-            else renderer.SetOrigin(renderer.width * .5f, renderer.height - height * .5f);
+            if (!(rendererVertical ^ rotated))
+                renderer.SetOrigin(renderer.width * .5f, renderer.height);
+            else if (!rotated) { renderer.SetOrigin(renderer.width * .5f, renderer.height - height * .5f); renderer.width /= 2; }
+            else { renderer.SetOrigin(renderer.width * .5f, renderer.height - width * .5f); renderer.width /= 2; };
+            renderer.rotation = -roomRot;
+
+            if (rendererVertical)
+                x -= width * .5f;
+            else y -= height * .5f;
 
             depthSort = true;
         }
