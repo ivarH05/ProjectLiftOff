@@ -45,17 +45,24 @@ namespace CoolScaryGame
             {
                 _timer -= Time.deltaTime;
                 Vector2 LastPos = position;
-                Collision c = MoveUntilCollision(Velocity.x * Time.TimeStep, Velocity.y * Time.TimeStep);
+                TryMove(0, Velocity.y * Time.TimeStep);
+                TryMove(Velocity.x * Time.TimeStep, 0);
                 AddFriction(Friction);
 
-                if (c == null) return;
-                //Push other movables away
-                if(c.other is Movable && canPush)
-                {
-                    Movable other = (Movable)c.other;
-                    other.AddForce(c.normal * -250 * bounciness);
-                }
                 position -= Velocity * 0.0001f;
+            }
+        }
+
+        void TryMove(float x, float y)
+        {
+            Collision c = MoveUntilCollision(x, y);
+
+            if (c == null) return;
+            //Push other movables away
+            if (c.other is Movable && canPush)
+            {
+                Movable other = (Movable)c.other;
+                other.AddForce(c.normal * -250 * bounciness);
             }
         }
     }

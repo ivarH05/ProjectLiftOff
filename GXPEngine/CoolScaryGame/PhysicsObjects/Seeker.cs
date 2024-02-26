@@ -13,7 +13,7 @@ namespace CoolScaryGame
         public Seeker(Vector2 Position) :
             base(Position, "Animations/SeekerAnimations.png", 4, 6, new AnimationData(12, 10), new AnimationData(0, 12))
         {
-
+            ((FOVAnimationSprite)renderer).SetVisibility(400);
         }
 
         void Update()

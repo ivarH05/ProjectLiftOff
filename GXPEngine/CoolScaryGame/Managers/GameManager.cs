@@ -1,6 +1,8 @@
 ﻿using GXPEngine.Core;
 using GXPEngine;
 using System;
+using GXPEngine.CoolScaryGame.Particles;
+using CoolScaryGame.Particles;
 
 namespace CoolScaryGame
 {
@@ -37,6 +39,11 @@ namespace CoolScaryGame
             DestroyScene();
             mainGame.AddChild(new MainMenu());
             mainGame.RenderMain = true;
+        }
+
+        public static void AddParticles(ParticleData dat)
+        {
+            scene.AddChild(new ParticleEmitter(dat));
         }
     }
 
