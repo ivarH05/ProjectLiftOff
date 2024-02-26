@@ -35,8 +35,9 @@ namespace CoolScaryGame
             proxy.AddChild(renderer);
             renderer.width = 128;
             renderer.height = 128;
-            renderer.y = -96;
-            renderer.x = -16 - width / 2;
+            renderer.CenterOrigin();
+            renderer.y = -48;
+            renderer.x = width / 2;
             SetAnimation(idleAnim);
         }
         internal void PlayerUpdates(int playerIndex)
@@ -77,7 +78,7 @@ namespace CoolScaryGame
             if(Velocity.Magnitude > 200)
                 rend.Mirror(Velocity.x < 0, false);
 
-            animationSpeed = ActualVelocity.Magnitude / 2 + 8;
+            animationSpeed = ActualVelocity.Magnitude / 1.25f + 6;
 
             timer += Time.deltaTime;
             if(timer > 1/animationSpeed)

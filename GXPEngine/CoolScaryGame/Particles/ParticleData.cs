@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GXPEngine.CoolScaryGame.Particles
 {
-    internal class ParticleData
+    public class ParticleData
     {
         ////////// Sprite Settings
         /// <summary>
