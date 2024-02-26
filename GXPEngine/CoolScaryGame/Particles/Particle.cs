@@ -26,6 +26,8 @@ namespace CoolScaryGame.Particles
             alpha = dat.A;
 
             scale = Randomize(dat.Scale, dat.ScaleRandomness);
+            CenterOrigin();
+            rotation = Utils.Random(0, 360);
 
             lifeTime = Randomize(dat.LifeTime, dat.LifetimeRandomness);
 

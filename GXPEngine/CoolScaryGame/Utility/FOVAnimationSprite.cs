@@ -22,6 +22,10 @@ namespace CoolScaryGame
             invVisibilityRadius = 1 / visibilityRadius;
         }
 
+        public void SetVisibility(float visibility)
+        {
+            invVisibilityRadius = 1.0f / visibility;
+        }
 
         public override void Render(GLContext glContext, int RenderInt)
         {

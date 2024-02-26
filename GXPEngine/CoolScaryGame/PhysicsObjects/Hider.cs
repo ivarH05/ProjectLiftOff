@@ -26,7 +26,7 @@ namespace CoolScaryGame
 
             if (HoldingItem != null)
             {
-                HoldingItem.position = HoldingItem.position.Lerp(position + new Vector2(0, -76 - HoldingItem.renderer.height / 2), Time.deltaTime * 32);
+                HoldingItem.position = HoldingItem.position.Lerp(position + new Vector2((width - HoldingItem.width) / 2, 0), Time.deltaTime * 32);
                 if (Input.GetKeyDown(Key.E))
                     DropObject();
             }
@@ -44,15 +44,17 @@ namespace CoolScaryGame
             obj.isDissabled = true;
             obj.isKinematic = true;
             HoldingItem = obj;
+            renderer.visible = false;
         }
 
         private void DropObject()
         {
-            HoldingItem.position = position + Velocity.Normalized * HoldingItem.width;
+            HoldingItem.position = position + new Vector2((width - HoldingItem.width) / 2, 0) + Velocity.Normalized * HoldingItem.width;
             HoldingItem.Velocity = Velocity;
             HoldingItem.isDissabled = false;
             HoldingItem.isKinematic = false;
             HoldingItem = null;
+            renderer.visible = true;
         }
 
         public GameObject GetObjectInFront<T>()

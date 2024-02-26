@@ -20,21 +20,6 @@ namespace CoolScaryGame
             AddChild(new Sprite("Checkers.png", false, false));
             AddChild(new Hider(new Vector2(-100, 0)));
             AddChild(new Seeker(new Vector2(100, 0)));
-
-            ParticleData dat = new ParticleData()
-            {
-                sprite = "circle.png",
-                SpawnPosition = new Vector2(100, 0),
-                burst = 250,
-                LifeTime = 1,
-                EmissionStep = 0,
-                EmissionTime = 0,
-                Scale = 0.25f, ScaleRandomness = 0.5f, ScaleOverLifetime = 0.95f,
-                R = 1, G = 0, B = 0, A = 0.25f,
-                RenderLayer = 0
-            };
-
-            AddChild(new ParticleEmitter(dat));
             AddChild(new Portable(-100, 100));
             AddChild(new Portable(0, 100));
             AddChild(new Portable(100, 100));

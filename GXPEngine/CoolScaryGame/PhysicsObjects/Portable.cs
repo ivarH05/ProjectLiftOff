@@ -1,4 +1,7 @@
 ﻿using CoolScaryGame;
+using CoolScaryGame.Particles;
+using GXPEngine.CoolScaryGame.Particles;
+using GXPEngine.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +24,28 @@ namespace GXPEngine
         void Update()
         {
             PhysicsUpdate();
-            if (isDissabled) { depth -= 0.00125f; }
+        }
+
+        protected override void OnDestroy()
+        {
+            Console.WriteLine("added particles");
+            ParticleData dat = new ParticleData()
+            {
+                sprite = "TriangleParticle.png",
+                SpawnPosition = renderer.TransformPoint(renderer.width / 2, renderer.height / 2),
+                burst = 30,
+                LifeTime = 1,
+                EmissionStep = 0,
+                EmissionTime = 0,
+                Scale = 1f,
+                ScaleRandomness = 0.5f,
+                ScaleOverLifetime = 0.95f,
+                R = 1,
+                G = .7f,
+                B = .8f,
+            };
+
+            SceneManager.AddParticles(dat);
         }
     }
 }

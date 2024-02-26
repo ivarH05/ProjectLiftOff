@@ -41,6 +41,10 @@ namespace GXPEngine
             initializeFromTexture(new Texture2D(bitmap));
         }
 
+        public void CenterOrigin()
+        {
+            SetOrigin(width / 2, height / 2);
+        }
 
         public Sprite(Texture2D texture, bool addCollider = true, uint CollisionLayers = 0xFFFFFFFF, uint CoupleWithLayers = 0xFFFFFFFF) : base(addCollider, CollisionLayers, CoupleWithLayers)
         {
