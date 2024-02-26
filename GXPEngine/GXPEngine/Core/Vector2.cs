@@ -234,6 +234,20 @@ namespace GXPEngine.Core
             Vector2 Out = In - 2 * In * Normal * Normal;
             return Out * Magnitude;
         }
+
+        /// <summary>
+        /// Rotate the vector2 a certain angle
+        /// </summary>
+        /// <param name="Angle">the angle of the rotation</param>
+        /// <returns></returns>
+        public Vector2 Rotate(float Angle)
+        {
+            float cos = Mathf.Cos(Angle);
+            float sin = Mathf.Sin(Angle);
+            Vector2 i = new Vector2(cos, sin);
+            Vector2 j = new Vector2(sin, -cos);
+            return i*x + j*y;
+        }
     }
 }
 
