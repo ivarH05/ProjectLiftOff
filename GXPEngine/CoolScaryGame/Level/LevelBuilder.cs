@@ -26,7 +26,7 @@ namespace CoolScaryGame
             foreach (AnimationSprite obj in build.GetChildren(false))
             {
                 int roomName = obj.currentFrame;
-                Room r = new Room("Rooms/Roomset1/Room" + roomName + ".tmx", ((int)obj.rotation/90)*90);
+                Room r = new Room("Rooms/Roomset1/Room" + roomName + ".tmx", ((int)obj.rotation/90)*90, roomHeight);
                 levelHolder.AddChild(r);
                 r.position = obj.position*positionScale;
                 r.SetScaleXY(rescaleMapX, rescaleMapY);

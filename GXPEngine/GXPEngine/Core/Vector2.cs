@@ -245,7 +245,7 @@ namespace GXPEngine.Core
             float cos = Mathf.Cos(Angle);
             float sin = Mathf.Sin(Angle);
             Vector2 i = new Vector2(cos, sin);
-            Vector2 j = new Vector2(sin, -cos);
+            Vector2 j = new Vector2(-sin, cos);
             return i*x + j*y;
         }
     }

@@ -49,6 +49,7 @@ namespace CoolScaryGame
         public static void AddParticles(ParticleData dat)
         {
             ParticleEmitter e = new ParticleEmitter(dat);
+            if(scene != null)
             scene.LateAddChild(e);
         }
     }

@@ -95,5 +95,11 @@ namespace CoolScaryGame
             }
             return 0;
         }
+
+        public void removeWallIfHorizontal()
+        {
+            if (rendererVertical) return;
+            renderer.visible = false;
+        }
     }
 }

@@ -13,7 +13,6 @@ namespace CoolScaryGame
 
         public Scene()
         {
-            SceneManager.SetScene(this);
             viewLeft = new Camera(0, 0, 960, 1080, 0, false);
             viewRight = new Camera(960, 0, 960, 1080, 1, false);
             AddChild(viewLeft);
