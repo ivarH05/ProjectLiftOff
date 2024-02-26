@@ -20,6 +20,7 @@ namespace CoolScaryGame.Particles
         private float lifeTime = 1;
         public Particle(ParticleData dat) : base(dat.sprite, dat.cols, dat.rows, -1, false, false)//base(dat.sprite, false, false)///
         {
+            depth = dat.Depth;
             data = dat;
 
             SetColor(dat.R, dat.G, dat.B);
@@ -33,7 +34,11 @@ namespace CoolScaryGame.Particles
 
             Friction = Randomize(dat.Friction, dat.FrictionRandomness);
 
-            position = Vector2.RandomVector(dat.SpawnRadius);
+            if (data.TrackObject != null)
+                position = data.TrackObject.TransformPoint(0, 0) + data.SpawnPosition;
+            else
+                position = data.SpawnPosition;
+            position += Vector2.RandomVector(dat.SpawnRadius);
 
             Velocity = dat.ForceDirection + Vector2.RandomVector(dat.ForceRandomness) * Utils.Random(-dat.ForceRandomness, dat.ForceRandomness);
 

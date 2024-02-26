@@ -23,6 +23,11 @@ namespace CoolScaryGame
             scene = null;
         }
 
+        public static void SetScene(Scene s)
+        {
+            scene = s;
+        }
+
         public static void LoadScene(bool destroyScene = true)
         {
             if (destroyScene && scene != null)
@@ -43,7 +48,8 @@ namespace CoolScaryGame
 
         public static void AddParticles(ParticleData dat)
         {
-            scene.AddChild(new ParticleEmitter(dat));
+            ParticleEmitter e = new ParticleEmitter(dat);
+            scene.LateAddChild(e);
         }
     }
 

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TiledMapParser;
 
 namespace CoolScaryGame.Particles
 {
@@ -20,7 +21,7 @@ namespace CoolScaryGame.Particles
         {
             data = d;
             RenderLayer = d.RenderLayer;
-            position = d.SpawnPosition;
+            //position = d.SpawnPosition;
 
             for (int i = 0; i < d.burst; i++)
             {

@@ -13,7 +13,7 @@ namespace CoolScaryGame
 
         public Portable HoldingItem = null;
         public Hider(Vector2 Position) :
-            base(Position, "Animations/HiderAnimations.png", 5, 4, new AnimationData(10, 9), new AnimationData(0, 10))
+            base(Position, 0, "Animations/HiderAnimations.png", 5, 4, new AnimationData(10, 9), new AnimationData(0, 10))
         {
             PlayerManager.SetHider(this);
         }
@@ -49,10 +49,18 @@ namespace CoolScaryGame
 
         private void DropObject()
         {
-            HoldingItem.position = position + new Vector2((width - HoldingItem.width) / 2, 0) + Velocity.Normalized * HoldingItem.width;
-            HoldingItem.Velocity = Velocity;
+            HoldingItem.position = position + Velocity.Normalized * 10;
+
+            HoldingItem.Velocity = Velocity + Velocity.Normalized * HoldingItem.width;
             HoldingItem.isDissabled = false;
             HoldingItem.isKinematic = false;
+
+            if (HoldingItem.GetCollisions().Length > 0)
+            {
+                HoldingItem.position = position + new Vector2((width - HoldingItem.width) / 2, 0);
+                Console.WriteLine("Colliding");
+            }
+
             HoldingItem = null;
             renderer.visible = true;
         }
