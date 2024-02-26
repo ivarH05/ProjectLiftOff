@@ -51,7 +51,7 @@ namespace CoolScaryGame
 
         public static Vector2 GetPosition(int index)
         {
-            return player(index).position;
+            return player(index).TransformPoint(0,0);
         }
     }
 }

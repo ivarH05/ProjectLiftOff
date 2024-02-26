@@ -12,7 +12,7 @@ namespace GXPEngine
 {
     public class Portable : RigidBody
     {
-        public Portable(float x, float y) : base(64 ,32, new Core.Vector2(0, -100))
+        public Portable(float x = 0, float y = 0) : base(64 ,32, new Core.Vector2(0, -100))
         {
             CollisionLayers = 0b11;
             renderer = new Sprite("square.png", false, false);

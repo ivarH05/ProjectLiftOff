@@ -31,6 +31,8 @@ namespace CoolScaryGame
             build.addColliders = true;
             build.autoInstance = true;
             build.LoadObjectGroups();
+
+            int walltype = Utils.Random(0, 2);
             foreach (GameObject obj in objects.GetChildren())
             {
                 if (obj is SpriteContainer)
@@ -50,10 +52,11 @@ namespace CoolScaryGame
                 }
                 if (obj is InvisibleObject)
                 {
-                    if (obj is WallSprite) ((WallSprite)obj).Setup(rotation);
+                    if (obj is WallSprite) ((WallSprite)obj).Setup(rotation, walltype);
                     else ((InvisibleObject)obj).Setup();
                 }
             }
+            tiles.depth = 99;
         }
         TiledLoader getLoader(string TMX)
         {
