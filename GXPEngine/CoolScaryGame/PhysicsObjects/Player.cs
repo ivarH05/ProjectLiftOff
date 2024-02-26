@@ -27,7 +27,7 @@ namespace CoolScaryGame
 
         internal AnimationData idleAnim;
         internal AnimationData walkAnim;
-        ParticleData WalkParticles = new ParticleData();
+        internal ParticleData WalkParticles = new ParticleData();
         public Player(Vector2 Position, int playerIndex, string AnimationSprite, int rows, int columns, AnimationData idleAnim, AnimationData walkAnim) : base(48, 32, Position, true)
         {
             this.idleAnim = idleAnim;
@@ -67,7 +67,7 @@ namespace CoolScaryGame
         }
         internal void PlayerUpdates(int playerIndex)
         {
-            WalkParticles.EmissionStep = 0.25f / Mathf.Max(ActualVelocity.Magnitude, 0.001f);
+            WalkParticles.EmissionStep = 0.5f / Mathf.Max(ActualVelocity.Magnitude, 1f);
             WalkParticles.ForceDirection = -ActualVelocity / 15;
             WalkParticles.Depth = TrueDepth() - 0.1f;
             stunTimer -= Time.deltaTime;

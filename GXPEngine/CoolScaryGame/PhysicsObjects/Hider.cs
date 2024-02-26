@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GXPEngine.CoolScaryGame.Particles;
 
 namespace CoolScaryGame
 {
@@ -45,6 +46,7 @@ namespace CoolScaryGame
             obj.isKinematic = true;
             HoldingItem = obj;
             renderer.visible = false;
+            WalkParticles.RenderLayer = -1;
         }
 
         private void DropObject()
@@ -63,6 +65,7 @@ namespace CoolScaryGame
 
             HoldingItem = null;
             renderer.visible = true;
+            WalkParticles.RenderLayer = 0;
         }
 
         public GameObject GetObjectInFront<T>()

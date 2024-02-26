@@ -20,6 +20,7 @@ namespace CoolScaryGame.Particles
         private float lifeTime = 1;
         public Particle(ParticleData dat) : base(dat.sprite, dat.cols, dat.rows, -1, false, false)//base(dat.sprite, false, false)///
         {
+            RenderLayer = dat.RenderLayer;
             depth = dat.Depth;
             data = dat;
 

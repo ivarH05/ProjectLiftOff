@@ -20,7 +20,7 @@ namespace CoolScaryGame.Particles
         public ParticleEmitter(ParticleData d)
         {
             data = d;
-            RenderLayer = d.RenderLayer;
+            //RenderLayer = d.RenderLayer;
             //position = d.SpawnPosition;
 
             for (int i = 0; i < d.burst; i++)
