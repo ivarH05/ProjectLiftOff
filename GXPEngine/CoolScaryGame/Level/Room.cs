@@ -16,6 +16,9 @@ namespace CoolScaryGame
     public class Room : GameObject
     {
         private static Hashtable LoaderCache = new Hashtable();
+        public static readonly string RoomName = "Rooms/Roomset1/Room";
+        private static uint[] doorConnections;
+        
         Pivot tiles = new Pivot();
         Pivot objects = new Pivot();
         SpriteContainer roomContainer;
@@ -80,40 +83,50 @@ namespace CoolScaryGame
             }
             return res;
         }
-        public static uint doorConnections(Vector2i room)
+        public static uint getDoorConnections(Vector2i room)
         {
-            uint res = 0;
-            switch(room.x)
-            {
-                case 0:
-                    res = 0;
-                    break;
-                case 1:
-                    //hallway room
-                    res = 0b0101;
-                    break;
-                case 2:
-                    //curved hallway room
-                    res = 0b0011;
-                    break;
-                case 3:
-                    //T hallway room
-                    res = 0b0111;
-                    break;
-                case 4:
-                    //four sided room
-                    res = 0b1111;
-                    break;
-            }
-            //evil boolean magic
-            int rotation =  (room.y / 90);
+            uint res = doorConnections[room.x];
+            int rotation = (room.y / 90);
             return rotateDoorConnections(res, 4- rotation);
         }
         public static uint rotateDoorConnections(uint connections, int rotation)
         {
+            //evil boolean magic
             connections = connections << (rotation);
             connections |= connections >> 4;
             return connections & 0b1111;
+        }
+        public static void buildDoorConnections()
+        {
+            if (doorConnections != null)
+                return;
+            List<uint> connections = new List<uint>();
+            Pivot slopper = new Pivot();
+            int i = 0;
+            while (i < 1000) //i think thats a reasonable amount
+            {
+                try
+                {
+                    TiledLoader sludge = new TiledLoader(RoomName + i + ".tmx", slopper, false);
+                    sludge.autoInstance = true;
+                    sludge.LoadObjectGroups();
+                    uint res = 0;
+                    foreach(GameObject obj in slopper.GetChildren(false))
+                    {
+                        if(obj is DoorSprite)
+                        {
+                            res |= ((DoorSprite)obj).thisDoor;
+                        }
+                    }
+                    connections.Add(res);
+                    i++;
+                }
+                catch
+                {
+                    i = 1001;
+                }
+            }
+            doorConnections = connections.ToArray();
         }
     }
 }
