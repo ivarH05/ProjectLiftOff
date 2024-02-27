@@ -21,6 +21,7 @@ namespace CoolScaryGame
 
         void Update()
         {
+            speed = Mathf.Lerp(speed, 2.5f, Time.deltaTime * 5);
             //move using wasd
             AddForce(Input.WASDVector() * Time.deltaMillis * speed);
             PlayerUpdates(0);
@@ -33,34 +34,16 @@ namespace CoolScaryGame
             }
             else if (Input.GetKeyDown(Key.E))
             {
-                GrabObject((Portable)GetObjectInFront<Portable>());
+                GrabObject((Portable)GetObjectInFrontOfType<Portable>());
             }
             renderer.alpha = 0.75f;
             UIManager.MarkMinimap(position, 0, 0xA0A0FF);
         }
 
-        void ParticleRain()
-        {
-            ParticleData dat = new ParticleData()
-            {
-                sprite = "TriangleParticle.png",
-                TrackObject = renderer,
-                ForceRandomness = 0.625f,
-                burst = 15,
-                LifeTime = 1,
-                Friction = 0.05f,
-                EmissionStep = 0,
-                EmissionTime = 0,
-                Scale = 0.5f,
-                ScaleRandomness = 0.5f,
-                ScaleOverLifetime = 0.95f,
-                R = 0.5f,
-                G = 0.65f,
-                B = 1f,
-            };
-            SceneManager.AddParticles(dat);
-        }
-
+        /// <summary>
+        /// pickup the specified object
+        /// </summary>
+        /// <param name="obj">object to pickup</param>
         private void GrabObject(Portable obj)
         {
             if (obj == null || obj.isDissabled)
@@ -74,6 +57,9 @@ namespace CoolScaryGame
             ParticleRain();
         }
 
+        /// <summary>
+        /// Drop the current held object
+        /// </summary>
         private void DropObject()
         {
             HoldingItem.position = position + Velocity.Normalized * 10;
@@ -92,33 +78,6 @@ namespace CoolScaryGame
             renderer.visible = true;
             WalkParticles.RenderLayer = 0;
             ParticleRain();
-        }
-
-        public GameObject GetObjectInFront<T>()
-        {
-            Sprite s = new Sprite("Square.png", false, true, 0, 0b10);
-            s.position = GetCenter() + Velocity.Normalized * 32;
-            s.LookAt(position);
-            return GetClosestOfType<T>(s.GetCollisions());
-        }
-
-        GameObject GetClosestOfType<T>(GameObject[] objects)
-        {
-            GameObject closest = null;
-            float distance = 999999;
-
-            foreach (GameObject obj in objects)
-            {
-                if (!(obj is T))
-                    continue;
-                float dist = Vector2.Distance(position, obj.position);
-                if (dist < distance)
-                {
-                    closest = obj;
-                    distance = dist;
-                }
-            }
-            return closest;
         }
     }
 }

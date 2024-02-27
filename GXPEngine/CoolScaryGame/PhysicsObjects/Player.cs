@@ -14,13 +14,14 @@ namespace CoolScaryGame
 {
     public class Player : RigidBody
     {
-        internal float speed = 4;
+        internal float speed = 2.5f;
         internal int playerIndex;
         public Vector2 ActualVelocity;
 
         internal float animationSpeed = 15;
 
         internal float stunTimer;
+        internal float health;
 
         float timer;
         int State = 0;
@@ -34,7 +35,7 @@ namespace CoolScaryGame
             this.walkAnim = walkAnim;
 
             this.playerIndex = playerIndex;
-            renderer = new FOVAnimationSprite(AnimationSprite, rows, columns, idleAnim.FrameCount, 300, false, false);
+            renderer = new FOVAnimationSprite(AnimationSprite, rows, columns, idleAnim.FrameCount, 200, false, false);
             SetupRenderer();
             SetupWalkParticles();
         }
@@ -44,10 +45,10 @@ namespace CoolScaryGame
             renderer.depthSort = true;
 
             proxy.AddChild(renderer);
-            renderer.width = 128;
-            renderer.height = 128;
+            renderer.width = 108;
+            renderer.height = 108;
             renderer.CenterOrigin();
-            renderer.y = -48;
+            renderer.y = -32;
             renderer.x = width / 2;
             SetAnimation(idleAnim);
         }
@@ -85,7 +86,7 @@ namespace CoolScaryGame
             Vector2 LastPos = TransformPoint(0, 0);
 
             //move the camera towards the player
-            CamManager.LerpToPoint(playerIndex, TransformPoint(0, 0) + ActualVelocity * 15, Time.deltaTime * 6);
+            CamManager.LerpToPoint(playerIndex, renderer.TransformPoint(0, 0) + ActualVelocity * 15, Time.deltaTime * 6f);
 
             PhysicsUpdate();
 
@@ -95,6 +96,11 @@ namespace CoolScaryGame
             ActualVelocity = (TransformPoint(0, 0) - LastPos);
         }
 
+        /// <summary>
+        /// stun the player for a specified amount of time
+        /// </summary>
+        /// <param name="time">the duration</param>
+        /// <param name="AddParticles">when true there will be particles emitted over the entire duration of the stun</param>
         public void Stun(float time, bool AddParticles = true)
         {
             stunTimer = time;
@@ -127,7 +133,7 @@ namespace CoolScaryGame
         {
             FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
 
-            if(Velocity.Magnitude > 200)
+            if(Velocity.Magnitude > 150)
                 rend.Mirror(Velocity.x < 0, false);
 
             animationSpeed = ActualVelocity.Magnitude / 1.25f + 6;
@@ -136,12 +142,12 @@ namespace CoolScaryGame
             if(timer > 1/animationSpeed)
             {
                 timer -= 1/animationSpeed;
-                if (State != 0 && Velocity.Magnitude < 100)
+                if (State != 0 && ActualVelocity.Magnitude < 1)
                 {
                     State = 0;
                     SetAnimation(idleAnim);
                 }
-                if (State != 1 && Velocity.Magnitude > 100)
+                if (State != 1 && ActualVelocity.Magnitude > 1)
                 {
                     State = 1;
                     SetAnimation(walkAnim);
@@ -149,10 +155,115 @@ namespace CoolScaryGame
                 rend.NextFrame();
             }
         }
+
+        /// <summary>
+        /// set the current animation
+        /// </summary>
+        /// <param name="dat">the animationdata containing the start frame and frame count of the anination</param>
         private void SetAnimation(AnimationData dat)
         {
             FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
             rend.SetCycle(dat.StartFrame, dat.FrameCount);
+        }
+
+        /// <summary>
+        /// Returns the current health of the player
+        /// </summary>
+        /// <returns></returns>
+        public float GetHealth()
+        {
+            return health;
+        }
+
+        /// <summary>
+        /// deal damage to the player
+        /// </summary>
+        /// <param name="damage">the amount of damage</param>
+        public void Damage(float damage)
+        {
+            health -= damage;
+            if (health <= 0)
+                Console.WriteLine("Game Over");
+        }
+
+        /// <summary>
+        /// Get the closest object in front that is of type T
+        /// </summary>
+        /// <typeparam name="T">The specified type</typeparam>
+        /// <returns></returns>
+        internal GameObject GetObjectInFrontOfType<T>()
+        {
+            Sprite s = new Sprite("Square.png", false, true, 0, 0b10);
+            s.position = GetCenter() + Velocity.Normalized * 32;
+            s.LookAt(position);
+            return GetClosestOfType<T>(s.GetCollisions());
+        }
+
+        /// <summary>
+        /// Returns all objects in front of the player where the velocity decides the forward direction
+        /// </summary>
+        /// <returns></returns>
+        internal GameObject[] GetObjectsInFront()
+        {
+            Sprite s = new Sprite("Square.png", false, true, 0, 0b10);
+            s.position = GetCenter() + Velocity.Normalized * 32;
+            s.LookAt(position);
+
+            return s.GetCollisions();
+        }
+
+        /// <summary>
+        /// Returns the closest object to the player that is also of the specific type T
+        /// </summary>
+        /// <typeparam name="T">The type of object</typeparam>
+        /// <param name="objects">input array of objects</param>
+        /// <returns></returns>
+        internal GameObject GetClosestOfType<T>(GameObject[] objects)
+        {
+            GameObject closest = null;
+            float distance = 999999;
+
+            foreach (GameObject obj in objects)
+            {
+                if (!(obj is T))
+                    continue;
+                float dist = Vector2.Distance(position, obj.position);
+                if (dist < distance)
+                {
+                    closest = obj;
+                    distance = dist;
+                }
+            }
+            return closest;
+        }
+
+        /// <summary>
+        /// Spray a burst of particles on the player location
+        /// </summary>
+        /// <param name="amount">The amount of particles spawned</param>
+        /// <param name="R">The red color value</param>
+        /// <param name="G">The green color value</param>
+        /// <param name="B">The blue color value</param>
+        internal void ParticleRain(int amount = 15, float R = 0.5f, float G = 0.7f, float B = 1f)
+        {
+            ParticleData dat = new ParticleData()
+            {
+                sprite = "TriangleParticle.png",
+                TrackObject = renderer,
+                ForceRandomness = 0.625f,
+                burst = amount,
+                LifeTime = 1,
+                Friction = 0.05f,
+                EmissionStep = 0,
+                EmissionTime = 0,
+                Scale = 0.5f,
+                ScaleRandomness = 0.5f,
+                ScaleOverLifetime = 0.95f,
+                R = R,
+                G = G,
+                B = B,
+            };
+            SceneManager.AddParticles(dat);
         }
     }
 }

@@ -44,13 +44,17 @@ namespace CoolScaryGame
             while (_timer > Time.TimeStep)
             {
                 _timer -= Time.deltaTime;
-                Vector2 LastPos = position;
                 Vector2 offset = MoveSeperate(Velocity * Time.TimeStep);
                 position += offset;
                 AddFriction(Friction);
             }
         }
 
+        /// <summary>
+        /// Move sepperately ove the x and y axis
+        /// </summary>
+        /// <param name="vec"></param>
+        /// <returns>Returns a vector that will avoid or stop any collission or clipping</returns>
         public Vector2 MoveSeperate(Vector2 vec)
         {
             Vector2 output = new Vector2();
@@ -66,17 +70,17 @@ namespace CoolScaryGame
             return output;
         }
 
+        /// <summary>
+        /// move until collission including pushing
+        /// </summary>
         Collision TryMove(float x, float y)
         {
             Collision c = MoveUntilCollision(x, y);
-
             if (c == null) return null;
+
             //Push other movables away
-            if (c.other is Movable && canPush)
-            {
-                Movable other = (Movable)c.other;
+            if (c.other is Movable other && canPush)
                 other.AddForce(c.normal * -250 * bounciness);
-            }
             return c;
         }
     }
