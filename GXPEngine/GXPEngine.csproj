@@ -46,12 +46,14 @@
     <Compile Include="CoolScaryGame\Level\MainMenu.cs" />
     <Compile Include="CoolScaryGame\Level\Room.cs" />
     <Compile Include="CoolScaryGame\Managers\GameManager.cs" />
+    <Compile Include="CoolScaryGame\Managers\LevelManager.cs" />
     <Compile Include="CoolScaryGame\Managers\PlayerManager.cs" />
     <Compile Include="CoolScaryGame\Managers\UIManager.cs" />
     <Compile Include="CoolScaryGame\Utility\AnimationData.cs" />
     <Compile Include="CoolScaryGame\Utility\ColorSprite.cs" />
     <Compile Include="CoolScaryGame\Utility\FOVAnimationSprite.cs" />
     <Compile Include="CoolScaryGame\Utility\HealthBar.cs" />
+    <Compile Include="CoolScaryGame\Utility\Minimap.cs" />
     <Compile Include="CoolScaryGame\Utility\SpriteContainer.cs" />
     <Compile Include="CoolScaryGame\Level\WallSprite.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />

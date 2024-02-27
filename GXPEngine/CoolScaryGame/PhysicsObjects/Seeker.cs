@@ -1,4 +1,4 @@
-﻿using GXPEngine.Core;
+using GXPEngine.Core;
 using GXPEngine;
 using System;
 using System.Collections.Generic;
@@ -25,6 +25,7 @@ namespace CoolScaryGame
             freeze -= Time.deltaTime;
 
             PlayerUpdates(1);
+            UIManager.MarkMinimap(position, 1, 0xFFA060);
             //move using the arrow keys
             if (freeze < 0 && stunTimer < 0)
                 AddForce(Input.ArrowVector() * Time.deltaMillis * speed);

@@ -31,7 +31,7 @@ namespace CoolScaryGame
             bool rotated = (((int)roomRot % 180) != 0);
             if (!(rendererVertical ^ rotated))
             {
-                renderer = new AnimationSprite("Rooms/Textures/HorizontalWall.png", 5, 1, 5, true, false, 0, 0);
+                renderer = new AnimationSprite("Rooms/Textures/HorizontalWall7.png", 7, 1, 7, true, false, 0, 0);
                 proxy.AddChild(renderer);
                 ((AnimationSprite)renderer).SetFrame(GetRandomWall(wallSprite));
 
@@ -89,9 +89,9 @@ namespace CoolScaryGame
             switch(Type)
             {
                 case 0:
-                    return Utils.Random(0, 2);
+                    return Utils.Random(0, 4);
                 case 1:
-                    return Utils.Random(2, 5);
+                    return Utils.Random(4, 7);
             }
             return 0;
         }

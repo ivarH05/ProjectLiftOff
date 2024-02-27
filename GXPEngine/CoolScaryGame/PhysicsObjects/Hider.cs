@@ -37,6 +37,7 @@ namespace CoolScaryGame
                 GrabObject((Portable)GetObjectInFrontOfType<Portable>());
             }
             renderer.alpha = 0.75f;
+            UIManager.MarkMinimap(position, 0, 0xA0A0FF);
         }
 
         /// <summary>

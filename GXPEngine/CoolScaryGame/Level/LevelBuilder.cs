@@ -14,16 +14,15 @@ namespace CoolScaryGame
     /// </summary>
     public class LevelBuilder
     {
-        public LevelBuilder(string LevelTMX, GameObject levelHolder, GameObject objectHolder, float roomWidth, float roomHeight, float rescaleMapX = 1, float rescaleMapY = 1)
+        public LevelBuilder(string LevelTMX, GameObject levelHolder, GameObject objectHolder, GameObject miniMap, float roomWidth, float roomHeight, float rescaleMapX = 1, float rescaleMapY = 1)
         {
-            Pivot build = new Pivot();
             Pivot objects = new Pivot();
-            TiledLoader loader = new TiledLoader(LevelTMX, build, false);
+            TiledLoader loader = new TiledLoader(LevelTMX, miniMap, false);
             loader.LoadTileLayers();
 
             //assuming the Level's tmx has 10x10 pixel tiles. if this isnt the case. FIX THAT
             Vector2 positionScale = .1f * new Vector2(roomWidth * rescaleMapX, roomHeight * rescaleMapY);
-            foreach (AnimationSprite obj in build.GetChildren(false))
+            foreach (AnimationSprite obj in miniMap.GetChildren(false))
             {
                 int roomName = obj.currentFrame;
                 Room r = new Room("Rooms/Roomset1/Room" + roomName + ".tmx", ((int)obj.rotation/90)*90, roomHeight);
@@ -67,8 +66,6 @@ namespace CoolScaryGame
 
             objectHolder.AddChild(hider);
             objectHolder.AddChild(seeker);
-
-            build.LateDestroy();
         }
     }
 }
