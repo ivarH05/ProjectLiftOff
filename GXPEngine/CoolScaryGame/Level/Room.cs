@@ -19,9 +19,10 @@ namespace CoolScaryGame
         Pivot tiles = new Pivot();
         Pivot objects = new Pivot();
         SpriteContainer roomContainer;
-        public Room(string TMX, float rotation)
+        public Room(string TMX, float rotation, float roomHeight)
         {
             this.rotation = rotation;
+            Vector2 rotated = new Vector2(0,roomHeight*.5f).Rotate(rotation);
             TiledLoader build = getLoader(TMX);
             build.rootObject = tiles;
             build.addColliders = false;
@@ -52,7 +53,12 @@ namespace CoolScaryGame
                 }
                 if (obj is InvisibleObject)
                 {
-                    if (obj is WallSprite) ((WallSprite)obj).Setup(rotation, walltype);
+                    if (obj is WallSprite)
+                    {
+                        WallSprite cj = (WallSprite)obj;
+                        cj.Setup(rotation, walltype);
+                        if((cj.position-.5f*new Vector2(roomHeight, roomHeight)).Rotate(rotation* 0.0174532925f).y > 0) cj.removeWallIfHorizontal();
+                    }
                     else ((InvisibleObject)obj).Setup();
                 }
             }

@@ -69,7 +69,7 @@ namespace CoolScaryGame
         {
             renderer.SetDepthByY(RenderInt);
 
-            if (!rendererVertical)
+            if (false) //!rendererVertical)
             {
                 Vector2 relPos = PlayerManager.GetPosition(RenderInt);
                 relPos -= TransformPoint(0, 0);
@@ -94,6 +94,12 @@ namespace CoolScaryGame
                     return Utils.Random(2, 5);
             }
             return 0;
+        }
+
+        public void removeWallIfHorizontal()
+        {
+            if (rendererVertical) return;
+            renderer.visible = false;
         }
     }
 }
