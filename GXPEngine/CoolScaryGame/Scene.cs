@@ -15,6 +15,8 @@ namespace CoolScaryGame
         {
             viewLeft = new Camera(0, 0, 960, 1080, 0, false);
             viewRight = new Camera(960, 0, 960, 1080, 1, false);
+            viewLeft.scale = 0.65f;
+            viewRight.scale = 0.65f;
             AddChild(viewLeft);
             AddChild(viewRight);
             //AddChild(new Sprite("Checkers.png", false, false));
