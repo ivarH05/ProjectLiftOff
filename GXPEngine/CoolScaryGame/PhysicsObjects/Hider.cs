@@ -36,6 +36,7 @@ namespace CoolScaryGame
                 GrabObject((Portable)GetObjectInFront<Portable>());
             }
             renderer.alpha = 0.75f;
+            UIManager.MarkMinimap(position, 0, 0xA0A0FF);
         }
 
         void ParticleRain()

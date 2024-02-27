@@ -38,6 +38,7 @@ namespace CoolScaryGame
                 }
                 Stun(0.5f, false);
             }
+            UIManager.MarkMinimap(position, 1, 0xFFA060);
         }
         public GameObject[] GetObjectsInFront()
         {

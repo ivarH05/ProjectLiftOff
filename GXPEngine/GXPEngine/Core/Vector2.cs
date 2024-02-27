@@ -78,6 +78,14 @@ namespace GXPEngine.Core
         }
 
         /// <summary>
+        /// Dont worry about it
+        /// </summary>
+        public static Vector2 operator /(Vector2 a, Vector2 b)
+        {
+            return new Vector2(a.x / b.x, a.y / b.y);
+        }
+
+        /// <summary>
         /// Add the value of b to both the x and y axis of vector2 a
         /// </summary>
         public static Vector2 operator +(Vector2 a, float b)

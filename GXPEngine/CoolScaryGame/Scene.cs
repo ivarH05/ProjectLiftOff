@@ -26,12 +26,7 @@ namespace CoolScaryGame
 
             //I LOVE UNDERLIME SLOPPER
 
-            Pivot levelContainer = new Pivot();
-            Pivot objectContainer = new Pivot();
-            AddChild(levelContainer);
-            AddChild(objectContainer);
-            new LevelBuilder("Rooms/Map1.tmx", levelContainer, objectContainer, 640, 640, 1, 1);
-
+            LevelManager.BuildLevelByIndex(this, 1);
         }
 
         void Update()
@@ -46,6 +41,7 @@ namespace CoolScaryGame
         public void AddUI()
         {
             UIManager.AddHiderHealthbar();
+            UIManager.BuildMinimaps();
         }
     }
 }
