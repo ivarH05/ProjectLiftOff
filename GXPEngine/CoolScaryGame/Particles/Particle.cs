@@ -20,18 +20,18 @@ namespace CoolScaryGame.Particles
         private float lifeTime = 1;
         public Particle(ParticleData dat) : base(dat.sprite, dat.cols, dat.rows, -1, false, false)//base(dat.sprite, false, false)///
         {
+            RenderLayer = dat.RenderLayer;
             depth = dat.Depth;
             data = dat;
-
-            SetColor(dat.R, dat.G, dat.B);
             alpha = dat.A;
 
-            scale = Randomize(dat.Scale, dat.ScaleRandomness);
+            SetColor(dat.R, dat.G, dat.B);
+
             CenterOrigin();
             rotation = Utils.Random(0, 360);
 
+            scale = Randomize(dat.Scale, dat.ScaleRandomness);
             lifeTime = Randomize(dat.LifeTime, dat.LifetimeRandomness);
-
             Friction = Randomize(dat.Friction, dat.FrictionRandomness);
 
             if (data.TrackObject != null)

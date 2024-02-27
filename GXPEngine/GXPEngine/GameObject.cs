@@ -788,7 +788,16 @@ namespace GXPEngine
                 return base.InverseTransformDirection(ret.x, ret.y);
             }
         }
-        
+
+        /// <summary>
+        /// Rotate towards vector2 pos, relative to this objects position
+        /// </summary>
+        /// <param name="pos">target</param>
+        public void LookAt(Vector2 pos)
+        {
+            rotation = Mathf.Atan2(pos.y - y, pos.x - x) * (180.0f / Mathf.PI) + 90;
+        }
+
         public float TrueDepth()
         {
             if (parent == null)

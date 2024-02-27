@@ -27,13 +27,20 @@ namespace CoolScaryGame
 
         internal AnimationData idleAnim;
         internal AnimationData walkAnim;
-        ParticleData WalkParticles = new ParticleData();
+        internal ParticleData WalkParticles = new ParticleData();
         public Player(Vector2 Position, int playerIndex, string AnimationSprite, int rows, int columns, AnimationData idleAnim, AnimationData walkAnim) : base(48, 32, Position, true)
         {
             this.idleAnim = idleAnim;
             this.walkAnim = walkAnim;
 
+            this.playerIndex = playerIndex;
             renderer = new FOVAnimationSprite(AnimationSprite, rows, columns, idleAnim.FrameCount, 300, false, false);
+            SetupRenderer();
+            SetupWalkParticles();
+        }
+
+        void SetupRenderer()
+        {
             renderer.depthSort = true;
 
             proxy.AddChild(renderer);
@@ -43,7 +50,10 @@ namespace CoolScaryGame
             renderer.y = -48;
             renderer.x = width / 2;
             SetAnimation(idleAnim);
+        }
 
+        void SetupWalkParticles()
+        {
             WalkParticles = new ParticleData()
             {
                 sprite = "TriangleParticle.png",
@@ -65,9 +75,10 @@ namespace CoolScaryGame
             };
             SceneManager.AddParticles(WalkParticles);
         }
+
         internal void PlayerUpdates(int playerIndex)
         {
-            WalkParticles.EmissionStep = 0.25f / Mathf.Max(ActualVelocity.Magnitude, 0.001f);
+            WalkParticles.EmissionStep = 0.5f / Mathf.Max(ActualVelocity.Magnitude, 1f);
             WalkParticles.ForceDirection = -ActualVelocity / 15;
             WalkParticles.Depth = TrueDepth() - 0.1f;
             stunTimer -= Time.deltaTime;
@@ -84,9 +95,11 @@ namespace CoolScaryGame
             ActualVelocity = (TransformPoint(0, 0) - LastPos);
         }
 
-        public void Stun(float time)
+        public void Stun(float time, bool AddParticles = true)
         {
             stunTimer = time;
+            if (!AddParticles)
+                return;
 
             ParticleData dat = new ParticleData()
             {
