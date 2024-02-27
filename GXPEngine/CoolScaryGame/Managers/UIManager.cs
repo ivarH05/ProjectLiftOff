@@ -34,8 +34,8 @@ namespace CoolScaryGame
                 Minimap map = Minimaps[i];
                 map.RenderLayer = i;
                 map.SetScaleXY(3, 3);
-                map.y = -Game.main.height / 2;
-                map.x = map.width / -2;
+                map.y = -Game.main.height / 2 + .01f;
+                map.x = map.width / -2 + .01f;
                 map.depth = -98;
                 CamManager.AddUI(map, i);
                 Console.WriteLine(i);

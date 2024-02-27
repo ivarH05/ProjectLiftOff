@@ -100,11 +100,10 @@ namespace CoolScaryGame
         }
         public void markPosition(Vector2 position, uint color)
         {
-            Vector2i index = GetRoomIndexFromGlobalPos(position);
-            if (index.x < 0 || index.y < 0 || index.x >= mapDimensions.x || index.y >= mapDimensions.y)
+           markedPosition = GetRoomIndexFromGlobalPos(position);
+            if (markedPosition.x < 0 || markedPosition.y < 0 || markedPosition.x >= mapDimensions.x || markedPosition.y >= mapDimensions.y)
                 return;
-            minimapRenderers[index.x, index.y].color = color;
-            markedPosition = index;
+            minimapRenderers[markedPosition.x, markedPosition.y].color = color;
         }
         void Update()
         {
