@@ -33,7 +33,14 @@ namespace CoolScaryGame
             this.idleAnim = idleAnim;
             this.walkAnim = walkAnim;
 
+            this.playerIndex = playerIndex;
             renderer = new FOVAnimationSprite(AnimationSprite, rows, columns, idleAnim.FrameCount, 300, false, false);
+            SetupRenderer();
+            SetupWalkParticles();
+        }
+
+        void SetupRenderer()
+        {
             renderer.depthSort = true;
 
             proxy.AddChild(renderer);
@@ -43,7 +50,10 @@ namespace CoolScaryGame
             renderer.y = -48;
             renderer.x = width / 2;
             SetAnimation(idleAnim);
+        }
 
+        void SetupWalkParticles()
+        {
             WalkParticles = new ParticleData()
             {
                 sprite = "TriangleParticle.png",
@@ -65,6 +75,7 @@ namespace CoolScaryGame
             };
             SceneManager.AddParticles(WalkParticles);
         }
+
         internal void PlayerUpdates(int playerIndex)
         {
             WalkParticles.EmissionStep = 0.5f / Mathf.Max(ActualVelocity.Magnitude, 1f);
@@ -84,9 +95,11 @@ namespace CoolScaryGame
             ActualVelocity = (TransformPoint(0, 0) - LastPos);
         }
 
-        public void Stun(float time)
+        public void Stun(float time, bool AddParticles = true)
         {
             stunTimer = time;
+            if (!AddParticles)
+                return;
 
             ParticleData dat = new ParticleData()
             {

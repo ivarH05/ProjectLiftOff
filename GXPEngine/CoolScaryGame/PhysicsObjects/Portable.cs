@@ -32,7 +32,8 @@ namespace GXPEngine
             {
                 sprite = "TriangleParticle.png",
                 SpawnPosition = renderer.TransformPoint(renderer.width / 2, renderer.height / 2),
-                ForceDirection = Velocity,
+                ForceDirection = Velocity / 100,
+                ForceRandomness = 1,
                 burst = 30,
                 LifeTime = 1,
                 EmissionStep = 0,

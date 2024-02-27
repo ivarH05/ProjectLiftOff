@@ -38,6 +38,28 @@ namespace CoolScaryGame
             renderer.alpha = 0.75f;
         }
 
+        void ParticleRain()
+        {
+            ParticleData dat = new ParticleData()
+            {
+                sprite = "TriangleParticle.png",
+                TrackObject = renderer,
+                ForceRandomness = 0.625f,
+                burst = 15,
+                LifeTime = 1,
+                Friction = 0.05f,
+                EmissionStep = 0,
+                EmissionTime = 0,
+                Scale = 0.5f,
+                ScaleRandomness = 0.5f,
+                ScaleOverLifetime = 0.95f,
+                R = 0.5f,
+                G = 0.65f,
+                B = 1f,
+            };
+            SceneManager.AddParticles(dat);
+        }
+
         private void GrabObject(Portable obj)
         {
             if (obj == null || obj.isDissabled)
@@ -47,13 +69,15 @@ namespace CoolScaryGame
             HoldingItem = obj;
             renderer.visible = false;
             WalkParticles.RenderLayer = -1;
+
+            ParticleRain();
         }
 
         private void DropObject()
         {
             HoldingItem.position = position + Velocity.Normalized * 10;
 
-            HoldingItem.Velocity = Velocity + Velocity.Normalized * HoldingItem.width;
+            HoldingItem.Velocity = Velocity + Velocity.Normalized * 100;
             HoldingItem.isDissabled = false;
             HoldingItem.isKinematic = false;
 
@@ -66,13 +90,14 @@ namespace CoolScaryGame
             HoldingItem = null;
             renderer.visible = true;
             WalkParticles.RenderLayer = 0;
+            ParticleRain();
         }
 
         public GameObject GetObjectInFront<T>()
         {
             Sprite s = new Sprite("Square.png", false, true, 0, 0b10);
-            s.position = position + Velocity.Normalized * 64;
-
+            s.position = GetCenter() + Velocity.Normalized * 32;
+            s.LookAt(position);
             return GetClosestOfType<T>(s.GetCollisions());
         }
 

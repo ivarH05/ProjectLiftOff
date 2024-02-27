@@ -45,6 +45,10 @@ namespace GXPEngine
         {
             SetOrigin(width / 2, height / 2);
         }
+        public Vector2 GetCenter()
+        {
+            return position + new Vector2(width / 2 - _bounds.x, height / 2 - _bounds.y);
+        }
 
         public Sprite(Texture2D texture, bool addCollider = true, uint CollisionLayers = 0xFFFFFFFF, uint CoupleWithLayers = 0xFFFFFFFF) : base(addCollider, CollisionLayers, CoupleWithLayers)
         {

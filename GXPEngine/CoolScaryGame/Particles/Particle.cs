@@ -23,16 +23,15 @@ namespace CoolScaryGame.Particles
             RenderLayer = dat.RenderLayer;
             depth = dat.Depth;
             data = dat;
-
-            SetColor(dat.R, dat.G, dat.B);
             alpha = dat.A;
 
-            scale = Randomize(dat.Scale, dat.ScaleRandomness);
+            SetColor(dat.R, dat.G, dat.B);
+
             CenterOrigin();
             rotation = Utils.Random(0, 360);
 
+            scale = Randomize(dat.Scale, dat.ScaleRandomness);
             lifeTime = Randomize(dat.LifeTime, dat.LifetimeRandomness);
-
             Friction = Randomize(dat.Friction, dat.FrictionRandomness);
 
             if (data.TrackObject != null)
