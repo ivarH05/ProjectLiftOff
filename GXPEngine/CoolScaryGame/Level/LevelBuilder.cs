@@ -14,14 +14,41 @@ namespace CoolScaryGame
     /// </summary>
     public class LevelBuilder
     {
+
         public LevelBuilder(string LevelTMX, GameObject levelHolder, GameObject objectHolder, GameObject miniMap, float roomWidth, float roomHeight, float rescaleMapX = 1, float rescaleMapY = 1)
         {
+
             Pivot objects = new Pivot();
             TiledLoader loader = new TiledLoader(LevelTMX, miniMap, false);
             loader.LoadTileLayers();
 
-            //assuming the Level's tmx has 10x10 pixel tiles. if this isnt the case. FIX THAT
+            Minimap.BuildMinimap(miniMap, 640, 640);
+
+            //assuming the Level's tmx has 10x10 pixel tiles. if this isnt the case, FIX THAT
             Vector2 positionScale = .1f * new Vector2(roomWidth * rescaleMapX, roomHeight * rescaleMapY);
+
+            Vector2i dims = Minimap.roomsDimensions;
+            for (int y = 0; y<dims.y; y++)
+            {
+                for(int x = 0; x<dims.x; x++)
+                {
+                    uint doors = 0;
+                    doors |= (Room.doorConnections(Minimap.GetRoom(x - 1, y)) & 0b0100) >> 2; //room left  - door 0
+                    doors |= (Room.doorConnections(Minimap.GetRoom(x, y + 1)) & 0b1000) >> 2; //room below - door 1
+                    doors |= (Room.doorConnections(Minimap.GetRoom(x + 1, y)) & 0b0001) << 2; //room right - door 2
+                    doors |= (Room.doorConnections(Minimap.GetRoom(x, y - 1)) & 0b0010) << 2; //room above - door 3
+
+                    Vector2i room = Minimap.GetRoom(x, y);
+                    Room r = new Room("Rooms/Roomset1/Room" + room.x + ".tmx", room.y, roomHeight, doors);
+                    levelHolder.AddChild(r);
+                    r.position = Minimap.GetGlobalPosFromRoomIndex(new Vector2i(x, y));
+                    r.SetScaleXY(rescaleMapX, rescaleMapY);
+
+                    Console.Write(Convert.ToString(Room.doorConnections(room), 2).PadLeft(4, '0')+" ");
+                }
+                Console.WriteLine();
+            }
+            /*
             foreach (AnimationSprite obj in miniMap.GetChildren(false))
             {
                 int roomName = obj.currentFrame;
@@ -29,7 +56,7 @@ namespace CoolScaryGame
                 levelHolder.AddChild(r);
                 r.position = obj.position*positionScale;
                 r.SetScaleXY(rescaleMapX, rescaleMapY);
-            }
+            }*/
 
             loader.rootObject = objects;
             loader.LoadObjectGroups();
@@ -62,7 +89,7 @@ namespace CoolScaryGame
 
             //READ ABOVE ^^^^^^^^^^^^^^^^^^^^^^^^^^^ IF YOU DONT ILL MURDER YOU. IN REAL LIFE. IM GONNA LOOK FOR YOU & KILL YOU AND IT WILL HURT. A LOT
             Hider hider = new Hider(HiderPositions[ra]);
-            Seeker seeker = new Seeker(SeekerPositions[(int)Utils.Random(0, SeekerPositions.Count)]);
+            Seeker seeker = new Seeker(SeekerPositions[Utils.Random(0, SeekerPositions.Count)]);
 
             objectHolder.AddChild(hider);
             objectHolder.AddChild(seeker);
