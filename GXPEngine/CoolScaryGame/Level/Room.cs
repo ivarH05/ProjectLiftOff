@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,20 +10,29 @@ using TiledMapParser;
 
 namespace CoolScaryGame
 {
+    /// <summary>
+    /// A room, built using TiledLoader. 
+    /// </summary>
     public class Room : GameObject
     {
+        private static Hashtable LoaderCache = new Hashtable();
         Pivot tiles = new Pivot();
         Pivot objects = new Pivot();
         SpriteContainer roomContainer;
         public Room(string TMX, float rotation)
         {
             this.rotation = rotation;
-            TiledLoader build = new TiledLoader(TMX, tiles, false);
+            TiledLoader build = getLoader(TMX);
+            build.rootObject = tiles;
+            build.addColliders = false;
+            build.autoInstance = false;
             build.LoadTileLayers();
             build.rootObject = objects;
             build.addColliders = true;
             build.autoInstance = true;
             build.LoadObjectGroups();
+
+            int walltype = Utils.Random(0, 2);
             foreach (GameObject obj in objects.GetChildren())
             {
                 if (obj is SpriteContainer)
@@ -42,10 +52,21 @@ namespace CoolScaryGame
                 }
                 if (obj is InvisibleObject)
                 {
-                    if (obj is WallSprite) ((WallSprite)obj).Setup(rotation);
+                    if (obj is WallSprite) ((WallSprite)obj).Setup(rotation, walltype);
                     else ((InvisibleObject)obj).Setup();
                 }
             }
+            tiles.depth = 99;
+        }
+        TiledLoader getLoader(string TMX)
+        {
+            TiledLoader res = LoaderCache[TMX] as TiledLoader;
+            if(res == null)
+            {
+                res = new TiledLoader(TMX, null, false);
+                LoaderCache[TMX] = res;
+            }
+            return res;
         }
     }
 }
