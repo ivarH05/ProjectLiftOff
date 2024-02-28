@@ -18,9 +18,7 @@ namespace CoolScaryGame
             renderer = new Sprite(filename,true, false);
             skill1 = new AnimationSprite(skillsFilename, 4, 2, 8, true, false);
             skill2 = new AnimationSprite(skillsFilename, 4, 2, 8, true, false);
-            skill1.scale = .6f;
             skill1.position = new Vector2(0, 0);
-            skill2.scale = .6f;
             skill2.position = new Vector2(64, 0);
             AddChild(skill1);
             AddChild(skill2);

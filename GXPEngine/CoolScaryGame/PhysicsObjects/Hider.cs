@@ -22,9 +22,9 @@ namespace CoolScaryGame
 
         void Update()
         {
-            speed = Mathf.Lerp(speed, 2.5f, Time.deltaTime * 5) + speedBoost;
+            speed = Mathf.Lerp(speed, 2.5f, Time.deltaTime * 5) ;
             //move using wasd
-            AddForce(Input.WASDVector() * Time.deltaMillis * speed);
+            AddForce(Input.WASDVector() * Time.deltaMillis * (speed + speedBoost));
             PlayerUpdates(0);
 
             if (HoldingItem != null)

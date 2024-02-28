@@ -37,7 +37,7 @@ namespace CoolScaryGame
                 Exorcise();
             else if (State == 2 && freeze < -0.5f)
                 ResetAnimation();
-            if(Input.GetKeyDown(Key.RIGHT_CTRL))
+            if(Input.GetKeyDown(Key.ENTER))
                 useItem();
         }
 

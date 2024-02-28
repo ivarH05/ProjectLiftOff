@@ -16,7 +16,7 @@ namespace CoolScaryGame
         private static List<GameObject> UI = new List<GameObject>();
         private static HealthBar[] HiderHealthBars;
         private static Minimap[] Minimaps;
-        private static SkillBox[] skillBoxes;
+        private static ItemBox[] skillBoxes;
         private static EasyDraw[] Timers;
 
         public static void SetupTimer()
@@ -113,8 +113,9 @@ namespace CoolScaryGame
             {
                 ItemBox box = skillBoxes[i];
                 box.RenderLayer = i;
-                box.y = Game.main.height / 2 - 100;
-                box.x = (i == 0 ? Game.main.width / -4 : Game.main.width / 4 - 200) + .01f;
+                box.scale = 2;
+                box.y = Game.main.height / 2 - 128;
+                box.x = (i == 0 ? Game.main.width / -4 : Game.main.width / 4 - 256) + .01f;
                 box.depth = -97;
                 CamManager.AddUI(box, i);
                 UI.Add(box);

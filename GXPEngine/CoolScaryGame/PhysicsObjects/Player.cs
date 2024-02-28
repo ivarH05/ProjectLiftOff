@@ -250,7 +250,7 @@ namespace CoolScaryGame
                     default:
                         break;
                     case Item.speedUp:
-                        speedBoost = .2f;
+                        speedBoost = 1f;
                         Console.WriteLine("hell yeah");
                         break;
                     case Item.showEnemy:

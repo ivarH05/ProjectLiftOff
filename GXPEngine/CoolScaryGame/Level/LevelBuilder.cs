@@ -86,7 +86,7 @@ namespace CoolScaryGame
                         objectHolder.AddChild(toAdd);
                         break;
                     case 4:
-                        toAdd = new WorldItem(Utils.Random(1,4));
+                        toAdd = new WorldItem(Utils.Random(1,3));
                         toAdd.position = pos;
                         objectHolder.AddChild(toAdd);
                         break;
