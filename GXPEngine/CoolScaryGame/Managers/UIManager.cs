@@ -24,6 +24,8 @@ namespace CoolScaryGame
             inquestion2.y = Game.main.height / 2;
             CamManager.AddUI(inquestion, 0);
             CamManager.AddUI(inquestion2, 1);
+            UI.Add(inquestion);
+            UI.Add(inquestion2);
         }
         public static void BuildMinimaps()
         {
@@ -32,13 +34,13 @@ namespace CoolScaryGame
             {
                 Minimap map = Minimaps[i];
                 map.RenderLayer = i;
-                map.SetScaleXY(3, 3);
+                map.SetScaleXY(300/map.width, 300/map.width);
                 //offset by .01 to fix floating point errors
                 map.y = -Game.main.height / 2 + .01f;
-                map.x = map.width / -2 + .01f;
+                map.x = (i == 0 ? Game.main.width/-4 : Game.main.width/4 - map.width) + .01f;
                 map.depth = -98;
                 CamManager.AddUI(map, i);
-                Console.WriteLine(i);
+                UI.Add(map);
             }
         }
         public static void MarkMinimap(Vector2 position, int index, uint color)

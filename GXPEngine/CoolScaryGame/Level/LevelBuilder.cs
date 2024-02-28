@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GXPEngine;
+using GXPEngine.CoolScaryGame.Level;
 using GXPEngine.Core;
 using TiledMapParser;
 
@@ -66,11 +67,12 @@ namespace CoolScaryGame
             foreach (AnimationSprite obj in objects.GetChildren(false))
             {
                 Vector2 pos = obj.position * positionScale;
+                GameObject toAdd;
                 switch (obj.currentFrame)
                 {
-                    default: Console.WriteLine("Whoops! you have to put the CD in your computer"); break;
+                    default: Console.WriteLine("Whoops! you have to put the object in your levelbuilder"); break;
                     case 0:
-                        GameObject toAdd = new Portable(pos.x, pos.y);
+                        toAdd = new Portable(pos.x, pos.y);
                         objectHolder.AddChild(toAdd);
                         break;
                     case 1:
@@ -78,6 +80,10 @@ namespace CoolScaryGame
                         break;
                     case 2:
                         HiderPositions.Add(pos);
+                        break;
+                    case 3:
+                        toAdd = new Talisman(pos.x, pos.y);
+                        objectHolder.AddChild(toAdd);
                         break;
                 }
             }
