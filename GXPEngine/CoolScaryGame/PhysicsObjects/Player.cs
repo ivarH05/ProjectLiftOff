@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
 using GXPEngine.CoolScaryGame.Particles;
 using CoolScaryGame.Particles;
 
@@ -29,6 +28,11 @@ namespace CoolScaryGame
         internal AnimationData idleAnim;
         internal AnimationData walkAnim;
         internal ParticleData WalkParticles = new ParticleData();
+
+        protected Vector2i skillInventory;
+
+        protected uint playerColor = 0xFFFFFF;
+
         public Player(Vector2 Position, int playerIndex, string AnimationSprite, int rows, int columns, AnimationData idleAnim, AnimationData walkAnim) : base(48, 32, Position, true, 0b101, 0b101)
         {
             this.idleAnim = idleAnim;
@@ -79,6 +83,7 @@ namespace CoolScaryGame
 
         internal void PlayerUpdates(int playerIndex)
         {
+            UIManager.MarkMinimap(position, playerIndex, playerColor);
             WalkParticles.EmissionStep = 0.5f / Mathf.Max(ActualVelocity.Magnitude, 1f);
             WalkParticles.ForceDirection = -ActualVelocity / 15;
             WalkParticles.Depth = TrueDepth() - 0.1f;
@@ -94,6 +99,27 @@ namespace CoolScaryGame
             AnimationUpdate();
 
             ActualVelocity = (TransformPoint(0, 0) - LastPos);
+        }
+
+        /// <summary>
+        /// give the player a skill - discard and return false if inventory is full
+        /// </summary>
+        /// <param name="skill">the skill index</param>
+        public bool TryGetSkill(int skill)
+        {
+            if(skillInventory.x == 0)
+            {
+                skillInventory.x = skill;
+                UIManager.SetSkills(skillInventory.x, skillInventory.y, playerIndex);
+                return true;
+            }
+            if(skillInventory.y == 0)
+            {
+                skillInventory.y = skill;
+                UIManager.SetSkills(skillInventory.x, skillInventory.y, playerIndex);
+                return true;
+            }
+            return false;
         }
 
         /// <summary>

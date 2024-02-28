@@ -36,7 +36,8 @@ namespace CoolScaryGame
             {
                 Minimap map = Minimaps[i];
                 map.RenderLayer = i;
-                map.SetScaleXY(300/map.width, 300/map.width);
+                float avg = .5f*(map.width + map.height);
+                map.scale = 300/avg;
                 //offset by .01 to fix floating point errors
                 map.y = -Game.main.height / 2 + .01f;
                 map.x = (i == 0 ? Game.main.width/-4 : Game.main.width/4 - map.width) + .01f;
@@ -58,6 +59,10 @@ namespace CoolScaryGame
                 CamManager.AddUI(box, i);
                 UI.Add(box);
             }
+        }
+        public static void SetSkills(int skill1, int skill2, int index)
+        {
+            skillBoxes[index].SetSkills(skill1, skill2);
         }
         public static void MarkMinimap(Vector2 position, int index, uint color)
         {
