@@ -66,9 +66,15 @@ namespace CoolScaryGame
             Collision Coll2 = TryMove(0, vec.y);
 
             if (Coll1 != null)
+            {
+                Collision(Coll1.other);
                 output += Coll1.normal;
+            }
             if (Coll2 != null)
+            {
+                Collision(Coll2.other);
                 output += Coll2.normal;
+            }
 
             return output;
         }
@@ -85,6 +91,11 @@ namespace CoolScaryGame
             if (c.other is Movable other && canPush)
                 other.AddForce(c.normal * -250 * bounciness);
             return c;
+        }
+
+        virtual internal void Collision(GameObject Other)
+        {
+
         }
     }
 }

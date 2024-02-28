@@ -23,7 +23,7 @@ namespace CoolScaryGame
         internal float speedMultiplier = 1;
 
         internal float stunTimer;
-        internal float health;
+        internal float health = 35;
 
         float timer;
         internal int State = 0;
@@ -159,7 +159,7 @@ namespace CoolScaryGame
         {
             health -= damage;
             if (health <= 0)
-                Console.WriteLine("Game Over");
+                SceneManager.EndGame(1 - playerIndex);
         }
 
         /// <summary>

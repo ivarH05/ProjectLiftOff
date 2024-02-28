@@ -12,6 +12,7 @@ namespace GXPEngine
 {
     public class Portable : RigidBody
     {
+        public float StunableTimer;
         public Portable(float x = 0, float y = 0) : base(64 ,32, new Core.Vector2(0, -100))
         {
             CollisionLayers = 0b11;
@@ -23,6 +24,7 @@ namespace GXPEngine
 
         void Update()
         {
+            StunableTimer -= Time.deltaTime;
             PhysicsUpdate();
         }
 

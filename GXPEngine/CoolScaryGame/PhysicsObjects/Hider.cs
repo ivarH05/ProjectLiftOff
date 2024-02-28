@@ -38,6 +38,7 @@ namespace CoolScaryGame
             }
             renderer.alpha = 0.75f;
             UIManager.MarkMinimap(position, 0, 0xA0A0FF);
+            UIManager.UpdateHiderHealth(health);
         }
 
         /// <summary>
@@ -64,7 +65,8 @@ namespace CoolScaryGame
         {
             HoldingItem.position = position + Velocity.Normalized * 10;
 
-            HoldingItem.Velocity = Velocity + Velocity.Normalized * 100;
+            HoldingItem.Velocity = Velocity + Velocity.Normalized * 600;
+            HoldingItem.StunableTimer = 1;
             HoldingItem.isDissabled = false;
             HoldingItem.isKinematic = false;
 

@@ -10,10 +10,10 @@ namespace CoolScaryGame
 {
     public class Seeker : Player
     {
-        AnimationData ExterminateAnim = new AnimationData(22, 13, 1.5f);
+        AnimationData ExorciseAnim = new AnimationData(22, 13, 1.5f);
         float freeze = 0;
         public Seeker(Vector2 Position) :
-            base(Position, 1, "Animations/SeekerAnimations.png", 4, 9, new AnimationData(12, 10), new AnimationData(0, 12))
+            base(Position, 1, "Animations/SeekerAnimations.png", 4, 14, new AnimationData(12, 10), new AnimationData(0, 12))
         {
             PlayerManager.SetSeeker(this);
             ((FOVAnimationSprite)renderer).SetVisibility(340);
@@ -34,7 +34,7 @@ namespace CoolScaryGame
                 Attack();
 
             if (Input.GetKeyDown(Key.RIGHT_SHIFT))
-                Exterminate();
+                Exorcise();
             else if (State == 2 && freeze < -0.5f)
                 ResetAnimation();
         }
@@ -58,7 +58,7 @@ namespace CoolScaryGame
         /// <summary>
         /// start extermination the ghost
         /// </summary>
-        void Exterminate()
+        void Exorcise()
         {
             float dist = Vector2.Distance(position, PlayerManager.GetPosition(0));
             if (dist < 300)
@@ -66,14 +66,16 @@ namespace CoolScaryGame
                 PlayerManager.SlowPlayer(0, (300 / dist));
                 freeze = 0.2f;
                 PlayerManager.DamagePlayer(0, 1);
-                SetAnimation(ExterminateAnim, 2);
+                SetAnimation(ExorciseAnim, 2);
             }
         }
 
-        public void OnCollision(GameObject Other)
+        override internal void Collision(GameObject Other)
         {
-            if (Other is Portable)
+            if (Other is Portable p)
             {
+                Velocity = p.Velocity;
+                if(p.StunableTimer > 0)
                 Stun(1);
                 Other.LateDestroy();
             }
