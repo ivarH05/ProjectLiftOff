@@ -12,6 +12,8 @@ namespace CoolScaryGame
         private Camera viewLeft;
         private Camera viewRight;
 
+        float Timer = 91;
+
         public Scene()
         {
             viewLeft = new Camera(0, 0, 960, 1080, 0, false);
@@ -20,21 +22,16 @@ namespace CoolScaryGame
             viewRight.scale = 0.65f;
             AddChild(viewLeft);
             AddChild(viewRight);
-            //AddChild(new Sprite("Checkers.png", false, false));
-            //AddChild(new Hider(new Vector2(-100, 0)));
-            //AddChild(new Seeker(new Vector2(100, 0)));
-            //AddChild(new Portable(-100, 100));
-            //AddChild(new Portable(0, 100));
-            //AddChild(new Portable(100, 100));
-            AddChild(new Talisman(2000, 2000));
-
-            //I LOVE UNDERLIME SLOPPER
 
             LevelManager.BuildLevelByIndex(this, 3);
         }
 
         void Update()
         {
+            Timer -= Time.deltaTime;
+            if (Timer < 0)
+                SceneManager.EndGame(1);
+            UIManager.UpdateTimer(Timer);
         }
 
         public Camera[] GetCameras()
@@ -45,6 +42,7 @@ namespace CoolScaryGame
         public void AddUI()
         {
             UIManager.AddHiderHealthbar();
+            UIManager.SetupTimer();
             UIManager.AddMinimaps();
             UIManager.AddSkillBoxes();
         }

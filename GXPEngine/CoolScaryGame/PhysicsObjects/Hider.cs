@@ -1,4 +1,4 @@
-﻿using GXPEngine.Core;
+using GXPEngine.Core;
 using GXPEngine;
 using System;
 using System.Collections.Generic;
@@ -40,6 +40,7 @@ namespace CoolScaryGame
             renderer.alpha = 0.75f;
             if (Input.GetKeyDown(Key.Q))
                 useItem();
+            UIManager.UpdateHiderHealth(health);
         }
 
         /// <summary>
@@ -66,7 +67,8 @@ namespace CoolScaryGame
         {
             HoldingItem.position = position + Velocity.Normalized * 10;
 
-            HoldingItem.Velocity = Velocity + Velocity.Normalized * 100;
+            HoldingItem.Velocity = Velocity + Velocity.Normalized * 600;
+            HoldingItem.StunableTimer = 1;
             HoldingItem.isDissabled = false;
             HoldingItem.isKinematic = false;
 

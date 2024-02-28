@@ -53,7 +53,7 @@ namespace GXPEngine.CoolScaryGame.Particles
 
         ///////// Force(movement) Settings
         public Vector2 ForceDirection = new Vector2();
-        public float ForceRandomness = 1;
+        public float ForceRandomness = 0.5f;
         public float Friction = 0.1f, FrictionRandomness = 0.25f;
 
         ///////// RenderLayer settings

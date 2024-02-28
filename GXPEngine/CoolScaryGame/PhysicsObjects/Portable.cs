@@ -12,6 +12,7 @@ namespace GXPEngine
 {
     public class Portable : RigidBody
     {
+        public float StunableTimer;
         public Portable(float x = 0, float y = 0) : base(64 ,32, new Core.Vector2(0, -100))
         {
             CollisionLayers = 0b11;
@@ -23,6 +24,7 @@ namespace GXPEngine
 
         void Update()
         {
+            StunableTimer -= Time.deltaTime;
             PhysicsUpdate();
         }
 
@@ -32,13 +34,12 @@ namespace GXPEngine
             {
                 sprite = "TriangleParticle.png",
                 SpawnPosition = renderer.TransformPoint(renderer.width / 2, renderer.height / 2),
-                ForceDirection = Velocity / 100,
-                ForceRandomness = 1,
+                ForceDirection = Velocity / 500,
                 burst = 30,
                 LifeTime = 1,
                 EmissionStep = 0,
                 EmissionTime = 0,
-                Scale = 1f,
+                Scale = 0.4f,
                 ScaleRandomness = 0.5f,
                 ScaleOverLifetime = 0.95f,
                 R = 0.4f,

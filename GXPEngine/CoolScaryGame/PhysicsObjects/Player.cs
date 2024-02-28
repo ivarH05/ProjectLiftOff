@@ -2,6 +2,8 @@ using System;
 using System.Linq;
 using GXPEngine;
 using GXPEngine.CoolScaryGame.Particles;
+using CoolScaryGame.Particles;
+using TiledMapParser;
 using GXPEngine.Core;
 
 namespace CoolScaryGame
@@ -13,12 +15,13 @@ namespace CoolScaryGame
         public Vector2 ActualVelocity;
 
         internal float animationSpeed = 15;
+        internal float speedMultiplier = 1;
 
         internal float stunTimer;
-        internal float health;
+        internal float health = 35;
 
         float timer;
-        int State = 0;
+        internal int State = 0;
 
         internal AnimationData idleAnim;
         internal AnimationData walkAnim;
@@ -41,6 +44,7 @@ namespace CoolScaryGame
             SetupRenderer();
             SetupWalkParticles();
             SetupEnemyArrow();
+            UnClip = false;
         }
 
         void SetupRenderer()
@@ -53,7 +57,7 @@ namespace CoolScaryGame
             renderer.CenterOrigin();
             renderer.y = -32;
             renderer.x = width / 2;
-            SetAnimation(idleAnim);
+            SetAnimation(idleAnim, 0);
         }
 
         void SetupWalkParticles()
@@ -63,13 +67,13 @@ namespace CoolScaryGame
                 sprite = "TriangleParticle.png",
                 TrackObject = renderer,
                 SpawnPosition = new Vector2(0, 32),
-                ForceRandomness = 0.75f,
+                ForceRandomness = 0.5f,
                 burst = 0,
                 LifeTime = 2,
                 Friction = 0.05f,
                 EmissionStep = .05f,
                 EmissionTime = 999999,
-                Scale = 0.25f,
+                Scale = 0.15f,
                 ScaleRandomness = 0.5f,
                 ScaleOverLifetime = 0.95f,
                 RenderLayer = playerIndex,
@@ -103,7 +107,69 @@ namespace CoolScaryGame
         }
 
         /// <summary>
-        /// give the player a item - discard and return false if inventory is full
+        /// update the player animations
+        /// </summary>
+        internal void AnimationUpdate()
+        {
+            FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
+
+            if(Velocity.Magnitude > 150)
+                rend.Mirror(Velocity.x < 0, false);
+
+            animationSpeed = (ActualVelocity.Magnitude / 1.25f + 6) * speedMultiplier;
+
+            timer += Time.deltaTime;
+            if(timer > 1/animationSpeed)
+            {
+                timer -= 1/animationSpeed;
+                if (State == 1 && ActualVelocity.Magnitude < 1)
+                    SetAnimation(idleAnim, 0);
+                if (State == 0 && ActualVelocity.Magnitude > 1)
+                    SetAnimation(walkAnim, 1);
+                rend.NextFrame();
+            }
+        }
+
+        /// <summary>
+        /// set the current animation
+        /// </summary>
+        /// <param name="dat">the animationdata containing the start frame and frame count of the anination</param>
+        internal void SetAnimation(AnimationData dat, int state)
+        {
+            FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
+            rend.SetCycle(dat.StartFrame, dat.FrameCount);
+            speedMultiplier = dat.Speed;
+            State = state;
+        }
+        internal void ResetAnimation()
+        {
+            FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
+            rend.SetCycle(idleAnim.StartFrame, idleAnim.FrameCount);
+            speedMultiplier = idleAnim.Speed;
+            State = 0;
+        }
+
+        /// <summary>
+        /// Returns the current health of the player
+        /// </summary>
+        /// <returns></returns>
+        public float GetHealth()
+        {
+            return health;
+        }
+
+        /// <summary>
+        /// deal damage to the player
+        /// </summary>
+        /// <param name="damage">the amount of damage</param>
+        public void Damage(float damage)
+        {
+            health -= damage;
+            if (health <= 0)
+                SceneManager.EndGame(1 - playerIndex);
+        }
+
+        /// give the player a skill - discard and return false if inventory is full
         /// </summary>
         /// <param name="item">the item index</param>
         public bool TryGetItems(int item)
@@ -229,66 +295,6 @@ namespace CoolScaryGame
         }
 
         /// <summary>
-        /// update the player animations
-        /// </summary>
-        internal void AnimationUpdate()
-        {
-            FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
-
-            if(Velocity.Magnitude > 150)
-                rend.Mirror(Velocity.x < 0, false);
-
-            animationSpeed = ActualVelocity.Magnitude / 1.25f + 6;
-
-            timer += Time.deltaTime;
-            if(timer > 1/animationSpeed)
-            {
-                timer -= 1/animationSpeed;
-                if (State != 0 && ActualVelocity.Magnitude < 1)
-                {
-                    State = 0;
-                    SetAnimation(idleAnim);
-                }
-                if (State != 1 && ActualVelocity.Magnitude > 1)
-                {
-                    State = 1;
-                    SetAnimation(walkAnim);
-                }
-                rend.NextFrame();
-            }
-        }
-
-        /// <summary>
-        /// set the current animation
-        /// </summary>
-        /// <param name="dat">the animationdata containing the start frame and frame count of the anination</param>
-        private void SetAnimation(AnimationData dat)
-        {
-            FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
-            rend.SetCycle(dat.StartFrame, dat.FrameCount);
-        }
-
-        /// <summary>
-        /// Returns the current health of the player
-        /// </summary>
-        /// <returns></returns>
-        public float GetHealth()
-        {
-            return health;
-        }
-
-        /// <summary>
-        /// deal damage to the player
-        /// </summary>
-        /// <param name="damage">the amount of damage</param>
-        public void Damage(float damage)
-        {
-            health -= damage;
-            if (health <= 0)
-                Console.WriteLine("Game Over");
-        }
-
-        /// <summary>
         /// Get the closest object in front that is of type T
         /// </summary>
         /// <typeparam name="T">The specified type</typeparam>
@@ -358,7 +364,7 @@ namespace CoolScaryGame
                 Friction = 0.05f,
                 EmissionStep = 0,
                 EmissionTime = 0,
-                Scale = 0.5f,
+                Scale = 0.3f,
                 ScaleRandomness = 0.5f,
                 ScaleOverLifetime = 0.95f,
                 R = R,
