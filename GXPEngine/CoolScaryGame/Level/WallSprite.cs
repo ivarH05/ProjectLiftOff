@@ -71,8 +71,9 @@ namespace CoolScaryGame
             renderedThisFrame = true;
             renderer.SetDepthByY(RenderInt);
 
-            if (false) //!rendererVertical)
+            /*if (!rendererVertical)
             {
+            //it was never meant to be
                 Vector2 relPos = PlayerManager.GetPosition(RenderInt);
                 relPos -= TransformPoint(0, 0);
 
@@ -81,7 +82,7 @@ namespace CoolScaryGame
                 float j = relPos.x * .005f;
                 j *= j;
                 renderer.alpha = .1f + .9f*Mathf.Clamp01((-s + 30) * -.01f + j);
-            }
+            }*/
 
             base.Render(glContext, RenderInt);
         }

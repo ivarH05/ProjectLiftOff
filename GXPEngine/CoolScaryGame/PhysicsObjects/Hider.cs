@@ -17,6 +17,7 @@ namespace CoolScaryGame
             base(Position, 0, "Animations/HiderAnimations.png", 5, 4, new AnimationData(10, 9), new AnimationData(0, 10))
         {
             PlayerManager.SetHider(this);
+            playerColor = 0xA0A0FF;
         }
 
         void Update()

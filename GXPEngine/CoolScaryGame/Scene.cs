@@ -42,8 +42,9 @@ namespace CoolScaryGame
         public void AddUI()
         {
             UIManager.AddHiderHealthbar();
-            UIManager.BuildMinimaps();
             UIManager.SetupTimer();
+            UIManager.AddMinimaps();
+            UIManager.AddSkillBoxes();
         }
     }
 }

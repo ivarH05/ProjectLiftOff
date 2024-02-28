@@ -18,6 +18,7 @@ namespace CoolScaryGame
             PlayerManager.SetSeeker(this);
             ((FOVAnimationSprite)renderer).SetVisibility(340);
             speed = 3;
+            playerColor = 0xFFA060;
         }
 
         void Update()
@@ -25,7 +26,6 @@ namespace CoolScaryGame
             freeze -= Time.deltaTime;
 
             PlayerUpdates(1);
-            UIManager.MarkMinimap(position, 1, 0xFFA060);
             //move using the arrow keys
             if (freeze < 0 && stunTimer < 0)
                 AddForce(Input.ArrowVector() * Time.deltaMillis * speed);
