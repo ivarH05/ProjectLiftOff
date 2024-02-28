@@ -7,7 +7,7 @@ using GXPEngine.OpenGL;
 
 public class MainGame : Game 
 {
-	public MainGame() : base(1920, 1080, false, true, 1920, 1080, true, enableDepthBuffer:true, gameName:"Cool scary game,,,")     // Create a window that's 800x600 and NOT fullscreen
+	public MainGame() : base(1920, 1080, false, true, 1920 / 2, 1080 / 2, true, enableDepthBuffer:true, gameName:"Cool scary game,,,")     // Create a window that's 800x600 and NOT fullscreen
 	{
 		SceneManager.SetMainGame(this);
 		SceneManager.MainMenu();
@@ -16,7 +16,11 @@ public class MainGame : Game
 
 	// For every game object, Update is called every frame, by the engine:
 	void Update() {
-		// Empty
+		if(Input.GetKeyDown(Key.L))
+        {
+            Console.WriteLine("fps: " + (int)(1 / Time.deltaTime));
+            Console.WriteLine(GetDiagnostics());
+        }
 	}
 
 	static void Main()                          // Main() is the first method that's called when the program is run

@@ -45,6 +45,7 @@
     <Compile Include="CoolScaryGame\Level\LevelBuilder.cs" />
     <Compile Include="CoolScaryGame\Level\MainMenu.cs" />
     <Compile Include="CoolScaryGame\Level\Room.cs" />
+    <Compile Include="CoolScaryGame\Level\Talisman.cs" />
     <Compile Include="CoolScaryGame\Managers\GameManager.cs" />
     <Compile Include="CoolScaryGame\Managers\LevelManager.cs" />
     <Compile Include="CoolScaryGame\Managers\PlayerManager.cs" />

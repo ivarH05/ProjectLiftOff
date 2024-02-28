@@ -29,7 +29,7 @@ namespace CoolScaryGame
         internal AnimationData idleAnim;
         internal AnimationData walkAnim;
         internal ParticleData WalkParticles = new ParticleData();
-        public Player(Vector2 Position, int playerIndex, string AnimationSprite, int rows, int columns, AnimationData idleAnim, AnimationData walkAnim) : base(48, 32, Position, true)
+        public Player(Vector2 Position, int playerIndex, string AnimationSprite, int rows, int columns, AnimationData idleAnim, AnimationData walkAnim) : base(48, 32, Position, true, 0b101, 0b101)
         {
             this.idleAnim = idleAnim;
             this.walkAnim = walkAnim;
@@ -54,7 +54,7 @@ namespace CoolScaryGame
         }
 
         void SetupWalkParticles()
-        {
+         {
             WalkParticles = new ParticleData()
             {
                 sprite = "TriangleParticle.png",
