@@ -17,6 +17,7 @@ namespace CoolScaryGame
     {
         Sprite renderer;
         bool rendererVertical = false;
+        bool renderedThisFrame = false;
         public WallSprite(TiledObject obj) : base(obj, true, 0b1, 0, false)
         { 
         }
@@ -67,6 +68,7 @@ namespace CoolScaryGame
         }
         public override void Render(GLContext glContext, int RenderInt)
         {
+            renderedThisFrame = true;
             renderer.SetDepthByY(RenderInt);
 
             if (false) //!rendererVertical)
@@ -82,6 +84,17 @@ namespace CoolScaryGame
             }
 
             base.Render(glContext, RenderInt);
+        }
+
+        void Update()
+        {
+            //this is gross. it sucks and i hate it.
+            //oh the things you do for +20 fps
+            if (!renderedThisFrame)
+                collider.isTrigger = true;
+            else
+                collider.isTrigger = false;
+            renderedThisFrame = false;
         }
 
         int GetRandomWall(int Type)

@@ -16,13 +16,17 @@ namespace CoolScaryGame
     public class Room : GameObject
     {
         private static Hashtable LoaderCache = new Hashtable();
-        Pivot tiles = new Pivot();
+        public static readonly string RoomName = "Rooms/Roomset1/Room";
+        private static uint[] doorConnections;
+        
+        SpriteBatch tiles = new SpriteBatch();
         Pivot objects = new Pivot();
         SpriteContainer roomContainer;
-        public Room(string TMX, float rotation, float roomHeight)
+        public Room(string TMX, float rotation, float roomSize, uint doors)
         {
             this.rotation = rotation;
-            Vector2 rotated = new Vector2(0,roomHeight*.5f).Rotate(rotation);
+            doors = rotateDoorConnections(doors, ((int)rotation / 90));
+
             TiledLoader build = getLoader(TMX);
             build.rootObject = tiles;
             build.addColliders = false;
@@ -53,16 +57,22 @@ namespace CoolScaryGame
                 }
                 if (obj is InvisibleObject)
                 {
-                    if (obj is WallSprite)
+                    if(obj is DoorSprite)
+                    {
+                        ((DoorSprite)obj).Setup(rotation, walltype, doors);
+                        if (((DoorSprite)obj).thisDoor != 0 && (obj.position - .5f * new Vector2(roomSize, roomSize)).Rotate(rotation * 0.0174532925f).y > 0) ((DoorSprite)obj).removeWallIfHorizontal();
+                    }
+                    else if (obj is WallSprite)
                     {
                         WallSprite cj = (WallSprite)obj;
                         cj.Setup(rotation, walltype);
-                        if((cj.position-.5f*new Vector2(roomHeight, roomHeight)).Rotate(rotation* 0.0174532925f).y > 0) cj.removeWallIfHorizontal();
+                        if ((cj.position - .5f * new Vector2(roomSize, roomSize)).Rotate(rotation * 0.0174532925f).y > 0) cj.removeWallIfHorizontal();
                     }
                     else ((InvisibleObject)obj).Setup();
                 }
             }
             tiles.depth = 99;
+            tiles.Freeze();
         }
         TiledLoader getLoader(string TMX)
         {
@@ -73,6 +83,51 @@ namespace CoolScaryGame
                 LoaderCache[TMX] = res;
             }
             return res;
+        }
+        public static uint getDoorConnections(Vector2i room)
+        {
+            uint res = doorConnections[room.x];
+            int rotation = (room.y / 90);
+            return rotateDoorConnections(res, 4- rotation);
+        }
+        public static uint rotateDoorConnections(uint connections, int rotation)
+        {
+            //evil boolean magic
+            connections = connections << (rotation);
+            connections |= connections >> 4;
+            return connections & 0b1111;
+        }
+        public static void buildDoorConnections()
+        {
+            if (doorConnections != null)
+                return;
+            List<uint> connections = new List<uint>();
+            Pivot slopper = new Pivot();
+            int i = 0;
+            while (i < 1000) //i think thats a reasonable amount
+            {
+                try
+                {
+                    TiledLoader sludge = new TiledLoader(RoomName + i + ".tmx", slopper, false);
+                    sludge.autoInstance = true;
+                    sludge.LoadObjectGroups();
+                    uint res = 0;
+                    foreach(GameObject obj in slopper.GetChildren(false))
+                    {
+                        if(obj is DoorSprite)
+                        {
+                            res |= ((DoorSprite)obj).thisDoor;
+                        }
+                    }
+                    connections.Add(res);
+                    i++;
+                }
+                catch
+                {
+                    break;
+                }
+            }
+            doorConnections = connections.ToArray();
         }
     }
 }

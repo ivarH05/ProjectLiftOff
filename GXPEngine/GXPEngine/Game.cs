@@ -198,7 +198,15 @@ namespace GXPEngine
 			if (RenderMain || !recurse) {
 				base.Render (glContext, s);
 
-				depthSortObjects.Sort(delegate (GameObject a, GameObject b)
+				foreach (GameObject obj in depthSortObjects)
+				{
+					if (obj == null || !obj.InHierarchy())
+					{
+						depthSortObjects.Remove(obj);
+						break;
+					}
+				}
+                depthSortObjects.Sort(delegate (GameObject a, GameObject b)
                 {
                     //i was gonna like. implement my own algorithm
                     //ig not (not that im complaining)
@@ -206,11 +214,6 @@ namespace GXPEngine
 				});
 				foreach (GameObject obj in depthSortObjects)
                 {
-					if(obj == null || !obj.InHierarchy())
-					{
-						depthSortObjects.Remove(obj);
-						break;
-					}
                     obj.RenderDepthSorted(glContext, s);
                 }
 			}

@@ -10,18 +10,12 @@ namespace CoolScaryGame
 {
     public class Minimap : GameObject
     {
-
-        static Pivot _tiledMinimap;
-        public static Pivot tiledMinimap
-        {
-            set { _tiledMinimap = value; }
-        }
-
         //stored as the index of the room (x), and its rotation (0,  90, 180, 270) (y)
         static Vector2i[,] rooms;
         static Vector2i lowest = new Vector2i(int.MaxValue, int.MaxValue);
         static Vector2i highest = new Vector2i(int.MinValue, int.MinValue);
         static Vector2i mapDimensions;
+        public static Vector2i roomsDimensions {get { return mapDimensions; }}
         static Vector2 roomSize;
 
         AnimationSprite[,] minimapRenderers;
@@ -37,10 +31,10 @@ namespace CoolScaryGame
         {
             get { return _height*scaleY; }
         }
-        public static void BuildMinimaps(int roomWidth, int roomHeight)
+        public static void BuildMinimap(GameObject tiledMinimap, int roomWidth, int roomHeight)
         {
             roomSize = new Vector2(roomWidth, roomHeight);
-            foreach (AnimationSprite obj in _tiledMinimap.GetChildren(false))
+            foreach (AnimationSprite obj in tiledMinimap.GetChildren(false))
             {
                 Vector2 pos = obj.position * .1f;
                 lowest.x = (int)Mathf.Min(lowest.x, pos.x);
@@ -48,16 +42,17 @@ namespace CoolScaryGame
                 highest.x = (int)Mathf.Max(highest.x, pos.x);
                 highest.y = (int)Mathf.Max(highest.y, pos.y);
             }
-            Console.WriteLine(lowest + " - " + highest);
+            //Console.WriteLine(lowest + " - " + highest);
+
             mapDimensions = new Vector2i(highest.x - lowest.x + 1, highest.y - lowest.y + 1);
             rooms = new Vector2i[mapDimensions.x, mapDimensions.y];
-            foreach (AnimationSprite obj in _tiledMinimap.GetChildren(false))
+            foreach (AnimationSprite obj in tiledMinimap.GetChildren(false))
             {
                 Vector2i pos = GetRoomIndexFromTiledminimapPos(obj.position);
                 rooms[pos.x, pos.y] = new Vector2i(obj.currentFrame, (int)obj.rotation);
             }
 
-            for (int y = 0; y < mapDimensions.y; y++)
+            /*for (int y = 0; y < mapDimensions.y; y++)
             {
                 for (int x = 0; x < mapDimensions.x; x++)
                 {
@@ -65,7 +60,7 @@ namespace CoolScaryGame
                     Console.Write("["+pos.x +","+pos.y/90+"]");
                 }
                 Console.WriteLine();
-            }
+            }*/
         }
         static Vector2i GetRoomIndexFromTiledminimapPos(Vector2 tiledMinimapPos)
         {
@@ -77,6 +72,12 @@ namespace CoolScaryGame
         {
             Vector2 TiledScale = (position / roomSize)*10;
             return GetRoomIndexFromTiledminimapPos(TiledScale);
+        }
+
+        public static Vector2 GetGlobalPosFromRoomIndex(Vector2i index)
+        {
+            index += lowest;
+            return new Vector2(roomSize.x * index.x, roomSize.y * index.y) + .5f*roomSize;
         }
 
         public Minimap()
@@ -114,6 +115,17 @@ namespace CoolScaryGame
                     { }
                     else minimapRenderers[x, y].color = 0xFFFFFF; 
                 }
+        }
+
+        public static Vector2i GetRoom(Vector2i position)
+        {
+            if (position.x < 0 || position.y < 0 || position.x >= mapDimensions.x || position.y >= mapDimensions.y)
+                return new Vector2i();
+            return rooms[position.x, position.y];
+        }
+        public static Vector2i GetRoom(int x, int y)
+        {
+            return GetRoom(new Vector2i(x, y));
         }
     }
 }

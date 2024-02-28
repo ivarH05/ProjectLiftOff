@@ -18,7 +18,6 @@ namespace CoolScaryGame
             parent.AddChild(levelContainer);
             parent.AddChild(objectContainer);
             new LevelBuilder("Rooms/Map" + levelIndex + ".tmx", levelContainer, objectContainer, minimapHolder, 640, 640, 1, 1);
-            Minimap.tiledMinimap = minimapHolder;
         }
 
         public static void RemoveCurrentLevel()

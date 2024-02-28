@@ -27,13 +27,13 @@ namespace CoolScaryGame
         }
         public static void BuildMinimaps()
         {
-            Minimap.BuildMinimaps(640, 640);
             Minimaps = new Minimap[] { new Minimap(), new Minimap() };
             for(int i = 0; i < Minimaps.Length; i++)
             {
                 Minimap map = Minimaps[i];
                 map.RenderLayer = i;
                 map.SetScaleXY(3, 3);
+                //offset by .01 to fix floating point errors
                 map.y = -Game.main.height / 2 + .01f;
                 map.x = map.width / -2 + .01f;
                 map.depth = -98;
@@ -58,6 +58,7 @@ namespace CoolScaryGame
             }
             UI.Clear();
             HiderHealthBars = null;
+            Minimaps = null;
         }
     }
 }
