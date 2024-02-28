@@ -28,13 +28,16 @@ namespace CoolScaryGame
             PlayerUpdates(1);
             //move using the arrow keys
             if (freeze < 0 && stunTimer < 0)
-                AddForce(Input.ArrowVector() * Time.deltaMillis * speed);
+                AddForce(Input.ArrowVector() * Time.deltaMillis * (speed+speedBoost));
 
             if (Input.GetKeyDown(Key.RIGHT_CTRL) && stunTimer < 0)
                 Attack();
 
             if (Input.GetKeyDown(Key.RIGHT_SHIFT))
                 Exterminate();
+
+            if(Input.GetKeyDown(Key.RIGHT_CTRL))
+                useItem();
         }
 
         /// <summary>

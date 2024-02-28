@@ -22,7 +22,7 @@ namespace CoolScaryGame
 
         void Update()
         {
-            speed = Mathf.Lerp(speed, 2.5f, Time.deltaTime * 5);
+            speed = Mathf.Lerp(speed, 2.5f, Time.deltaTime * 5) + speedBoost;
             //move using wasd
             AddForce(Input.WASDVector() * Time.deltaMillis * speed);
             PlayerUpdates(0);
@@ -38,6 +38,8 @@ namespace CoolScaryGame
                 GrabObject((Portable)GetObjectInFrontOfType<Portable>());
             }
             renderer.alpha = 0.75f;
+            if (Input.GetKeyDown(Key.Q))
+                useItem();
         }
 
         /// <summary>

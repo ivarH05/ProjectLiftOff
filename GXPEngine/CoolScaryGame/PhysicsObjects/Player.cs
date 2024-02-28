@@ -1,13 +1,8 @@
-using GXPEngine.Core;
-using GXPEngine;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+using GXPEngine;
 using GXPEngine.CoolScaryGame.Particles;
-using CoolScaryGame.Particles;
+using GXPEngine.Core;
 
 namespace CoolScaryGame
 {
@@ -29,7 +24,10 @@ namespace CoolScaryGame
         internal AnimationData walkAnim;
         internal ParticleData WalkParticles = new ParticleData();
 
-        protected Vector2i skillInventory;
+        protected ItemInventory Items;
+        protected float[] activeItemTimers = new float[8] {-1, -1, -1, -1, -1, -1, -1, -1 };
+        protected float speedBoost = 0;
+        protected Sprite enemyArrow;
 
         protected uint playerColor = 0xFFFFFF;
 
@@ -42,6 +40,7 @@ namespace CoolScaryGame
             renderer = new FOVAnimationSprite(AnimationSprite, rows, columns, idleAnim.FrameCount, 200, false, false);
             SetupRenderer();
             SetupWalkParticles();
+            SetupEnemyArrow();
         }
 
         void SetupRenderer()
@@ -99,27 +98,104 @@ namespace CoolScaryGame
             AnimationUpdate();
 
             ActualVelocity = (TransformPoint(0, 0) - LastPos);
+
+            UpdateItems();
         }
 
         /// <summary>
-        /// give the player a skill - discard and return false if inventory is full
+        /// give the player a item - discard and return false if inventory is full
         /// </summary>
-        /// <param name="skill">the skill index</param>
-        public bool TryGetSkill(int skill)
+        /// <param name="item">the item index</param>
+        public bool TryGetItems(int item)
         {
-            if(skillInventory.x == 0)
+            if(Items.first.ID == Item.empty)
             {
-                skillInventory.x = skill;
-                UIManager.SetSkills(skillInventory.x, skillInventory.y, playerIndex);
+                Items.first.ID = item;
+                UIManager.SetItems(Items.first.ID, Items.backup.ID, playerIndex);
                 return true;
             }
-            if(skillInventory.y == 0)
+            if(Items.backup.ID == Item.empty)
             {
-                skillInventory.y = skill;
-                UIManager.SetSkills(skillInventory.x, skillInventory.y, playerIndex);
+                Items.backup.ID = item;
+                UIManager.SetItems(Items.first.ID, Items.backup.ID, playerIndex);
                 return true;
             }
             return false;
+        }
+
+        void SetupEnemyArrow()
+        {
+            enemyArrow = new Sprite("UI/bigArrow.png", true, false);
+            enemyArrow.CenterOrigin();
+            AddChild(enemyArrow);
+            enemyArrow.alpha = 0;
+            enemyArrow.visible = false;
+            enemyArrow.RenderLayer = playerIndex;
+        }
+
+        protected void UpdateItems()
+        {
+            for(int i = 0; i<activeItemTimers.Count(); i++)
+            {
+                if (activeItemTimers[i] < 0)
+                    continue;
+                activeItemTimers[i] -= Time.deltaTime;
+
+                if ( activeItemTimers[i] > 0 )
+                    continue;
+
+                ExpireItem(i);
+                activeItemTimers[i] = -1000;
+            }
+            if(enemyArrow.visible)
+            {
+                Vector2 playerDifference = PlayerManager.GetPosition(playerIndex) - PlayerManager.GetPosition(1 - playerIndex);
+                enemyArrow.rotation = 270 + 57.2957795f * Mathf.Atan2(playerDifference.y, playerDifference.x);
+                //i am completely and fully mentally stable. oh hey look a page long line of code!
+                enemyArrow.alpha = Mathf.Clamp01(Mathf.Min(activeItemTimers[Item.showEnemy], Item.ItemDurations[Item.showEnemy] - activeItemTimers[Item.showEnemy]));
+            }
+        }
+
+        protected void ExpireItem(int item)
+        {
+            switch(item)
+            {
+                default:
+                    break;
+                case Item.speedUp:
+                    speedBoost = 0;
+                    Console.WriteLine("hell yeah");
+                    break;
+                case Item.showEnemy:
+                    enemyArrow.visible = false;
+                    Console.WriteLine("yeah fuck");
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// use a item
+        /// </summary>
+        public void useItem()
+        {
+            if(activeItemTimers[Items.first.ID] < -.5f)
+                switch(Items.first.ID)
+                {
+                    default:
+                        break;
+                    case Item.speedUp:
+                        speedBoost = .2f;
+                        Console.WriteLine("hell yeah");
+                        break;
+                    case Item.showEnemy:
+                        enemyArrow.visible = true;
+                        Console.WriteLine("yeah shit");
+                        break;
+                }
+            activeItemTimers[Items.first.ID] = Item.ItemDurations[Items.first.ID];
+            Items.first.ID = Items.backup.ID;
+            Items.backup.ID = Item.empty;
+            UIManager.SetItems(Items.first.ID, Items.backup.ID, playerIndex);
         }
 
         /// <summary>

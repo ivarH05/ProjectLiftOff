@@ -85,6 +85,11 @@ namespace CoolScaryGame
                         toAdd = new Talisman(pos.x, pos.y);
                         objectHolder.AddChild(toAdd);
                         break;
+                    case 4:
+                        toAdd = new WorldItem(Utils.Random(1,4));
+                        toAdd.position = pos;
+                        objectHolder.AddChild(toAdd);
+                        break;
                 }
             }
             int ra = Utils.Random(0, HiderPositions.Count);
