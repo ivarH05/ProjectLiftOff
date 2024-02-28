@@ -10,7 +10,7 @@ namespace CoolScaryGame
 {
     public class Seeker : Player
     {
-        AnimationData AttackAnim = new AnimationData(22, 14);
+        AnimationData ExterminateAnim = new AnimationData(22, 13, 1.5f);
         float freeze = 0;
         public Seeker(Vector2 Position) :
             base(Position, 1, "Animations/SeekerAnimations.png", 4, 9, new AnimationData(12, 10), new AnimationData(0, 12))
@@ -35,6 +35,8 @@ namespace CoolScaryGame
 
             if (Input.GetKeyDown(Key.RIGHT_SHIFT))
                 Exterminate();
+            else if (State == 2 && freeze < -0.5f)
+                ResetAnimation();
         }
 
         /// <summary>
@@ -64,6 +66,7 @@ namespace CoolScaryGame
                 PlayerManager.SlowPlayer(0, (300 / dist));
                 freeze = 0.2f;
                 PlayerManager.DamagePlayer(0, 1);
+                SetAnimation(ExterminateAnim, 2);
             }
         }
 

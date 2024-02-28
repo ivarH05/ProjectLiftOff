@@ -12,6 +12,7 @@ namespace CoolScaryGame
         internal bool canPush = true;
         internal uint CollisionLayers = 1;
         internal uint CoupleWithLayers = 1;
+        internal bool UnClip = true;
 
 
         float bounciness = 0.1f;
@@ -46,7 +47,8 @@ namespace CoolScaryGame
             {
                 _timer -= Time.deltaTime;
                 Vector2 offset = MoveSeperate(Velocity * Time.TimeStep);
-                position += offset;
+                if(UnClip)
+                    position += offset;
                 AddFriction(Friction);
             }
         }
