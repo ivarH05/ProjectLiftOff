@@ -19,7 +19,7 @@ namespace CoolScaryGame
         public static readonly string RoomName = "Rooms/Roomset1/Room";
         private static uint[] doorConnections;
         
-        Pivot tiles = new Pivot();
+        SpriteBatch tiles = new SpriteBatch();
         Pivot objects = new Pivot();
         SpriteContainer roomContainer;
         public Room(string TMX, float rotation, float roomSize, uint doors)
@@ -72,6 +72,7 @@ namespace CoolScaryGame
                 }
             }
             tiles.depth = 99;
+            tiles.Freeze();
         }
         TiledLoader getLoader(string TMX)
         {
@@ -123,7 +124,7 @@ namespace CoolScaryGame
                 }
                 catch
                 {
-                    i = 1001;
+                    break;
                 }
             }
             doorConnections = connections.ToArray();
