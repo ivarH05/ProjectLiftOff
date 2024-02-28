@@ -30,7 +30,7 @@ namespace CoolScaryGame
 
             //I LOVE UNDERLIME SLOPPER
 
-            LevelManager.BuildLevelByIndex(this, 0);
+            LevelManager.BuildLevelByIndex(this, 3);
         }
 
         void Update()
