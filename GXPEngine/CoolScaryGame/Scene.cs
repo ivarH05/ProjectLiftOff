@@ -3,6 +3,7 @@ using GXPEngine;
 using System;
 using GXPEngine.CoolScaryGame.Particles;
 using CoolScaryGame.Particles;
+using GXPEngine.CoolScaryGame.Level;
 
 namespace CoolScaryGame
 {
@@ -25,6 +26,7 @@ namespace CoolScaryGame
             //AddChild(new Portable(-100, 100));
             //AddChild(new Portable(0, 100));
             //AddChild(new Portable(100, 100));
+            AddChild(new Talisman(2000, 2000));
 
             //I LOVE UNDERLIME SLOPPER
 
