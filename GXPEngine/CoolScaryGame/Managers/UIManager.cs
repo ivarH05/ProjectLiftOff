@@ -79,8 +79,9 @@ namespace CoolScaryGame
 
         public static void AddHiderHealthbar()
         {
-            HealthBar inquestion = new HealthBar("UI/healthOverlay.png", new Vector2(27, 13), new Vector2i(142, 25), 0, 100, 100);
-            HealthBar inquestion2 = new HealthBar("UI/healthOverlay.png", new Vector2(27, 13), new Vector2i(142, 25), 0, 100, 100);
+            int val = Hider.StarterHealth;
+            HealthBar inquestion = new HealthBar("UI/healthOverlay.png", new Vector2(27, 13), new Vector2i(142, 25), 0, val, val);
+            HealthBar inquestion2 = new HealthBar("UI/healthOverlay.png", new Vector2(27, 13), new Vector2i(142, 25), 0, val, val);
             HiderHealthBars = new HealthBar[] { inquestion, inquestion2 };
             inquestion.RenderLayer = 0;
             inquestion2.RenderLayer = 1;

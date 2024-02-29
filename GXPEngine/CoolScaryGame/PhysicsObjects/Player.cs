@@ -169,7 +169,11 @@ namespace CoolScaryGame
         {
             health -= damage;
             if (health <= 0)
+            {
+                health = 0;
                 SceneManager.EndGame(1 - playerIndex);
+            }
+            SoundManager.PlaySound(new Sound("Sound/Attack.wav"));
         }
 
         /// give the player a skill - discard and return false if inventory is full
@@ -291,6 +295,7 @@ namespace CoolScaryGame
                 B = 1f,
             };
             SceneManager.AddParticles(dat);
+            SoundManager.PlaySound(new Sound("Sound/Stun.mp3"));
         }
 
         /// <summary>

@@ -11,6 +11,7 @@ namespace CoolScaryGame
 {
     public class Hider : Player
     {
+        public static int StarterHealth = 40;
         public Portable HoldingItem = null;
         AnimationData Idle = new AnimationData(10, 9);
         AnimationData Walk = new AnimationData(0, 10, 0.6f);
@@ -18,6 +19,7 @@ namespace CoolScaryGame
         AnimationData BarrelWalk = new AnimationData(19, 10, 1.5f);
         public Hider(Vector2 Position) : base(Position, 0, "Animations/HiderAnimations.png", 5, 7, new AnimationData(10, 9), new AnimationData(0, 10, 0.1f))
         {
+            health = StarterHealth;
             PlayerManager.SetHider(this);
             playerColor = 0xA0A0FF;
         }
@@ -28,11 +30,9 @@ namespace CoolScaryGame
             //move using wasd
             if (stunTimer < 0)
                 AddForce(Input.WASDVector() * Time.deltaMillis * (speed+speedBoost));
-            if (HoldingItem == null)
-                renderer.alpha = 0.75f;
-            else
-                renderer.alpha = 1;
             PlayerUpdates(0);
+
+            renderer.alpha = HoldingItem == null ? 0.75f : 1;
 
             if (Input.GetKeyDown(Key.E))
                 if (HoldingItem == null)
@@ -86,7 +86,7 @@ namespace CoolScaryGame
 
         public void Attacked()
         {
-            if (stunTimer < 3)
+            if (stunTimer < -3)
                 Stun(HoldingItem == null ? 3 : 5);
             DropObject(true);
         }
