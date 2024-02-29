@@ -56,7 +56,7 @@ namespace CoolScaryGame
             renderer.height = 108;
             renderer.CenterOrigin();
             renderer.y = -32;
-            renderer.x = width * 0.75f;
+            renderer.x = width * 0.6f;
             SetAnimation(idleAnim, 0);
         }
 
@@ -229,7 +229,7 @@ namespace CoolScaryGame
         {
             Sprite s = new Sprite("Square.png", false, true, 0, 0b10);
             s.CenterOrigin();
-            s.scaleX = 1.5f;
+            s.scale = 1.5f;
             s.position = GetCenter() + Velocity.Normalized * 32;
             s.LookAt(GetCenter());
 

@@ -19,7 +19,7 @@ namespace GXPEngine.CoolScaryGame.Particles
         /// </summary>
         public int rows = 1, cols = 1;
 
-        public float Depth = -100;
+        public float Depth = -90;
 
         public GameObject TrackObject;
         public Vector2 SpawnPosition;

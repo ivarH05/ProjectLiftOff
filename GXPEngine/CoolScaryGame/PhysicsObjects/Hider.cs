@@ -15,7 +15,7 @@ namespace CoolScaryGame
         AnimationData Idle = new AnimationData(10, 9);
         AnimationData Walk = new AnimationData(0, 10, 0.6f);
         AnimationData BarrelIdle = new AnimationData(29, 6, 0.1f);
-        AnimationData BarrelWalk = new AnimationData(19, 10, 1);
+        AnimationData BarrelWalk = new AnimationData(19, 10, 1.5f);
         public Hider(Vector2 Position) : base(Position, 0, "Animations/HiderAnimations.png", 5, 7, new AnimationData(10, 9), new AnimationData(0, 10, 0.1f))
         {
             PlayerManager.SetHider(this);
@@ -83,9 +83,8 @@ namespace CoolScaryGame
             HoldingItem.Drop(position, Velocity);
 
             if(DestroyObj)
-                HoldingItem.LateDestroy();
-            else
-                HoldingItem.renderer.visible = true;
+                HoldingItem.DestroySelf();
+            HoldingItem.renderer.visible = true;
 
             HoldingItem = null;
             ResetAnimation();
@@ -94,7 +93,8 @@ namespace CoolScaryGame
 
         public void Attacked()
         {
-            Stun(HoldingItem == null ? 3 : 5);
+            if (stunTimer < 3)
+                Stun(HoldingItem == null ? 3 : 5);
             DropObject(true);
         }
     }

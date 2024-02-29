@@ -22,7 +22,7 @@ namespace CoolScaryGame.Particles
         {
             rotation = dat.LookDirection + Utils.Random(-dat.directionRandomness, dat.directionRandomness);
             RenderLayer = dat.RenderLayer;
-            depth = dat.Depth;
+            depth = dat.Depth + Utils.Random(-1f, 1f);
             data = dat;
             alpha = dat.A;
             depthSort = true;

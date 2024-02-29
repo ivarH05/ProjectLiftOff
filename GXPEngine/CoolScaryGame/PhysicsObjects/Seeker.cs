@@ -51,9 +51,9 @@ namespace CoolScaryGame
             GameObject[] objs = GetObjectsInFront();
             foreach (GameObject obj in objs)
             {
-                if (obj is Portable)
+                if (obj is Portable p)
                 {
-                    obj.LateDestroy();
+                    p.DestroySelf();
                 }
                 else if (obj is Hider h)
                 {
@@ -86,7 +86,7 @@ namespace CoolScaryGame
                 if(p.StunableTimer > 0)
                 {
                     Stun(1);
-                    Other.LateDestroy();
+                    p.DestroySelf();
                 }
             }
         }
