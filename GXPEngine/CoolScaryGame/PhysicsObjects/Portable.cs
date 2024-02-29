@@ -5,6 +5,7 @@ using GXPEngine.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -26,6 +27,15 @@ namespace GXPEngine
         {
             StunableTimer -= Time.deltaTime;
             PhysicsUpdate();
+        }
+
+        public void Drop(Vector2 Position, Vector2 Velocity)
+        {
+            position = position + Velocity.Normalized * 10;
+            this.Velocity = Velocity + Velocity.Normalized * 600;
+            StunableTimer = 1;
+            isDissabled = false;
+            isKinematic = false;
         }
 
         protected override void OnDestroy()

@@ -20,6 +20,7 @@ namespace CoolScaryGame
         {
             CollisionLayers = collisionLayers;
             CoupleWithLayers = coupleWithLayers;
+            debugVisible = true;
         }
 
         /// <summary>

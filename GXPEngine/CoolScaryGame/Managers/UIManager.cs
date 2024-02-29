@@ -23,17 +23,19 @@ namespace CoolScaryGame
         {
             EasyDraw Timer0 = new EasyDraw(200, 100);
             Timer0.TextAlign(CenterMode.Center, CenterMode.Center);
-            Timer0.SetXY(420, -500);
+            Timer0.SetXY(400, -500);
             Timer0.CenterOrigin();
             Timer0.depthSort = true;
             Timer0.depth = -98;
+            Timer0.RenderLayer = 0;
 
             EasyDraw Timer1 = new EasyDraw(200, 100);
             Timer1.TextAlign(CenterMode.Center, CenterMode.Center);
-            Timer1.SetXY(-420, -500);
+            Timer1.SetXY(-430, -500);
             Timer1.CenterOrigin();
             Timer1.depthSort = true;
             Timer1.depth = -98;
+            Timer1.RenderLayer = 1;
 
 
             CamManager.AddUI(Timer0, 0);
@@ -44,14 +46,14 @@ namespace CoolScaryGame
             Timers = new EasyDraw[]{ Timer0, Timer1};
         }
 
-        public static void UpdateTimer(float time)
+        public static void UpdateTimer(int talisman, float time)
         {
             Timers[0].ClearTransparent();
             Timers[1].ClearTransparent();
             int minutes = (int)time / 60;
             int seconds = (int)time % 60;
             string text = minutes.ToString("00") + ":" + seconds.ToString("00");
-            Timers[0].Text(text);
+            Timers[0].Text(talisman + " / 4   |   " + text);
             Timers[1].Text(text);
         }
 
@@ -77,7 +79,7 @@ namespace CoolScaryGame
 
         public static void AddHiderHealthbar()
         {
-            HealthBar inquestion = new HealthBar("UI/healthOverlay.png", new Vector2(27, 13), new Vector2i(142, 25), 0, 35, 35);
+            HealthBar inquestion = new HealthBar("UI/healthOverlay.png", new Vector2(27, 13), new Vector2i(142, 25), 0, 100, 100);
             HealthBar inquestion2 = new HealthBar("UI/healthOverlay.png", new Vector2(27, 13), new Vector2i(142, 25), 0, 100, 100);
             HiderHealthBars = new HealthBar[] { inquestion, inquestion2 };
             inquestion.RenderLayer = 0;

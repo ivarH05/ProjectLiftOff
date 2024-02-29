@@ -56,6 +56,9 @@ namespace GXPEngine.CoolScaryGame.Particles
         public float ForceRandomness = 0.5f;
         public float Friction = 0.1f, FrictionRandomness = 0.25f;
 
+        public float LookDirection;
+        public float directionRandomness = 360;
+
         ///////// RenderLayer settings
         /// <summary>
         /// Renderlayer -1 will render on both monitors, Renderlayer 0 on camera 0 and Renderlayer 1 or camera 1

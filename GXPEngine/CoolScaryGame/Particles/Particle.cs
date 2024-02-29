@@ -20,15 +20,17 @@ namespace CoolScaryGame.Particles
         private float lifeTime = 1;
         public Particle(ParticleData dat) : base(dat.sprite, dat.cols, dat.rows, -1, false, false)//base(dat.sprite, false, false)///
         {
+            rotation = dat.LookDirection + Utils.Random(-dat.directionRandomness, dat.directionRandomness);
             RenderLayer = dat.RenderLayer;
             depth = dat.Depth;
             data = dat;
             alpha = dat.A;
+            depthSort = true;
 
             SetColor(dat.R, dat.G, dat.B);
 
             CenterOrigin();
-            rotation = Utils.Random(0, 360);
+            //rotation = Utils.Random(0, 360);
 
             scale = Randomize(dat.Scale, dat.ScaleRandomness);
             lifeTime = Randomize(dat.LifeTime, dat.LifetimeRandomness);

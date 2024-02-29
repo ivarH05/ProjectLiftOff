@@ -11,12 +11,13 @@ namespace CoolScaryGame
     public class Seeker : Player
     {
         AnimationData ExorciseAnim = new AnimationData(22, 13, 1.5f);
+        AnimationData AttackAnim = new AnimationData(35, 18, 3.2f);
         float freeze = 0;
         public Seeker(Vector2 Position) :
             base(Position, 1, "Animations/SeekerAnimations.png", 4, 14, new AnimationData(12, 10), new AnimationData(0, 12))
         {
             PlayerManager.SetSeeker(this);
-            ((FOVAnimationSprite)renderer).SetVisibility(340);
+            ((FOVAnimationSprite)renderer).SetVisibility(380);
             speed = 3;
             playerColor = 0xFFA060;
         }
@@ -30,12 +31,13 @@ namespace CoolScaryGame
             if (freeze < 0 && stunTimer < 0)
                 AddForce(Input.ArrowVector() * Time.deltaMillis * speed);
 
-            if (Input.GetKeyDown(Key.RIGHT_CTRL) && stunTimer < 0)
+            if (Input.GetKeyDown(Key.RIGHT_CTRL) && freeze < 0)
                 Attack();
-
             if (Input.GetKeyDown(Key.RIGHT_SHIFT))
                 Exorcise();
             else if (State == 2 && freeze < -0.5f)
+                ResetAnimation();
+            else if (State == 3 && freeze < -0f)
                 ResetAnimation();
         }
 
@@ -44,6 +46,8 @@ namespace CoolScaryGame
         /// </summary>
         void Attack()
         {
+            SetAnimation(AttackAnim, 3);
+            Velocity = Velocity.Normalized * 500;
             GameObject[] objs = GetObjectsInFront();
             foreach (GameObject obj in objs)
             {
@@ -51,8 +55,12 @@ namespace CoolScaryGame
                 {
                     obj.LateDestroy();
                 }
+                else if (obj is Hider h)
+                {
+                    h.Attacked();
+                }
             }
-            Stun(0.5f, false);
+            freeze = 0.8f;
         }
 
         /// <summary>
@@ -63,7 +71,7 @@ namespace CoolScaryGame
             float dist = Vector2.Distance(position, PlayerManager.GetPosition(0));
             if (dist < 300)
             {
-                PlayerManager.SlowPlayer(0, (300 / dist));
+                //PlayerManager.SlowPlayer(0, (300 / dist));
                 freeze = 0.2f;
                 PlayerManager.DamagePlayer(0, 1);
                 SetAnimation(ExorciseAnim, 2);
@@ -76,8 +84,10 @@ namespace CoolScaryGame
             {
                 Velocity = p.Velocity;
                 if(p.StunableTimer > 0)
-                Stun(1);
-                Other.LateDestroy();
+                {
+                    Stun(1);
+                    Other.LateDestroy();
+                }
             }
         }
     }

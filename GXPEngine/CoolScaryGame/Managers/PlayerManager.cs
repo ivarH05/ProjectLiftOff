@@ -100,6 +100,11 @@ namespace CoolScaryGame
             player(index).Damage(amount);
         }
 
+        public static int GetTalismanCount()
+        {
+            return TalismanCount;
+        }
+
         public static void AddTalisman()
         {
             TalismanCount++;
