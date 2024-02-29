@@ -1,4 +1,4 @@
-﻿using GXPEngine.Core;
+using GXPEngine.Core;
 using GXPEngine;
 using System;
 using System.Collections.Generic;
@@ -26,10 +26,10 @@ namespace CoolScaryGame
 
         void Update()
         {
-            speed = Mathf.Lerp(speed, 2.5f, Time.deltaTime * 5);
+            speed = Mathf.Lerp(speed, 2.5f, Time.deltaTime * 5) ;
             //move using wasd
             if (stunTimer < 0)
-                AddForce(Input.WASDVector() * Time.deltaMillis * speed);
+                AddForce(Input.WASDVector() * Time.deltaMillis * (speed+speedBoost));
             PlayerUpdates(0);
 
             renderer.alpha = HoldingItem == null ? 0.75f : 1;
@@ -39,8 +39,8 @@ namespace CoolScaryGame
                     GrabObject((Portable)GetObjectInFrontOfType<Portable>());
                 else
                     DropObject();
-
-            UIManager.MarkMinimap(position, 0, 0xA0A0FF);
+            if (Input.GetKeyDown(Key.Q))
+                useItem();
             UIManager.UpdateHiderHealth(health);
         }
 

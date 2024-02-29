@@ -29,7 +29,7 @@ namespace CoolScaryGame
             PlayerUpdates(1);
             //move using the arrow keys
             if (freeze < 0 && stunTimer < 0)
-                AddForce(Input.ArrowVector() * Time.deltaMillis * speed);
+                AddForce(Input.ArrowVector() * Time.deltaMillis * (speed+speedBoost));
 
             if (Input.GetKeyDown(Key.RIGHT_CTRL) && freeze < 0)
                 Attack();
@@ -39,6 +39,8 @@ namespace CoolScaryGame
                 ResetAnimation();
             else if (State == 3 && freeze < -0f)
                 ResetAnimation();
+            if(Input.GetKeyDown(Key.ENTER))
+                useItem();
         }
 
         /// <summary>

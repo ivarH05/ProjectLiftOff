@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -16,7 +16,7 @@ namespace CoolScaryGame
         private static List<GameObject> UI = new List<GameObject>();
         private static HealthBar[] HiderHealthBars;
         private static Minimap[] Minimaps;
-        private static SkillBox[] skillBoxes;
+        private static ItemBox[] skillBoxes;
         private static EasyDraw[] Timers;
 
         public static void SetupTimer()
@@ -111,21 +111,22 @@ namespace CoolScaryGame
         }
         public static void AddSkillBoxes()
         {
-            skillBoxes = new SkillBox[] { new SkillBox("UI/skillOverlay.png", "UI/skills.png"), new SkillBox("UI/skillOverlay.png", "UI/skills.png") };
+            skillBoxes = new ItemBox[] { new ItemBox("UI/itemOverlay.png", "UI/items.png"), new ItemBox("UI/itemOverlay.png", "UI/items.png") };
             for(int i = 0; i < skillBoxes.Length; i++)
             {
-                SkillBox box = skillBoxes[i];
+                ItemBox box = skillBoxes[i];
                 box.RenderLayer = i;
-                box.y = Game.main.height / 2 - 100;
-                box.x = (i == 0 ? Game.main.width / -4 : Game.main.width / 4 - 200) + .01f;
+                box.scale = 2;
+                box.y = Game.main.height / 2 - 128;
+                box.x = (i == 0 ? Game.main.width / -4 : Game.main.width / 4 - 256) + .01f;
                 box.depth = -97;
                 CamManager.AddUI(box, i);
                 UI.Add(box);
             }
         }
-        public static void SetSkills(int skill1, int skill2, int index)
+        public static void SetItems(int skill1, int skill2, int index)
         {
-            skillBoxes[index].SetSkills(skill1, skill2);
+            skillBoxes[index].SetItems(skill1, skill2);
         }
         public static void MarkMinimap(Vector2 position, int index, uint color)
         {
