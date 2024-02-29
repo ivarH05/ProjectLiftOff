@@ -27,22 +27,11 @@ namespace CoolScaryGame
             speed = Mathf.Lerp(speed, 2.5f, Time.deltaTime * 5);
             //move using wasd
             if (stunTimer < 0)
-            {
-                if (HoldingItem == null)
-                {
-                    AddForce(Input.WASDVector() * Time.deltaMillis * speed);
-                    renderer.alpha = 0.75f;
-                    idleAnim = Idle;
-                    walkAnim = Walk;
-                }
-                else
-                {
-                    renderer.alpha = 1;
-                    idleAnim = BarrelIdle;
-                    walkAnim = BarrelWalk;
-                    AddForce(Input.WASDVector() * Time.deltaMillis * speed * 0.75f);
-                } 
-            }
+                AddForce(Input.WASDVector() * Time.deltaMillis * speed);
+            if (HoldingItem == null)
+                renderer.alpha = 0.75f;
+            else
+                renderer.alpha = 1;
             PlayerUpdates(0);
 
             if (Input.GetKeyDown(Key.E))
@@ -68,6 +57,8 @@ namespace CoolScaryGame
             obj.renderer.visible = false;
             HoldingItem = obj;
 
+            idleAnim = BarrelIdle;
+            walkAnim = BarrelWalk;
             ResetAnimation();
             ParticleRain();
         }
@@ -87,6 +78,8 @@ namespace CoolScaryGame
             HoldingItem.renderer.visible = true;
 
             HoldingItem = null;
+            idleAnim = Idle;
+            walkAnim = Walk;
             ResetAnimation();
             ParticleRain();
         }

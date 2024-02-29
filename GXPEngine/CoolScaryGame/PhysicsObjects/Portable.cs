@@ -62,7 +62,7 @@ namespace GXPEngine
 
         public void Drop(Vector2 Position, Vector2 Velocity)
         {
-            position = position + Velocity.Normalized * 10;
+            position = Position + Velocity.Normalized * 10;
             this.Velocity = Velocity + Velocity.Normalized * 600;
             StunableTimer = 1;
             isDissabled = false;
