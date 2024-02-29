@@ -11,10 +11,12 @@ namespace CoolScaryGame
 {
     public class Hider : Player
     {
-
         public Portable HoldingItem = null;
-        public Hider(Vector2 Position) :
-            base(Position, 0, "Animations/HiderAnimations.png", 5, 4, new AnimationData(10, 9), new AnimationData(0, 10))
+        AnimationData Idle = new AnimationData(10, 9);
+        AnimationData Walk = new AnimationData(0, 10, 0.6f);
+        AnimationData BarrelIdle = new AnimationData(29, 6, 0.1f);
+        AnimationData BarrelWalk = new AnimationData(19, 10, 1.5f);
+        public Hider(Vector2 Position) : base(Position, 0, "Animations/HiderAnimations.png", 5, 7, new AnimationData(10, 9), new AnimationData(0, 10, 0.1f))
         {
             PlayerManager.SetHider(this);
             playerColor = 0xA0A0FF;
@@ -24,20 +26,19 @@ namespace CoolScaryGame
         {
             speed = Mathf.Lerp(speed, 2.5f, Time.deltaTime * 5) ;
             //move using wasd
-            AddForce(Input.WASDVector() * Time.deltaMillis * (speed + speedBoost));
+            if (stunTimer < 0)
+                AddForce(Input.WASDVector() * Time.deltaMillis * speed);
+            if (HoldingItem == null)
+                renderer.alpha = 0.75f;
+            else
+                renderer.alpha = 1;
             PlayerUpdates(0);
 
-            if (HoldingItem != null)
-            {
-                HoldingItem.position = HoldingItem.position.Lerp(position + new Vector2((width - HoldingItem.width) / 2, 0), Time.deltaTime * 32);
-                if (Input.GetKeyDown(Key.E))
+            if (Input.GetKeyDown(Key.E))
+                if (HoldingItem == null)
+                    GrabObject((Portable)GetObjectInFrontOfType<Portable>());
+                else
                     DropObject();
-            }
-            else if (Input.GetKeyDown(Key.E))
-            {
-                GrabObject((Portable)GetObjectInFrontOfType<Portable>());
-            }
-            renderer.alpha = 0.75f;
             if (Input.GetKeyDown(Key.Q))
                 useItem();
             UIManager.UpdateHiderHealth(health);
@@ -53,35 +54,41 @@ namespace CoolScaryGame
                 return;
             obj.isDissabled = true;
             obj.isKinematic = true;
+            obj.renderer.visible = false;
             HoldingItem = obj;
-            renderer.visible = false;
-            WalkParticles.RenderLayer = -1;
 
+            idleAnim = BarrelIdle;
+            walkAnim = BarrelWalk;
+            ResetAnimation();
             ParticleRain();
         }
 
         /// <summary>
         /// Drop the current held object
         /// </summary>
-        private void DropObject()
+        private void DropObject(bool DestroyObj = false)
         {
-            HoldingItem.position = position + Velocity.Normalized * 10;
+            if(HoldingItem == null) 
+                return;
 
-            HoldingItem.Velocity = Velocity + Velocity.Normalized * 600;
-            HoldingItem.StunableTimer = 1;
-            HoldingItem.isDissabled = false;
-            HoldingItem.isKinematic = false;
+            HoldingItem.Drop(position, Velocity);
 
-            if (HoldingItem.GetCollisions().Length > 0)
-            {
-                HoldingItem.position = position + new Vector2((width - HoldingItem.width) / 2, 0);
-                Console.WriteLine("Colliding");
-            }
+            if(DestroyObj)
+                HoldingItem.DestroySelf();
+            HoldingItem.renderer.visible = true;
 
             HoldingItem = null;
-            renderer.visible = true;
-            WalkParticles.RenderLayer = 0;
+            idleAnim = Idle;
+            walkAnim = Walk;
+            ResetAnimation();
             ParticleRain();
+        }
+
+        public void Attacked()
+        {
+            if (stunTimer < 3)
+                Stun(HoldingItem == null ? 3 : 5);
+            DropObject(true);
         }
     }
 }

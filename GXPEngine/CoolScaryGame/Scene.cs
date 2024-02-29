@@ -12,10 +12,12 @@ namespace CoolScaryGame
         private Camera viewLeft;
         private Camera viewRight;
 
-        float Timer = 91;
+        float Timer = 301;
 
         public Scene()
         {
+            SceneManager.SetScene(this);
+
             viewLeft = new Camera(0, 0, 960, 1080, 0, false);
             viewRight = new Camera(960, 0, 960, 1080, 1, false);
             viewLeft.scale = 0.65f;
@@ -23,7 +25,7 @@ namespace CoolScaryGame
             AddChild(viewLeft);
             AddChild(viewRight);
 
-            LevelManager.BuildLevelByIndex(this, 3);
+            LevelManager.BuildLevelByIndex(this, 2);
         }
 
         void Update()
@@ -31,7 +33,7 @@ namespace CoolScaryGame
             Timer -= Time.deltaTime;
             if (Timer < 0)
                 SceneManager.EndGame(1);
-            UIManager.UpdateTimer(Timer);
+            UIManager.UpdateTimer(PlayerManager.GetTalismanCount(), Timer);
         }
 
         public Camera[] GetCameras()

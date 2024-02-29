@@ -18,7 +18,7 @@ namespace CoolScaryGame
         internal float speedMultiplier = 1;
 
         internal float stunTimer;
-        internal float health = 35;
+        internal float health = 100;
 
         float timer;
         internal int State = 0;
@@ -34,13 +34,13 @@ namespace CoolScaryGame
 
         protected uint playerColor = 0xFFFFFF;
 
-        public Player(Vector2 Position, int playerIndex, string AnimationSprite, int rows, int columns, AnimationData idleAnim, AnimationData walkAnim) : base(48, 32, Position, true, 0b101, 0b101)
+        public Player(Vector2 Position, int playerIndex, string AnimationSprite, int rows, int columns, AnimationData idleAnim, AnimationData walkAnim) : base(48, 16, Position, true, 0b101, 0b101)
         {
             this.idleAnim = idleAnim;
             this.walkAnim = walkAnim;
 
             this.playerIndex = playerIndex;
-            renderer = new FOVAnimationSprite(AnimationSprite, rows, columns, idleAnim.FrameCount, 200, false, false);
+            renderer = new FOVAnimationSprite(AnimationSprite, rows, columns, idleAnim.FrameCount, 300, false, false);
             SetupRenderer();
             SetupWalkParticles();
             SetupEnemyArrow();
@@ -56,7 +56,7 @@ namespace CoolScaryGame
             renderer.height = 108;
             renderer.CenterOrigin();
             renderer.y = -32;
-            renderer.x = width / 2;
+            renderer.x = width * 0.6f;
             SetAnimation(idleAnim, 0);
         }
 
@@ -67,19 +67,21 @@ namespace CoolScaryGame
                 sprite = "TriangleParticle.png",
                 TrackObject = renderer,
                 SpawnPosition = new Vector2(0, 32),
-                ForceRandomness = 0.5f,
+                directionRandomness = 0,
+                ForceRandomness = 0f,
                 burst = 0,
-                LifeTime = 2,
+                LifeTime = 60,
+                LifetimeRandomness = 0,
                 Friction = 0.05f,
                 EmissionStep = .05f,
                 EmissionTime = 999999,
-                Scale = 0.15f,
-                ScaleRandomness = 0.5f,
-                ScaleOverLifetime = 0.95f,
-                RenderLayer = playerIndex,
-                R = 0.9f,
-                G = 0.95f,
-                B = 1f,
+                Scale = 0.5f,
+                ScaleRandomness = 0f,
+                ScaleOverLifetime = 0.999f,
+                RenderLayer = -1,
+                R = this is Seeker ? 1 : 0.75f,
+                G = 0.85f,
+                B = this is Hider ? 1 : 0.75f,
             };
             SceneManager.AddParticles(WalkParticles);
         }
@@ -87,8 +89,9 @@ namespace CoolScaryGame
         internal void PlayerUpdates(int playerIndex)
         {
             UIManager.MarkMinimap(position, playerIndex, playerColor);
-            WalkParticles.EmissionStep = 0.5f / Mathf.Max(ActualVelocity.Magnitude, 1f);
-            WalkParticles.ForceDirection = -ActualVelocity / 15;
+            WalkParticles.EmissionStep = 20f / Mathf.Max(ActualVelocity.Magnitude, 1f);
+            WalkParticles.LookDirection = LookRotation(position + Velocity);
+            //WalkParticles.ForceDirection = -ActualVelocity / 15;
             WalkParticles.Depth = TrueDepth() - 0.1f;
             stunTimer -= Time.deltaTime;
             Vector2 LastPos = TransformPoint(0, 0);
@@ -116,7 +119,7 @@ namespace CoolScaryGame
             if(Velocity.Magnitude > 150)
                 rend.Mirror(Velocity.x < 0, false);
 
-            animationSpeed = (ActualVelocity.Magnitude / 1.25f + 6) * speedMultiplier;
+            animationSpeed = ActualVelocity.Magnitude / 1.25f + 6 * speedMultiplier;
 
             timer += Time.deltaTime;
             if(timer > 1/animationSpeed)
@@ -302,8 +305,11 @@ namespace CoolScaryGame
         internal GameObject GetObjectInFrontOfType<T>()
         {
             Sprite s = new Sprite("Square.png", false, true, 0, 0b10);
+            s.CenterOrigin();
+            s.scale = 1.5f;
             s.position = GetCenter() + Velocity.Normalized * 32;
-            s.LookAt(position);
+            s.LookAt(GetCenter());
+
             return GetClosestOfType<T>(s.GetCollisions());
         }
 
@@ -313,9 +319,11 @@ namespace CoolScaryGame
         /// <returns></returns>
         internal GameObject[] GetObjectsInFront()
         {
-            Sprite s = new Sprite("Square.png", false, true, 0, 0b10);
+            Sprite s = new Sprite("Square.png", false, true, 0, 0b11);
+            s.CenterOrigin();
+            s.scaleX = 1.5f;
             s.position = GetCenter() + Velocity.Normalized * 32;
-            s.LookAt(position);
+            s.LookAt(GetCenter());
 
             return s.GetCollisions();
         }

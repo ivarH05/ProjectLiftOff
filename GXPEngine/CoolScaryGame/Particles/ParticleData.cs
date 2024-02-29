@@ -19,7 +19,7 @@ namespace GXPEngine.CoolScaryGame.Particles
         /// </summary>
         public int rows = 1, cols = 1;
 
-        public float Depth = -100;
+        public float Depth = -90;
 
         public GameObject TrackObject;
         public Vector2 SpawnPosition;
@@ -55,6 +55,9 @@ namespace GXPEngine.CoolScaryGame.Particles
         public Vector2 ForceDirection = new Vector2();
         public float ForceRandomness = 0.5f;
         public float Friction = 0.1f, FrictionRandomness = 0.25f;
+
+        public float LookDirection;
+        public float directionRandomness = 360;
 
         ///////// RenderLayer settings
         /// <summary>

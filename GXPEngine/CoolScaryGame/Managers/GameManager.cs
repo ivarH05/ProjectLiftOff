@@ -50,7 +50,7 @@ namespace CoolScaryGame
         {
             ParticleEmitter e = new ParticleEmitter(dat);
             if(scene != null)
-            scene.LateAddChild(e);
+                scene.LateAddChild(e);
         }
 
         public static void EndGame(int winner)
