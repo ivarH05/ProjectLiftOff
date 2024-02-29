@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GXPEngine.CoolScaryGame.Particles;
+using GXPEngine.CoolScaryGame.Level;
 
 namespace CoolScaryGame
 {
@@ -17,6 +18,9 @@ namespace CoolScaryGame
         AnimationData Walk = new AnimationData(0, 10, 0.6f);
         AnimationData BarrelIdle = new AnimationData(29, 6, 0.1f);
         AnimationData BarrelWalk = new AnimationData(19, 10, 1.5f);
+
+        Talisman CurrentTalisman = null;
+
         public Hider(Vector2 Position) : base(Position, 0, "Animations/HiderAnimations.png", 5, 7, new AnimationData(10, 9), new AnimationData(0, 10, 0.1f))
         {
             health = StarterHealth;
@@ -41,7 +45,31 @@ namespace CoolScaryGame
                     DropObject();
             if (Input.GetKeyDown(Key.Q))
                 useItem();
+
+            GrabTalisman();
             UIManager.UpdateHiderHealth(health);
+        }
+
+        private void GrabTalisman()
+        {
+            if (CurrentTalisman != null && (Input.WASDVector().x != 0 || Input.WASDVector().y != 0 || !Input.GetKey(Key.F)))
+                CurrentTalisman.ResetProgress();
+
+            if (Input.GetKey(Key.F))
+            {
+                Talisman t = (Talisman)GetObjectInFrontOfType<Talisman>();
+                if (t == null)
+                {
+                    if (CurrentTalisman != null)
+                        CurrentTalisman.ResetProgress();
+                    CurrentTalisman = null;
+                }
+                else
+                {
+                    CurrentTalisman = t;
+                    t.AddProgress(Time.deltaTime);
+                }
+            }
         }
 
         /// <summary>

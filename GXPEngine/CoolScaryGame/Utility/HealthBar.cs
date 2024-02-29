@@ -14,7 +14,7 @@ namespace CoolScaryGame
         protected ColorSprite noHealth;
         protected ColorSprite yesHealth;
         protected Sprite renderer;
-        protected float Progress;
+        public float Progress;
         protected float minHP;
         protected float maxHP;
         public HealthBar(string filename, Vector2 barPosition, Vector2i size, float minHealth = 0, float maxHealth = 1, float startHealth = 1, uint colorHealth = 0xFF6030, uint color = 0x9F0010) : base() 
