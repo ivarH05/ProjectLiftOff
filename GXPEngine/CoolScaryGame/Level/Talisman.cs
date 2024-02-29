@@ -86,6 +86,7 @@ namespace GXPEngine.CoolScaryGame.Level
         {
             Particles.EmissionStep = 9999999;
             progress = 0;
+            SetColor(1, 1, 1);
         }
 
         protected override void OnDestroy()
