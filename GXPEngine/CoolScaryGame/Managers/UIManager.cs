@@ -129,7 +129,7 @@ namespace CoolScaryGame
         }
         public static void MarkMinimap(Vector2 position, int index, uint color)
         {
-            Minimaps[index].markPosition(position, color);
+            Minimaps[index].MarkPosition(position, color);
         }
         public static void UpdateHiderHealth(float health)
         {

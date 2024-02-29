@@ -60,6 +60,7 @@
     <Compile Include="CoolScaryGame\Utility\HealthBar.cs" />
     <Compile Include="CoolScaryGame\Utility\Minimap.cs" />
     <Compile Include="CoolScaryGame\Utility\ItemBox.cs" />
+    <Compile Include="CoolScaryGame\Utility\MinimapSprite.cs" />
     <Compile Include="CoolScaryGame\Utility\SpriteContainer.cs" />
     <Compile Include="CoolScaryGame\Level\WallSprite.cs" />
     <Compile Include="GXPEngine\AddOns\Gizmos.cs" />

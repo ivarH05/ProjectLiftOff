@@ -4,19 +4,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GXPEngine;
+using GXPEngine.CoolScaryGame.Level;
 using GXPEngine.Core;
 
 namespace CoolScaryGame
 {
     public class Minimap : GameObject
     {
-        //stored as the index of the room (x), and its rotation (0,  90, 180, 270) (y)
+        //stored as the index of the room (rooms[].x), and its rotation (0,  90, 180, 270) (rooms[].y)
         static Vector2i[,] rooms;
         static Vector2i lowest = new Vector2i(int.MaxValue, int.MaxValue);
         static Vector2i highest = new Vector2i(int.MinValue, int.MinValue);
-        static Vector2i mapDimensions;
-        public static Vector2i roomsDimensions {get { return mapDimensions; }}
         static Vector2 roomSize;
+        static Vector2i mapDimensions;
+
+        public static MinimapSpriteData[] talismans; //cant be fucked to do this properly
+        public static Vector2i roomsDimensions {get { return mapDimensions; } }
 
         AnimationSprite[,] minimapRenderers;
         private int _width;
@@ -98,8 +101,16 @@ namespace CoolScaryGame
                     AddChild(obj);
                     minimapRenderers[x, y] = obj;
                 }
+            foreach(MinimapSpriteData data in talismans)
+            {
+                MinimapSprite slop = new MinimapSprite(data.realObject, data.color);
+                slop.position = data.pos;
+                slop.depth = -1.1f;
+                AddChild(slop);
+                Console.WriteLine(data.pos);
+            }
         }
-        public void markPosition(Vector2 position, uint color)
+        public void MarkPosition(Vector2 position, uint color)
         {
            markedPosition = GetRoomIndexFromGlobalPos(position);
             if (markedPosition.x < 0 || markedPosition.y < 0 || markedPosition.x >= mapDimensions.x || markedPosition.y >= mapDimensions.y)
@@ -111,9 +122,8 @@ namespace CoolScaryGame
             for (int y = 0; y < mapDimensions.y; y++)
                 for (int x = 0; x < mapDimensions.x; x++)
                 {
-                    if (x == markedPosition.x && y == markedPosition.y)
-                    { }
-                    else minimapRenderers[x, y].color = 0xFFFFFF; 
+                    if (!(x == markedPosition.x && y == markedPosition.y)) 
+                        minimapRenderers[x, y].color = 0xFFFFFF; 
                 }
         }
 
