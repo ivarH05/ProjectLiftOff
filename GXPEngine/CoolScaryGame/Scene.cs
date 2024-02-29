@@ -17,6 +17,7 @@ namespace CoolScaryGame
         SoundChannel Heartbeat;
         public Scene()
         {
+            SoundManager.EndSounds();
             SceneManager.SetScene(this);
 
             viewLeft = new Camera(0, 0, 960, 1080, 0, false);
