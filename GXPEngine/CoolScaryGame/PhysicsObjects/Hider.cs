@@ -27,7 +27,7 @@ namespace CoolScaryGame
             speed = Mathf.Lerp(speed, 2.5f, Time.deltaTime * 5) ;
             //move using wasd
             if (stunTimer < 0)
-                AddForce(Input.WASDVector() * Time.deltaMillis * speed);
+                AddForce(Input.WASDVector() * Time.deltaMillis * (speed+speedBoost));
             if (HoldingItem == null)
                 renderer.alpha = 0.75f;
             else
