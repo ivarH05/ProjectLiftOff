@@ -44,6 +44,8 @@ namespace CoolScaryGame
             DestroyScene();
             mainGame.AddChild(new MainMenu());
             mainGame.RenderMain = true;
+            SoundManager.EndSounds();
+            SoundManager.PlaySound(new Sound("Sound/MainMusic.mp3", true, true));
         }
 
         public static void AddParticles(ParticleData dat)
@@ -57,6 +59,13 @@ namespace CoolScaryGame
         {
             Console.WriteLine("Gameover, winner: " + winner);
             UIManager.WinLose(winner);
+            SoundManager.EndSounds();
+            SoundManager.PlaySound(new Sound("Sound/EndMusic.mp3", true, true));
+        }
+
+        public static void AddChild(GameObject obj)
+        {
+            scene.AddChild(obj);
         }
     }
 

@@ -50,6 +50,7 @@
     <Compile Include="CoolScaryGame\Managers\GameManager.cs" />
     <Compile Include="CoolScaryGame\Managers\LevelManager.cs" />
     <Compile Include="CoolScaryGame\Managers\PlayerManager.cs" />
+    <Compile Include="CoolScaryGame\Managers\SoundManager.cs" />
     <Compile Include="CoolScaryGame\Managers\UIManager.cs" />
     <Compile Include="CoolScaryGame\Utility\AnimationData.cs" />
     <Compile Include="CoolScaryGame\Utility\ColorSprite.cs" />

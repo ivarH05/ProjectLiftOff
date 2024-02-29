@@ -36,6 +36,7 @@ namespace GXPEngine.CoolScaryGame.Level
             if (!(Other is Hider) || grabbed)
                 return;
             SetCycle(10, 20);
+            SoundManager.PlaySound(new Sound("Sound/Task.mp3"));
             PlayerManager.AddTalisman();
             grabbed = true;
         }
