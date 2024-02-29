@@ -50,7 +50,13 @@ namespace CoolScaryGame
         {
             ParticleEmitter e = new ParticleEmitter(dat);
             if(scene != null)
-            scene.LateAddChild(e);
+                scene.LateAddChild(e);
+        }
+
+        public static void EndGame(int winner)
+        {
+            Console.WriteLine("Gameover, winner: " + winner);
+            UIManager.WinLose(winner);
         }
     }
 
@@ -67,7 +73,7 @@ namespace CoolScaryGame
         {
             if (index < 0 || index >= cameras.Length)
                 return;
-            cameras[index].AddChild(_UI);
+            cameras[index].LateAddChild(_UI);
         }
 
         public static Vector2 GetPosition(int index)

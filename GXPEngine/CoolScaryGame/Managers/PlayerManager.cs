@@ -11,6 +11,7 @@ namespace CoolScaryGame
     public static class PlayerManager
     {
         private static Hider _hider;
+        private static int TalismanCount;
         public static Hider hider
         {
             get
@@ -98,5 +99,18 @@ namespace CoolScaryGame
         {
             player(index).Damage(amount);
         }
+
+        public static int GetTalismanCount()
+        {
+            return TalismanCount;
+        }
+
+        public static void AddTalisman()
+        {
+            TalismanCount++;
+            if (TalismanCount >= 4)
+                SceneManager.EndGame(0);
+        }
+
     }
 }

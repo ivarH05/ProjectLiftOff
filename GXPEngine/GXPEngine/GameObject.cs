@@ -660,6 +660,18 @@ namespace GXPEngine
             }
         }
 
+        public Vector2 TransformPoint(Vector2 ret)
+        {
+            if (parent == null)
+            {
+                return ret;
+            }
+            else
+            {
+                return parent.TransformPoint(ret.x, ret.y);
+            }
+        }
+
         //------------------------------------------------------------------------------------------------------------------------
         //														TransformPoint()
         //------------------------------------------------------------------------------------------------------------------------
@@ -796,6 +808,15 @@ namespace GXPEngine
         public void LookAt(Vector2 pos)
         {
             rotation = Mathf.Atan2(pos.y - y, pos.x - x) * (180.0f / Mathf.PI) + 90;
+        }
+
+        /// <summary>
+        /// Rotate towards vector2 pos, relative to this objects position
+        /// </summary>
+        /// <param name="pos">target</param>
+        public float LookRotation(Vector2 pos)
+        {
+            return Mathf.Atan2(pos.y - y, pos.x - x) * (180.0f / Mathf.PI) + 90;
         }
 
         public float TrueDepth()

@@ -1,13 +1,10 @@
-using GXPEngine.Core;
-using GXPEngine;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
+using GXPEngine;
 using GXPEngine.CoolScaryGame.Particles;
 using CoolScaryGame.Particles;
+using TiledMapParser;
+using GXPEngine.Core;
 
 namespace CoolScaryGame
 {
@@ -18,30 +15,36 @@ namespace CoolScaryGame
         public Vector2 ActualVelocity;
 
         internal float animationSpeed = 15;
+        internal float speedMultiplier = 1;
 
         internal float stunTimer;
-        internal float health;
+        internal float health = 100;
 
         float timer;
-        int State = 0;
+        internal int State = 0;
 
         internal AnimationData idleAnim;
         internal AnimationData walkAnim;
         internal ParticleData WalkParticles = new ParticleData();
 
-        protected Vector2i skillInventory;
+        protected ItemInventory Items;
+        protected float[] activeItemTimers = new float[8] {-1, -1, -1, -1, -1, -1, -1, -1 };
+        protected float speedBoost = 0;
+        protected Sprite enemyArrow;
 
         protected uint playerColor = 0xFFFFFF;
 
-        public Player(Vector2 Position, int playerIndex, string AnimationSprite, int rows, int columns, AnimationData idleAnim, AnimationData walkAnim) : base(48, 32, Position, true, 0b101, 0b101)
+        public Player(Vector2 Position, int playerIndex, string AnimationSprite, int rows, int columns, AnimationData idleAnim, AnimationData walkAnim) : base(48, 16, Position, true, 0b101, 0b101)
         {
             this.idleAnim = idleAnim;
             this.walkAnim = walkAnim;
 
             this.playerIndex = playerIndex;
-            renderer = new FOVAnimationSprite(AnimationSprite, rows, columns, idleAnim.FrameCount, 200, false, false);
+            renderer = new FOVAnimationSprite(AnimationSprite, rows, columns, idleAnim.FrameCount, 300, false, false);
             SetupRenderer();
             SetupWalkParticles();
+            SetupEnemyArrow();
+            UnClip = false;
         }
 
         void SetupRenderer()
@@ -53,8 +56,8 @@ namespace CoolScaryGame
             renderer.height = 108;
             renderer.CenterOrigin();
             renderer.y = -32;
-            renderer.x = width / 2;
-            SetAnimation(idleAnim);
+            renderer.x = width * 0.6f;
+            SetAnimation(idleAnim, 0);
         }
 
         void SetupWalkParticles()
@@ -64,19 +67,21 @@ namespace CoolScaryGame
                 sprite = "TriangleParticle.png",
                 TrackObject = renderer,
                 SpawnPosition = new Vector2(0, 32),
-                ForceRandomness = 0.75f,
+                directionRandomness = 0,
+                ForceRandomness = 0f,
                 burst = 0,
-                LifeTime = 2,
+                LifeTime = 60,
+                LifetimeRandomness = 0,
                 Friction = 0.05f,
                 EmissionStep = .05f,
                 EmissionTime = 999999,
-                Scale = 0.25f,
-                ScaleRandomness = 0.5f,
-                ScaleOverLifetime = 0.95f,
-                RenderLayer = playerIndex,
-                R = 0.9f,
-                G = 0.95f,
-                B = 1f,
+                Scale = 0.5f,
+                ScaleRandomness = 0f,
+                ScaleOverLifetime = 0.999f,
+                RenderLayer = -1,
+                R = this is Seeker ? 1 : 0.75f,
+                G = 0.85f,
+                B = this is Hider ? 1 : 0.75f,
             };
             SceneManager.AddParticles(WalkParticles);
         }
@@ -84,8 +89,9 @@ namespace CoolScaryGame
         internal void PlayerUpdates(int playerIndex)
         {
             UIManager.MarkMinimap(position, playerIndex, playerColor);
-            WalkParticles.EmissionStep = 0.5f / Mathf.Max(ActualVelocity.Magnitude, 1f);
-            WalkParticles.ForceDirection = -ActualVelocity / 15;
+            WalkParticles.EmissionStep = 20f / Mathf.Max(ActualVelocity.Magnitude, 1f);
+            WalkParticles.LookDirection = LookRotation(position + Velocity);
+            //WalkParticles.ForceDirection = -ActualVelocity / 15;
             WalkParticles.Depth = TrueDepth() - 0.1f;
             stunTimer -= Time.deltaTime;
             Vector2 LastPos = TransformPoint(0, 0);
@@ -99,27 +105,166 @@ namespace CoolScaryGame
             AnimationUpdate();
 
             ActualVelocity = (TransformPoint(0, 0) - LastPos);
+
+            UpdateItems();
         }
 
         /// <summary>
+        /// update the player animations
+        /// </summary>
+        internal void AnimationUpdate()
+        {
+            FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
+
+            if(Velocity.Magnitude > 150)
+                rend.Mirror(Velocity.x < 0, false);
+
+            animationSpeed = ActualVelocity.Magnitude / 1.25f + 6 * speedMultiplier;
+
+            timer += Time.deltaTime;
+            if(timer > 1/animationSpeed)
+            {
+                timer -= 1/animationSpeed;
+                if (State == 1 && ActualVelocity.Magnitude < 1)
+                    SetAnimation(idleAnim, 0);
+                if (State == 0 && ActualVelocity.Magnitude > 1)
+                    SetAnimation(walkAnim, 1);
+                rend.NextFrame();
+            }
+        }
+
+        /// <summary>
+        /// set the current animation
+        /// </summary>
+        /// <param name="dat">the animationdata containing the start frame and frame count of the anination</param>
+        internal void SetAnimation(AnimationData dat, int state)
+        {
+            FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
+            rend.SetCycle(dat.StartFrame, dat.FrameCount);
+            speedMultiplier = dat.Speed;
+            State = state;
+        }
+        internal void ResetAnimation()
+        {
+            FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
+            rend.SetCycle(idleAnim.StartFrame, idleAnim.FrameCount);
+            speedMultiplier = idleAnim.Speed;
+            State = 0;
+        }
+
+        /// <summary>
+        /// Returns the current health of the player
+        /// </summary>
+        /// <returns></returns>
+        public float GetHealth()
+        {
+            return health;
+        }
+
+        /// <summary>
+        /// deal damage to the player
+        /// </summary>
+        /// <param name="damage">the amount of damage</param>
+        public void Damage(float damage)
+        {
+            health -= damage;
+            if (health <= 0)
+                SceneManager.EndGame(1 - playerIndex);
+        }
+
         /// give the player a skill - discard and return false if inventory is full
         /// </summary>
-        /// <param name="skill">the skill index</param>
-        public bool TryGetSkill(int skill)
+        /// <param name="item">the item index</param>
+        public bool TryGetItems(int item)
         {
-            if(skillInventory.x == 0)
+            if(Items.first.ID == Item.empty)
             {
-                skillInventory.x = skill;
-                UIManager.SetSkills(skillInventory.x, skillInventory.y, playerIndex);
+                Items.first.ID = item;
+                UIManager.SetItems(Items.first.ID, Items.backup.ID, playerIndex);
                 return true;
             }
-            if(skillInventory.y == 0)
+            if(Items.backup.ID == Item.empty)
             {
-                skillInventory.y = skill;
-                UIManager.SetSkills(skillInventory.x, skillInventory.y, playerIndex);
+                Items.backup.ID = item;
+                UIManager.SetItems(Items.first.ID, Items.backup.ID, playerIndex);
                 return true;
             }
             return false;
+        }
+
+        void SetupEnemyArrow()
+        {
+            enemyArrow = new Sprite("UI/bigArrow.png", true, false);
+            enemyArrow.CenterOrigin();
+            AddChild(enemyArrow);
+            enemyArrow.alpha = 0;
+            enemyArrow.visible = false;
+            enemyArrow.RenderLayer = playerIndex;
+        }
+
+        protected void UpdateItems()
+        {
+            for(int i = 0; i<activeItemTimers.Count(); i++)
+            {
+                if (activeItemTimers[i] < 0)
+                    continue;
+                activeItemTimers[i] -= Time.deltaTime;
+
+                if ( activeItemTimers[i] > 0 )
+                    continue;
+
+                ExpireItem(i);
+                activeItemTimers[i] = -1000;
+            }
+            if(enemyArrow.visible)
+            {
+                Vector2 playerDifference = PlayerManager.GetPosition(playerIndex) - PlayerManager.GetPosition(1 - playerIndex);
+                enemyArrow.rotation = 270 + 57.2957795f * Mathf.Atan2(playerDifference.y, playerDifference.x);
+                //i am completely and fully mentally stable. oh hey look a page long line of code!
+                enemyArrow.alpha = Mathf.Clamp01(Mathf.Min(activeItemTimers[Item.showEnemy], Item.ItemDurations[Item.showEnemy] - activeItemTimers[Item.showEnemy]));
+            }
+        }
+
+        protected void ExpireItem(int item)
+        {
+            switch(item)
+            {
+                default:
+                    break;
+                case Item.speedUp:
+                    speedBoost = 0;
+                    Console.WriteLine("hell yeah");
+                    break;
+                case Item.showEnemy:
+                    enemyArrow.visible = false;
+                    Console.WriteLine("yeah fuck");
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// use a item
+        /// </summary>
+        public void useItem()
+        {
+            if(activeItemTimers[Items.first.ID] < -.5f)
+                switch(Items.first.ID)
+                {
+                    default:
+                        break;
+                    case Item.speedUp:
+                        speedBoost = 1f;
+                        Console.WriteLine("hell yeah");
+                        break;
+                    case Item.showEnemy:
+                        enemyArrow.visible = true;
+                        Console.WriteLine("yeah shit");
+                        break;
+                }
+            activeItemTimers[Items.first.ID] = Item.ItemDurations[Items.first.ID];
+            Items.first.ID = Items.backup.ID;
+            Items.backup.ID = Item.empty;
+            UIManager.SetItems(Items.first.ID, Items.backup.ID, playerIndex);
         }
 
         /// <summary>
@@ -153,66 +298,6 @@ namespace CoolScaryGame
         }
 
         /// <summary>
-        /// update the player animations
-        /// </summary>
-        internal void AnimationUpdate()
-        {
-            FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
-
-            if(Velocity.Magnitude > 150)
-                rend.Mirror(Velocity.x < 0, false);
-
-            animationSpeed = ActualVelocity.Magnitude / 1.25f + 6;
-
-            timer += Time.deltaTime;
-            if(timer > 1/animationSpeed)
-            {
-                timer -= 1/animationSpeed;
-                if (State != 0 && ActualVelocity.Magnitude < 1)
-                {
-                    State = 0;
-                    SetAnimation(idleAnim);
-                }
-                if (State != 1 && ActualVelocity.Magnitude > 1)
-                {
-                    State = 1;
-                    SetAnimation(walkAnim);
-                }
-                rend.NextFrame();
-            }
-        }
-
-        /// <summary>
-        /// set the current animation
-        /// </summary>
-        /// <param name="dat">the animationdata containing the start frame and frame count of the anination</param>
-        private void SetAnimation(AnimationData dat)
-        {
-            FOVAnimationSprite rend = (FOVAnimationSprite)renderer;
-            rend.SetCycle(dat.StartFrame, dat.FrameCount);
-        }
-
-        /// <summary>
-        /// Returns the current health of the player
-        /// </summary>
-        /// <returns></returns>
-        public float GetHealth()
-        {
-            return health;
-        }
-
-        /// <summary>
-        /// deal damage to the player
-        /// </summary>
-        /// <param name="damage">the amount of damage</param>
-        public void Damage(float damage)
-        {
-            health -= damage;
-            if (health <= 0)
-                Console.WriteLine("Game Over");
-        }
-
-        /// <summary>
         /// Get the closest object in front that is of type T
         /// </summary>
         /// <typeparam name="T">The specified type</typeparam>
@@ -220,8 +305,11 @@ namespace CoolScaryGame
         internal GameObject GetObjectInFrontOfType<T>()
         {
             Sprite s = new Sprite("Square.png", false, true, 0, 0b10);
+            s.CenterOrigin();
+            s.scale = 1.5f;
             s.position = GetCenter() + Velocity.Normalized * 32;
-            s.LookAt(position);
+            s.LookAt(GetCenter());
+
             return GetClosestOfType<T>(s.GetCollisions());
         }
 
@@ -231,9 +319,11 @@ namespace CoolScaryGame
         /// <returns></returns>
         internal GameObject[] GetObjectsInFront()
         {
-            Sprite s = new Sprite("Square.png", false, true, 0, 0b10);
+            Sprite s = new Sprite("Square.png", false, true, 0, 0b11);
+            s.CenterOrigin();
+            s.scaleX = 1.5f;
             s.position = GetCenter() + Velocity.Normalized * 32;
-            s.LookAt(position);
+            s.LookAt(GetCenter());
 
             return s.GetCollisions();
         }
@@ -282,7 +372,7 @@ namespace CoolScaryGame
                 Friction = 0.05f,
                 EmissionStep = 0,
                 EmissionTime = 0,
-                Scale = 0.5f,
+                Scale = 0.3f,
                 ScaleRandomness = 0.5f,
                 ScaleOverLifetime = 0.95f,
                 R = R,

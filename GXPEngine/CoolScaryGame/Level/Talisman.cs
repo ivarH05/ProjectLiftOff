@@ -10,6 +10,7 @@ namespace GXPEngine.CoolScaryGame.Level
     public class Talisman : AnimationSprite
     {
         float timer = 0;
+        bool grabbed = false;
         public Talisman(float x, float y) : base("Animations/TalismanAnimations.png", 5, 6, 30, false, true, 0, 0b100)
         {
             SetXY(x, y);
@@ -32,9 +33,11 @@ namespace GXPEngine.CoolScaryGame.Level
 
         public void OnCollision(GameObject Other)
         {
-            if (!(Other is Player))
+            if (!(Other is Hider) || grabbed)
                 return;
             SetCycle(10, 20);
+            PlayerManager.AddTalisman();
+            grabbed = true;
         }
     }
 }

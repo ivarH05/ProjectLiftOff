@@ -33,7 +33,7 @@ namespace CoolScaryGame.Particles
         {
             timeAlive += Time.deltaTime;
 
-            if(timeAlive >= data.EmissionTime || data.EmissionStep == 0)
+            if (timeAlive >= data.EmissionTime || data.EmissionStep == 0)
             {
                 if (timeAlive > data.EmissionTime + data.LifeTime * (1 + data.LifetimeRandomness))
                     LateDestroy();
