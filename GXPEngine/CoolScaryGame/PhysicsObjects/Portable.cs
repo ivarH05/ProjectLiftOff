@@ -37,7 +37,7 @@ namespace GXPEngine
                 burst = 30,
                 LifeTime = 1,
                 EmissionStep = 0,
-                EmissionTime = 0,
+                EmissionTime = 0, 
                 Scale = 1f,
                 ScaleRandomness = 0.5f,
                 ScaleOverLifetime = 0.95f,
