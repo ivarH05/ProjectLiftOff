@@ -64,7 +64,7 @@ namespace CoolScaryGame
             loader.LoadObjectGroups();
             List<Vector2> HiderPositions = new List<Vector2>();
             List<Vector2> SeekerPositions = new List<Vector2>();
-            List<MinimapSpriteData> Talismans = new List<MinimapSpriteData>();
+            List<MinimapSpriteData> MinimapMarkers = new List<MinimapSpriteData>();
             foreach (AnimationSprite obj in objects.GetChildren(false))
             {
                 Vector2 pos = obj.position * positionScale;
@@ -85,11 +85,12 @@ namespace CoolScaryGame
                     case 3:
                         toAdd = new Talisman(pos.x, pos.y);
                         objectHolder.AddChild(toAdd);
-                        Talismans.Add(new MinimapSpriteData(toAdd, 0x4488FF, obj.position));
+                        MinimapMarkers.Add(new MinimapSpriteData(toAdd, 0x4488FF, obj.position));
                         break;
                     case 4:
                         toAdd = new WorldItem(Utils.Random(1,3));
                         toAdd.position = pos;
+                        MinimapMarkers.Add(new MinimapSpriteData(toAdd, 0xFF8844, obj.position));
                         objectHolder.AddChild(toAdd);
                         break;
                 }
@@ -104,7 +105,7 @@ namespace CoolScaryGame
             //READ ABOVE ^^^^^^^^^^^^^^^^^^^^^^^^^^^ IF YOU DONT ILL MURDER YOU. IN REAL LIFE. IM GONNA LOOK FOR YOU & KILL YOU AND IT WILL HURT. A LOT
             Hider hider = new Hider(HiderPositions[ra]);
             Seeker seeker = new Seeker(SeekerPositions[Utils.Random(0, SeekerPositions.Count)]);
-            Minimap.talismans = Talismans.ToArray();
+            Minimap.markers = MinimapMarkers.ToArray();
 
             objectHolder.AddChild(hider);
             objectHolder.AddChild(seeker);
