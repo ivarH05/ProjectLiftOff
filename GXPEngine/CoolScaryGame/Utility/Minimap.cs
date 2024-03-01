@@ -18,7 +18,7 @@ namespace CoolScaryGame
         static Vector2 roomSize;
         static Vector2i mapDimensions;
 
-        public static MinimapSpriteData[] talismans; //cant be fucked to do this properly
+        public static MinimapSpriteData[] markers; //cant be fucked to do this properly
         public static Vector2i roomsDimensions {get { return mapDimensions; } }
 
         AnimationSprite[,] minimapRenderers;
@@ -101,7 +101,7 @@ namespace CoolScaryGame
                     AddChild(obj);
                     minimapRenderers[x, y] = obj;
                 }
-            foreach(MinimapSpriteData data in talismans)
+            foreach(MinimapSpriteData data in markers)
             {
                 MinimapSprite slop = new MinimapSprite(data.realObject, data.color);
                 slop.position = data.pos;
