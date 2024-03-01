@@ -31,15 +31,15 @@ namespace CoolScaryGame
             if (freeze < 0 && stunTimer < 0)
                 AddForce(Input.ArrowVector() * Time.deltaMillis * (speed+speedBoost));
 
-            if (Input.GetKeyDown(Key.RIGHT_CTRL) && freeze < 0)
+            if ((Input.GetKeyDown(Key.RIGHT_CTRL) || Input.GetKeyDown(Key.P)) && freeze < 0)
                 Attack();
-            if (Input.GetKeyDown(Key.RIGHT_SHIFT))
+            if ((Input.GetKeyDown(Key.RIGHT_SHIFT) || Input.GetKeyDown(Key.O)))
                 Exorcise();
             else if (State == 2 && freeze < -0.5f)
                 ResetAnimation();
             else if (State == 3 && freeze < -0f)
                 ResetAnimation();
-            if(Input.GetKeyDown(Key.ENTER))
+            if((Input.GetKeyDown(Key.ENTER) || Input.GetKeyDown(Key.U)))
                 useItem();
         }
 

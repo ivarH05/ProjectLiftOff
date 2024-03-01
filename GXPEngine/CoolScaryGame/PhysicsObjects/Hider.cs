@@ -43,7 +43,7 @@ namespace CoolScaryGame
                     GrabObject((Portable)GetObjectInFrontOfType<Portable>());
                 else
                     DropObject();
-            if (Input.GetKeyDown(Key.Q))
+            if (Input.GetKeyDown(Key.F))
                 useItem();
 
             GrabTalisman();
@@ -55,7 +55,7 @@ namespace CoolScaryGame
             if (CurrentTalisman != null && (Input.WASDVector().x != 0 || Input.WASDVector().y != 0 || !Input.GetKey(Key.F)))
                 CurrentTalisman.ResetProgress();
 
-            if (Input.GetKey(Key.F))
+            if (Input.GetKey(Key.Q))
             {
                 Talisman t = (Talisman)GetObjectInFrontOfType<Talisman>();
                 if (t == null)
