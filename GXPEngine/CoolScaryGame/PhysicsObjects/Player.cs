@@ -17,7 +17,7 @@ namespace CoolScaryGame
         internal float animationSpeed = 15;
         internal float speedMultiplier = 1;
 
-        internal float stunTimer;
+        internal float stunTimer = -100;
         internal float health = 100;
 
         float timer;
@@ -88,6 +88,8 @@ namespace CoolScaryGame
 
         internal void PlayerUpdates(int playerIndex)
         {
+            renderer.SetColor(1, 1, 1);
+
             UIManager.MarkMinimap(position, playerIndex, playerColor);
             WalkParticles.EmissionStep = 20f / Mathf.Max(ActualVelocity.Magnitude, 1f);
             WalkParticles.LookDirection = LookRotation(position + Velocity);
@@ -174,6 +176,7 @@ namespace CoolScaryGame
                 SceneManager.EndGame(1 - playerIndex);
             }
             SoundManager.PlaySound(new Sound("Sound/Attack.wav"));
+            renderer.SetColor(1, 0.5f, 0.5f);
         }
 
         /// give the player a skill - discard and return false if inventory is full

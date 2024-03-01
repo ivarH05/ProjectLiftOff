@@ -20,7 +20,7 @@ namespace CoolScaryGame
         {
             CollisionLayers = collisionLayers;
             CoupleWithLayers = coupleWithLayers;
-            debugVisible = true;
+            //debugVisible = true;
         }
 
         /// <summary>
@@ -48,8 +48,10 @@ namespace CoolScaryGame
             {
                 _timer -= Time.deltaTime;
                 Vector2 offset = MoveSeperate(Velocity * Time.TimeStep);
-                if(UnClip)
+                if (UnClip)
                     position += offset;
+                else
+                    position += offset * 0.001f;
                 AddFriction(Friction);
             }
         }

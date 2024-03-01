@@ -42,7 +42,8 @@ namespace CoolScaryGame
 
         internal void AddFriction(float amount)
         {
-            Velocity = Velocity.Lerp(new Vector2(), amount);
+            if(Velocity.Magnitude > 0.0001f)
+                Velocity = Velocity.Lerp(new Vector2(), amount);
         }
         public override void Render(GLContext glContext, int RenderInt)
         {

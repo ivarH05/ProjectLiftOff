@@ -43,7 +43,7 @@ namespace CoolScaryGame.Particles
             timer += Time.deltaTime;
             while(timer > data.EmissionStep)
             {
-                timer -= data.EmissionStep;
+                timer = 0;
                 AddChild(new Particle(data));
             }
         }

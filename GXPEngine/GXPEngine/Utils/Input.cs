@@ -42,6 +42,15 @@ namespace GXPEngine
             if (GetKey(Key.RIGHT))
                 output.x += 1;
 
+            if (GetKey(Key.I))
+                output.y -= 1;
+            if (GetKey(Key.J))
+                output.x -= 1;
+            if (GetKey(Key.K))
+                output.y += 1;
+            if (GetKey(Key.L))
+                output.x += 1;
+
             return output.Normalized;
         }
 

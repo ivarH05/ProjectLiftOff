@@ -6,17 +6,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GXPEngine.CoolScaryGame.Particles;
+using GXPEngine.CoolScaryGame.Level;
 
 namespace CoolScaryGame
 {
     public class Hider : Player
     {
-        public static int StarterHealth = 40;
+        public static int StarterHealth = 35;
         public Portable HoldingItem = null;
         AnimationData Idle = new AnimationData(10, 9);
-        AnimationData Walk = new AnimationData(0, 10, 0.6f);
+        AnimationData Walk = new AnimationData(0, 10, 1f);
         AnimationData BarrelIdle = new AnimationData(29, 6, 0.1f);
         AnimationData BarrelWalk = new AnimationData(19, 10, 1.5f);
+
+        Talisman CurrentTalisman = null;
+
         public Hider(Vector2 Position) : base(Position, 0, "Animations/HiderAnimations.png", 5, 7, new AnimationData(10, 9), new AnimationData(0, 10, 0.1f))
         {
             health = StarterHealth;
@@ -29,7 +33,7 @@ namespace CoolScaryGame
             speed = Mathf.Lerp(speed, 2.5f, Time.deltaTime * 5) ;
             //move using wasd
             if (stunTimer < 0)
-                AddForce(Input.WASDVector() * Time.deltaMillis * (speed+speedBoost));
+                AddForce(Input.WASDVector() * Time.deltaMillis * (speed+speedBoost + (stunTimer > -3 ? 0.5f : 0)));
             PlayerUpdates(0);
 
             renderer.alpha = HoldingItem == null ? 0.75f : 1;
@@ -39,9 +43,33 @@ namespace CoolScaryGame
                     GrabObject((Portable)GetObjectInFrontOfType<Portable>());
                 else
                     DropObject();
-            if (Input.GetKeyDown(Key.Q))
+            if (Input.GetKeyDown(Key.F))
                 useItem();
+
+            GrabTalisman();
             UIManager.UpdateHiderHealth(health);
+        }
+
+        private void GrabTalisman()
+        {
+            if (CurrentTalisman != null && (Input.WASDVector().x != 0 || Input.WASDVector().y != 0 || !Input.GetKey(Key.F)))
+                CurrentTalisman.ResetProgress();
+
+            if (Input.GetKey(Key.Q))
+            {
+                Talisman t = (Talisman)GetObjectInFrontOfType<Talisman>();
+                if (t == null)
+                {
+                    if (CurrentTalisman != null)
+                        CurrentTalisman.ResetProgress();
+                    CurrentTalisman = null;
+                }
+                else
+                {
+                    CurrentTalisman = t;
+                    t.AddProgress(Time.deltaTime);
+                }
+            }
         }
 
         /// <summary>

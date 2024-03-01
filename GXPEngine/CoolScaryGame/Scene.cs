@@ -12,6 +12,10 @@ namespace CoolScaryGame
         private Camera viewLeft;
         private Camera viewRight;
 
+        bool StopGame = false;
+
+        float ResetTimer = 0;
+
         float Timer = 301;
 
         SoundChannel Heartbeat;
@@ -28,7 +32,8 @@ namespace CoolScaryGame
             AddChild(viewRight);
 
             LevelManager.BuildLevelByIndex(this, 2);
-            SoundManager.PlaySound(new Sound("Sound/MainMusic.mp3", true, true));
+            SoundChannel music = SoundManager.PlaySound(new Sound("Sound/MainMusic.mp3", true, true));
+            music.Volume = 0.6f;
             Heartbeat = SoundManager.PlaySound(new Sound("Sound/Heartbeat.mp3", true, true));
             Heartbeat.Volume = 0;
         }
@@ -40,9 +45,23 @@ namespace CoolScaryGame
                 SceneManager.EndGame(1);
             UIManager.UpdateTimer(PlayerManager.GetTalismanCount(), Timer);
             float PlayerDistance = Vector2.Distance(PlayerManager.GetPosition(0), PlayerManager.GetPosition(1));
-            Heartbeat.Volume = Mathf.Clamp01(500 / (PlayerDistance + 200) - 0.5f);
+            Heartbeat.Volume = Mathf.Clamp01(1000 / (PlayerDistance + 200) - 0.5f);
             //Heartbeat.Volume = Mathf.Clamp(PlayerDistance / 1000f, 0, 1);
-            //Console.WriteLine( "Distance: " + PlayerDistance + " --- volume: " + Heartbeat.Volume);
+            Console.WriteLine( "Distance: " + PlayerDistance + " --- volume: " + Heartbeat.Volume);
+
+            if(StopGame)
+            {
+                ResetTimer += Time.deltaTime;
+                if(ResetTimer > 3)
+                {
+                    SceneManager.MainMenu();
+                }
+            }
+        }
+
+        public void EndGame()
+        {
+            StopGame = true;
         }
 
         public Camera[] GetCameras()
@@ -52,6 +71,7 @@ namespace CoolScaryGame
 
         public void AddUI()
         {
+            UIManager.AddVisionCircles();
             UIManager.AddHiderHealthbar();
             UIManager.SetupTimer();
             UIManager.AddMinimaps();

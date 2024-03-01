@@ -662,14 +662,7 @@ namespace GXPEngine
 
         public Vector2 TransformPoint(Vector2 ret)
         {
-            if (parent == null)
-            {
-                return ret;
-            }
-            else
-            {
-                return parent.TransformPoint(ret.x, ret.y);
-            }
+            return TransformPoint(ret.x, ret.y);
         }
 
         //------------------------------------------------------------------------------------------------------------------------
