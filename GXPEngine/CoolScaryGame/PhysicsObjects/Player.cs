@@ -237,11 +237,9 @@ namespace CoolScaryGame
                     break;
                 case Item.speedUp:
                     speedBoost = 0;
-                    Console.WriteLine("hell yeah");
                     break;
                 case Item.showEnemy:
                     enemyArrow.visible = false;
-                    Console.WriteLine("yeah fuck");
                     break;
             }
         }
@@ -258,11 +256,9 @@ namespace CoolScaryGame
                         break;
                     case Item.speedUp:
                         speedBoost = 1f;
-                        Console.WriteLine("hell yeah");
                         break;
                     case Item.showEnemy:
                         enemyArrow.visible = true;
-                        Console.WriteLine("yeah shit");
                         break;
                 }
             activeItemTimers[Items.first.ID] = Item.ItemDurations[Items.first.ID];
