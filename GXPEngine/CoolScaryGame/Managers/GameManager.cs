@@ -57,10 +57,10 @@ namespace CoolScaryGame
 
         public static void EndGame(int winner)
         {
-            Console.WriteLine("Gameover, winner: " + winner);
             UIManager.WinLose(winner);
             SoundManager.EndSounds();
             SoundManager.PlaySound(new Sound("Sound/EndMusic.mp3", true, true));
+            scene.EndGame();
         }
 
         public static void AddChild(GameObject obj)

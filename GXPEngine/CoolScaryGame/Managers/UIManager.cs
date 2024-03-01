@@ -46,6 +46,29 @@ namespace CoolScaryGame
             Timers = new EasyDraw[]{ Timer0, Timer1};
         }
 
+        public static void AddVisionCircles()
+        {
+            Sprite circle1 = new Sprite("UI/Vision.png", false, false);
+            circle1.CenterOrigin();
+            circle1.depthSort = true;
+            circle1.depth = -90;
+            circle1.RenderLayer = 1;
+            circle1.scale = 1.8f;
+            CamManager.AddUI(circle1, 1);
+            UI.Add(circle1);
+
+
+            Sprite circle0 = new Sprite("UI/Vision.png", false, false);
+            circle0.CenterOrigin();
+            circle0.depthSort = true;
+            circle0.depth = -90;
+            circle0.RenderLayer = 0;
+            circle0.scale = 2.2f;
+            CamManager.AddUI(circle0, 0);
+            UI.Add(circle0);
+
+        }
+
         public static void UpdateTimer(int talisman, float time)
         {
             Timers[0].ClearTransparent();
@@ -80,8 +103,8 @@ namespace CoolScaryGame
         public static void AddHiderHealthbar()
         {
             int val = Hider.StarterHealth;
-            HealthBar inquestion = new HealthBar("UI/healthOverlay.png", new Vector2(27, 13), new Vector2i(142, 25), 0, val, val);
-            HealthBar inquestion2 = new HealthBar("UI/healthOverlay.png", new Vector2(27, 13), new Vector2i(142, 25), 0, val, val);
+            HealthBar inquestion = new HealthBar("UI/healthOverlay.png", new Vector2(27, 13), new Vector2i(142, 15), 0, val, val);
+            HealthBar inquestion2 = new HealthBar("UI/healthOverlay.png", new Vector2(27, 13), new Vector2i(142, 15), 0, val, val);
             HiderHealthBars = new HealthBar[] { inquestion, inquestion2 };
             inquestion.RenderLayer = 0;
             inquestion2.RenderLayer = 1;
